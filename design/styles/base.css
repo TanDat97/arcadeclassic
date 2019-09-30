@@ -18,7 +18,7 @@ body {
 }
 
 .container .header {
-    height: 70px;
+    height: 60px;
     width: 100%;
     grid-area: 1/1/2/4;
 }
@@ -92,22 +92,26 @@ body {
 }
 
 .container .header .nav .nav-item:hover {
-    color: #ef5350; 
+    color: #ef5350;
     background-color: #f8dddd;
 }
+
 .container .header .user {
     display: flex;
     align-items: center;
     justify-content: center;
+    /* position: relative; */
 }
 
-.container .header .user .info{
+.container .header .user .info {
+    cursor: pointer;
     display: inline;
     font-weight: bold;
     margin-right: 5px;
 }
-        
+
 .container .header .user .avatar {
+    cursor: pointer;
     background-image: url("https:://i0.wp.com/www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png?resize=256%2C256&quality=100&ssl=1");
     background-color: #cccccc;
     border-radius: 25px;
@@ -116,5 +120,34 @@ body {
     background-color: bisque;
 }
 
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
 
+.dropdown-content {
+    display: block;
+    position: absolute;
+    top: 30px;
+    left: -140px;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+}
 
+.dropdown-content a {
+    color: rgb(36, 35, 35);
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #f8dddd;
+}
+
+.show {
+    display: block;
+}
