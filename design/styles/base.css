@@ -103,7 +103,7 @@ body {
     /* position: relative; */
 }
 
-.container .header .user .info {
+.container .header .user .username {
     cursor: pointer;
     display: inline;
     font-weight: bold;
@@ -126,12 +126,12 @@ body {
 }
 
 .dropdown-content {
-    display: block;
+    display: none;
     position: absolute;
     top: 30px;
-    left: -140px;
+    left: -160px;
     background-color: #f1f1f1;
-    min-width: 160px;
+    min-width: 190px;
     overflow: auto;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 100;
@@ -142,6 +142,7 @@ body {
     padding: 12px 16px;
     text-decoration: none;
     display: block;
+    background-color: #fff;
 }
 
 .dropdown-content a:hover {
@@ -149,5 +150,41 @@ body {
 }
 
 .show {
+    display: block;
+}
+
+.dropdown-content .info {
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.info .infoacc {
+    display: inline;
+    margin-left: 5px;
+}
+
+.info .infoacc .name{
+    color: #ef5350;
+    font-weight: bold;
+}
+
+.btn-edit{
+    color: white;
+    padding: 5px 20px;
+    background-color: #2d7bf0;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.imageintro {
+    display: block;
+    background-color: #ef5350;
+    width: 100%;
+    height: 1rem
+}
+
+.category {
     display: block;
 }
