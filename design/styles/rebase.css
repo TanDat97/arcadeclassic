@@ -1,0 +1,136 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+[role=button] {
+    cursor: pointer;
+}
+
+.dropup, .dropdown {
+    position: relative;
+}
+
+img {
+    border: 0;
+    vertical-align: middle;
+    max-width: 100%;
+    height: auto;
+    -ms-interpolation-mode: bicubic;
+}
+
+a {
+    color: #007791;
+    background-color: transparent;
+    font-weight: 400;
+    text-decoration: none;
+}
+
+body {
+    font-family: open sans, helvetica neue, Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.43;
+    color: #29303b;
+    background-color: #fff;
+    margin: 0;
+}
+
+body, .main-content-wrapper {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+.min-width-tablet {
+    min-width: 768px;
+}
+
+.main-content-wrapper, .main-content {
+    flex: 1 0 auto;
+}
+
+.c_header {
+    background: #fff;
+    box-shadow: 0 0 1px 1px rgba(20,23,28,.1), 0 3px 1px 0 rgba(20,23,28,.1);
+    display: block;
+    position: relative;
+    z-index: 1010;
+}
+
+.c_header .c_header__inner {
+    display: flex;
+    justify-content: space-between;
+    background: inherit;
+    box-sizing: border-box;
+    height: 65px;
+    max-width: 1440px;
+    margin: auto;
+    padding: 0 20px;
+    position: relative;
+    z-index: 1011;
+}
+
+.c_header .c_header__logo_container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.c_header .c_header__logo_wrap {
+    margin: 0 16px 0 0;
+}
+
+.c_header .c_header__left {
+    flex: 1;
+    min-width: 1px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.c_header .dropdown {
+    font-size: 13px;
+    margin: 0 2px;
+    padding: 10px 0;
+}
+
+.c_header .dropdown__topics .dropdown_toggle {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 170px;
+}
+
+.c_header .dropdown_toggle {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    color: #505763;
+    font-weight: 400;
+    height: 45px;
+    line-height: 20px;
+    padding: 12px 15px;
+    white-space: nowrap;
+}
+
+.udi {
+    vertical-align: -8%;
+}
+
+.udi {
+    font-family: udemyicons!important;
+    font-style: normal;
+    font-weight: 400;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+
