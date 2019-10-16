@@ -8,7 +8,8 @@
     cursor: pointer;
 }
 
-.dropup, .dropdown {
+.dropup,
+.dropdown {
     position: relative;
 }
 
@@ -36,7 +37,8 @@ body {
     margin: 0;
 }
 
-body, .main-content-wrapper {
+body,
+.main-content-wrapper {
     display: flex;
     min-height: 100vh;
     flex-direction: column;
@@ -46,13 +48,14 @@ body, .main-content-wrapper {
     min-width: 768px;
 }
 
-.main-content-wrapper, .main-content {
+.main-content-wrapper,
+.main-content {
     flex: 1 0 auto;
 }
 
 .c_header {
     background: #fff;
-    box-shadow: 0 0 1px 1px rgba(20,23,28,.1), 0 3px 1px 0 rgba(20,23,28,.1);
+    box-shadow: 0 0 1px 1px rgba(20, 23, 28, .1), 0 3px 1px 0 rgba(20, 23, 28, .1);
     display: block;
     position: relative;
     z-index: 1010;
@@ -118,12 +121,17 @@ body, .main-content-wrapper {
     white-space: nowrap;
 }
 
+.c_header .dropdown_toggle:hover {
+    background-color: rgb(235, 233, 233);
+}
+
+
 .udi {
     vertical-align: -8%;
 }
 
 .udi {
-    font-family: udemyicons!important;
+    font-family: udemyicons !important;
     font-style: normal;
     font-weight: 400;
     font-variant: normal;
@@ -133,4 +141,63 @@ body, .main-content-wrapper {
     -moz-osx-font-smoothing: grayscale;
 }
 
+.c_header .c_header__right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
 
+.c_header .header_right_divider {
+    height: 60%;
+    border-left: 1px solid #b3b3b3;
+    margin: 0 8px;
+}
+
+.c_header .dropdown__mylearning .dropdown_toggle {
+    padding-right: 24px;
+}
+
+
+@media (max-width: 1439px) and (min-width: 1200px) {
+    .visible-lg-block {
+        display: block !important;
+    }
+}
+
+@media (min-width: 1440px) {
+    .visible-xl-block {
+        display: block !important;
+    }
+}
+
+@media (max-width: 575px) {
+    .hidden-xxs {
+        display: none !important;
+    }
+}
+
+@media (max-width: 767px) and (min-width: 576px) {
+    .hidden-xs {
+        display: none !important;
+    }
+}
+
+@media (max-width: 991px) and (min-width: 768px) {
+    .hidden-sm {
+        display: none !important;
+    }
+}
+
+.visible-xl,
+.visible-xl-block,
+.visible-xl-inline,
+.visible-xl-inline-block {
+    display: none;
+}
+
+.visible-lg,
+.visible-lg-block,
+.visible-lg-inline,
+.visible-lg-inline-block {
+    display: none;
+}
