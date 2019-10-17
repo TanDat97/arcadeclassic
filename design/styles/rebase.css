@@ -33,6 +33,7 @@ a {
     background-color: transparent;
     font-weight: 400;
     text-decoration: none;
+    cursor: pointer;
 }
 
 input[type=text]:focus {
@@ -392,15 +393,6 @@ body,
     transition: border-color ease-in-out 2.08s, box-shadow ease-in-out 2.08s;
 }
 
-.login_user:hover {
-    color: #000000;
-    background-color: rgb(219, 219, 219);
-}
-
-.signup_user:hover {
-    background-color: rgb(202, 66, 66);
-}
-
 .modal {
     display: block;
     position: fixed;
@@ -499,6 +491,7 @@ body,
 }
 
 .form_login {
+    margin-top: 20px;
     padding: 0;
     display: block;
     width: 100%;
@@ -531,6 +524,19 @@ body,
     padding: 11px 45px 11px 40px;
 }
 
+.forgot_password {
+    display: inline-block;
+    text-align: center;
+    margin: 10px 0 15px 0;
+    cursor: pointer;
+}
+
+.loginbox_v4__footer {
+    display: block;
+    padding: 0 0 10px;
+    text-align: center;
+}
+
 @media (max-width: 1439px) and (min-width: 1200px) {
     .visible-lg-block {
         display: block !important;
@@ -547,15 +553,21 @@ body,
     .hidden-xxs {
         display: none !important;
     }
+    .modal {
+
+    }
+    .loginbox_v4 {
+        width: 100%;
+    }
 }
 
-@media (max-width: 767px) and (min-width: 576px) {
+@media (min-width: 576px) and  (max-width: 767px) {
     .hidden-xs {
         display: none !important;
     }
 }
 
-@media (max-width: 991px) and (min-width: 768px) {
+@media (min-width: 768px) and (max-width: 991px) {
     .hidden-sm {
         display: none !important;
     }
@@ -662,6 +674,22 @@ body,
     display: table;
 }
 
+.browse_container {
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+    min-width: 320px;
+}
+
+.container {
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+    min-width: 320px;
+}
+
 .tooltip_container,
 .open_tooltip_container {
     display: inline-block;
@@ -714,10 +742,19 @@ body,
     border: 1px solid #686f7a;
 }
 
+.btn_quaternary:hover {
+    color: #000000;
+    background-color: rgb(219, 219, 219);
+}
+
 .btn_primary {
     color: #fff;
     background-color: #ec5252;
     border: 1px solid transparent;
+}
+
+.btn_primary:hover {
+    background-color: rgb(202, 66, 66);
 }
 
 button.close {
@@ -781,22 +818,10 @@ button.close {
     min-width: 1px;
 }
 
-.browse_container {
-    margin-right: auto;
-    margin-left: auto;
-    padding-left: 15px;
-    padding-right: 15px;
-    min-width: 320px;
-}
-
-.container {
-    margin-right: auto;
-    margin-left: auto;
-    padding-left: 15px;
-    padding-right: 15px;
-    min-width: 320px;
-}
-
 .tab {
     margin-right: 10px;
+}
+
+.full_width {
+    width: 100%;
 }
