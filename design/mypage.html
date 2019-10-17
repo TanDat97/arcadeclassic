@@ -22,7 +22,7 @@
                     </a>
                 </div>
                 <div class="c_header__left">
-                    <div class="dropdown__topics dropdown">
+                    <div class="dropdown dropdown__topics">
                         <a class="dropdown_toggle" role="button" id="header.browse">
                             <span class="udi udi-explore">
                                 <i class="fas fa-align-justify"></i>
@@ -33,7 +33,7 @@
                 </div>
                 <div class="c_header__right">
                     <div class="visible-xl-block visible-lg-block">
-                        <div class="dropdown__topics dropdown">
+                        <div class="dropdown dropdown__topics">
                             <a class="dropdown_toggle" role="button" id="header.instructor">
                                 Teach on Udemy
                             </a>
@@ -41,7 +41,7 @@
                     </div>
                     <div class="visible-lg-block visible-xl-block header_right_divider"></div>
                     <div class="hidden-sm hidden-xs hidden-xxs">
-                        <div class="dropdown__topics dropdown__mylearning dropdown">
+                        <div class="dropdown dropdown__topics dropdown__mylearning">
                             <a class="dropdown_toggle" role="button" id="header.instructor">
                                 My Courses <i class="fas fa-caret-down"></i>
                             </a>
@@ -107,8 +107,87 @@
         <div class="main_content">
             <div class="ud_component_browse__app">
                 <div class="browse_container suppress_xl">
-                    <div class="test">
-                        test
+                    <div id="edit_template">
+                        <div id="main_section">
+                            <div class="side_nav">
+                                <div id="user_short">
+                                    <div class="fx_c">
+                                        <div class="user_avatar user_avatar__initials" data-purpose="user_avatar"
+                                            style="width: 120px; height: 120px; font-size: 36px;">
+                                            <div class="user_avatar__inner fx_c">
+                                                <span class="user_initials">TD</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tooltip_container">
+                                        <h3>Tran Tan Dat</h3>
+                                    </div>
+                                </div>
+                                <ul>
+                                    <li class="on_focus">
+                                        <a href="/user/edit-profile/" data-purpose="user_manage:edit-profile">
+                                            Profile
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a href="/user/edit-photo/" data-purpose="user_manage:edit-photo">
+                                            Photo
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a href="/user/edit-account/" data-purpose="user_manage:edit-account">
+                                            Account
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a href="/user/edit-credit-cards/" data-purpose="user_manage:edit-credit-cards">
+                                            Credit Cards
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a href="/user/edit-privacy/" data-purpose="user_manage:edit-privacy">
+                                            Privacy
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a href="/user/edit-notifications/"
+                                            data-purpose="user_manage:edit-notifications">
+                                            Notifications
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a href="/user/close-account/" data-purpose="user_manage:close-account">
+                                            Close Account
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="form_wrapper">
+                                <h2>Public Profile</h2>
+                                <h3>Infomation account</h3>
+                                <form>
+                                    <div class="manage_fields_wrapper">
+                                        <div class="form_section__fake_label">
+                                            Basic:
+                                        </div>
+                                        <div class="form_field_container labeled form_section labeled__sr_only"
+                                            id="form_item_name">
+                                            <div id="tooltip_reference_name" class="tooltip_reference pos_r ">
+                                                <input type="text" name="name" placeholder="First Name" required=""
+                                                    class="textinput form_control" id="id_name" maxlength="64">
+                                            </div>
+                                        </div>
+                                        <div class="form_field_container labeled form_section labeled__sr_only"
+                                            id="form_item_surname">
+                                            <div id="tooltip_reference_surname" class="tooltip_reference pos_r ">
+                                                <input type="text" name="surname" placeholder="Last Name" required=""
+                                                    class="textinput form_control" id="id_surname" maxlength="64">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
