@@ -54,7 +54,8 @@
                     </div>
                     <div class="dropdown dropdown__login">
                         <div>
-                            <button class="btn_quaternary btn login_user" type="button" id="id_btn_login">
+                            <button class="btn_quaternary btn login_user" type="button" id="id_btn_login"
+                                onclick="document.getElementById('id_loginbox').style.display='block'">
                                 Log In
                             </button>
                         </div>
@@ -71,7 +72,7 @@
         </div>
         <!-- end of header -->
 
-        <div id="id_modal" class="modal">
+        <div id="id_loginbox" class="modal">
             <div class="modal_dialog">
                 <div class="modal_content">
                     <div class="loginbox_v4">
@@ -120,7 +121,7 @@
                         </div>
                     </div>
                     <button data-purpose="close_popup" aria-label="Close" type="button" class="close btn btn-default"
-                        onclick="document.getElementById('id_modal').style.display='none'">
+                        onclick="document.getElementById('id_loginbox').style.display='none'">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
@@ -128,5 +129,15 @@
         </div>
     </div>
 </body>
+<script>
+    // Get the modal
+    var modal = document.getElementById('id_loginbox');
+    // When the user clicks anywhere outside of the content_modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
 
 </html>

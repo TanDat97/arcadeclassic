@@ -126,7 +126,7 @@ body,
     box-shadow: 0 0 1px 1px rgba(20, 23, 28, .1), 0 3px 1px 0 rgba(20, 23, 28, .1);
     display: block;
     position: relative;
-    z-index: 1010;
+    z-index: 100;
 }
 
 .c_header .c_header__inner {
@@ -139,7 +139,7 @@ body,
     margin: auto;
     padding: 0 20px;
     position: relative;
-    z-index: 1011;
+    z-index: 101;
 }
 
 .c_header .c_header__logo_container {
@@ -394,9 +394,9 @@ body,
 }
 
 .modal {
-    display: block;
+    display: none;
     position: fixed;
-    z-index: 1000;
+    z-index: 102;
     left: 0;
     top: 0;
     width: 100%;
@@ -404,7 +404,7 @@ body,
     overflow: auto;
     background-color: rgb(0, 0, 0);
     background-color: rgba(0, 0, 0, 0.4);
-    padding-top: 60px;
+    /* padding-top: 60px; */
 }
 
 .modal_dialog {
@@ -552,9 +552,6 @@ body,
 @media (max-width: 575px) {
     .hidden-xxs {
         display: none !important;
-    }
-    .modal {
-
     }
     .loginbox_v4 {
         width: 100%;
