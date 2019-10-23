@@ -1,6 +1,7 @@
 import React from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 import { accountAction } from '../actions'
 
@@ -17,7 +18,7 @@ class PopupLogin extends React.Component {
   }
 
   componentDidUpdate() {
-    if(this.props.account.authenticated === 'success') {
+    if (this.props.account.authenticated === 'success') {
       this.props.closePopupLogin()
     }
   }
@@ -57,7 +58,7 @@ class PopupLogin extends React.Component {
                 <div className="social_button google fxac">
                   <i className="fab fa-google tab"></i>
                   Login with Google
-                </div>  
+                </div>
                 <form className="form_login" onSubmit={this.handleSubmit}>
                   {
                     account.authenticated === 'fail' ?
@@ -90,11 +91,11 @@ class PopupLogin extends React.Component {
                   }
                 </form>
                 <div className="pos_r text_center">
-                  <a className="forgot_password">Forgot Password</a>
+                  <Link to="#" className="forgot_password">Forgot Password</Link>
                 </div>
                 <div className="loginbox_v4__footer">
                   Don't have an account
-                  <a>Sign up</a>
+                  <Link to="#" >Sign up</Link>
                 </div>
               </div>
             </div>
