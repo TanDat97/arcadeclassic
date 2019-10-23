@@ -308,6 +308,12 @@ body,
     padding-bottom: 20px;
 }
 
+.side_nav .user_avatar {
+    width: 120px;
+    height: 120px;
+    font-size: 36px;
+}
+
 #edit_template #user_short {
     padding: 10px;
     text-align: center;
@@ -500,6 +506,17 @@ body,
     background-image: none;
     border-radius: 2px;
     box-shadow: none;
+}
+
+.error_text {
+    padding: 10px;
+    display: block;
+    width: 100%;
+    color: #f03030;
+    background-color: #ecc9c9;
+    border: 1px solid #d17e7e;
+    border-radius: 2px;
+    margin-bottom: 8px;
 }
 
 .form_login .form_section {

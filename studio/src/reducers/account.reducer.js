@@ -4,13 +4,11 @@
  *
  */
 
-import { fromJS } from 'immutable';
-
 import { accountConstants } from '../constants';
 
 export const initialState = {
-  user: 'abc',
   authenticated: 'unauthorized',
+  user: '',
 };
 
 function account(state = initialState, action) {
@@ -20,20 +18,39 @@ function account(state = initialState, action) {
     case accountConstants.LOGIN_REQUEST:
       return {
         ...state,
-        type: accountConstants.LOGIN_REQUEST,
         authenticated: 'loading',
       };
     case accountConstants.LOGIN_SUCCESS:
       return {
         ...state,
-        type: accountConstants.LOGIN_SUCCESS,
         authenticated: 'success',
       };
     case accountConstants.LOGIN_FAILURE:
       return {
         ...state,
-        type: accountConstants.LOGIN_FAILURE,
         authenticated: 'fail',
+      };
+    case accountConstants.LOGOUT:
+      return {
+        ...state,
+        authenticated: 'unauthorized',
+        user: '',
+      };
+    case accountConstants.GET_INFO_REQUEST:
+      return {
+        ...state,
+        user: 'loading',
+      };
+    case accountConstants.GET_INFO_SUCCESS:
+      return {
+        ...state,
+        authenticated: 'success',
+        user: action.user,
+      };
+    case accountConstants.GET_INFO_FAILURE:
+      return {
+        ...state,
+        user: 'fail',
       };
     default:
       return state;

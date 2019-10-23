@@ -13,7 +13,12 @@ class PopupLogin extends React.Component {
       email: '',
       password: '',
       submitted: false,
-      isLogging: false,
+    }
+  }
+
+  componentDidUpdate() {
+    if(this.props.account.authenticated === 'success') {
+      this.props.closePopupLogin()
     }
   }
 
@@ -26,7 +31,6 @@ class PopupLogin extends React.Component {
     e.preventDefault();
     this.setState({
       submitted: true,
-      isLogging: true,
     });
     const { email, password } = this.state
     if (email && password) {
@@ -34,10 +38,9 @@ class PopupLogin extends React.Component {
     }
   }
 
-
   render() {
     var { account } = this.props
-    var { submitted, isLogging } = this.state
+    var { submitted } = this.state
     return (
       <div id="id_loginbox" className="modal">
         <div className="modal_dialog">
@@ -54,8 +57,13 @@ class PopupLogin extends React.Component {
                 <div className="social_button google fxac">
                   <i className="fab fa-google tab"></i>
                   Login with Google
-                </div>
+                </div>  
                 <form className="form_login" onSubmit={this.handleSubmit}>
+                  {
+                    account.authenticated === 'fail' ?
+                      <div className="error_text">Please check your email and password</div>
+                      : ''
+                  }
                   <div className="form_section">
                     <div id="tooltip_reference_name" className="tooltip_reference pos_r ">
                       <input type="email" name="email" placeholder="Email" required=""
@@ -78,7 +86,7 @@ class PopupLogin extends React.Component {
                     Log In
                   </button>
                   {
-                    account.authenticated==='loading' && submitted && isLogging && <img src={loading} alt=""/>
+                    account.authenticated === 'loading' && submitted && <img src={loading} alt="" />
                   }
                 </form>
                 <div className="pos_r text_center">
