@@ -23,8 +23,6 @@ function login(email, password) {
 }
 
 function getInfoUser() {
-  const headers = authHeader()
-  console.log(headers)
   return new Promise((resolve, reject) => {
     axios.get(Host + '/api/user/account', { headers: authHeader() })
       .then(res => {

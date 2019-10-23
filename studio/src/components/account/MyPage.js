@@ -3,36 +3,19 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 
 import Header from '../../layout/Header'
-import PopupLogin from '../../layout/PopupLogin'
 
 class MyPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showPopupLogin: false,
     }
-  }
-
-  togglePopupLogin = () => {
-    this.setState({
-      showPopupLogin: !this.state.showPopupLogin
-    })
   }
 
   render() {
     return (
       <div>
         <div className="main_content_wrapper">
-          <Header
-            togglePopupLogin={this.togglePopupLogin}
-          />
-          {
-            this.state.showPopupLogin ?
-            <PopupLogin
-              closePopupLogin={this.togglePopupLogin}
-            />
-            :null
-          }
+          <Header/>
           <div className="main_content">
             <div className="ud_component_browse__app">
               <div className="browse_container suppress_xl">

@@ -3,12 +3,14 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
+import PopupLogin from './PopupLogin'
 import { accountAction } from '../actions'
 
 class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      showPopupLogin: false,
     }
   }
 
@@ -16,7 +18,12 @@ class Header extends React.Component {
     if (this.props.account.user === '' || this.props.account.user === 'fail') {
       this.props.getInfoUser()
     }
+  }
 
+  togglePopupLogin = () => {
+    this.setState({
+      showPopupLogin: !this.state.showPopupLogin
+    })
   }
 
   render() {
@@ -111,7 +118,7 @@ class Header extends React.Component {
                       <ul role="menu" className="dropdown_menu dropdown_menu_right"
                         aria-labelledby="header.profile">
                         <li role="presentation" className="menu__link backgroud_midnight_lighter">
-                          <Link to="#" className="menu_flex menu_item" aria-label="Edit your profile" data-purpose="edit-profile"
+                          <Link to="mypage" className="menu_flex menu_item" aria-label="Edit your profile" data-purpose="edit-profile"
                             href="" rel=" noopener noreferrer" target="_self" role="menuitem">
                             <div className="user_avatar user_avatar__initials">
                               <div className="user_avatar__inner fx_c">
@@ -130,48 +137,48 @@ class Header extends React.Component {
                         </li>
                         <li role="presentation" className="menu__link">
                           <Link to="#" className="menu_flex menu_item" href="" rel=" noopener noreferrer" target="_self" role="menuitem">
-                            <span>Notifications</span>
+                            <span><i className="far fa-bell"></i> Notifications</span>
                           </Link>
                         </li>
                         <li role="presentation" className="menu__link">
                           <Link to="#" className="menu_flex menu_item" href="" rel=" noopener noreferrer" target="_self" role="menuitem">
-                            <span>Purchase History</span>
+                            <span><i className="fas fa-history"></i> Purchase History</span>
                           </Link>
                         </li>
                         <li role="presentation" className="menu__link">
                           <Link to="#" className="menu_flex menu_item" href="" rel=" noopener noreferrer" target="_self" role="menuitem">
-                            <span>Account</span>
+                            <span><i className="far fa-user"></i> Account</span>
                           </Link>
                         </li>
                         <li role="presentation" className="menu__link">
                           <Link to="#" className="menu_flex menu_item" href="" rel=" noopener noreferrer" target="_self" role="menuitem">
-                            <span>Payment Method</span>
+                            <span><i className="far fa-credit-card"></i> Payment Method</span>
                           </Link>
                         </li>
                         <li role="presentation" className="menu__link">
                           <Link to="#" className="menu_flex menu_item" href="" rel=" noopener noreferrer" target="_self" role="menuitem">
-                            <span>My Courses</span>
+                            <span><i className="fab fa-leanpub"></i> My Courses</span>
                           </Link>
                         </li>
                         <li role="presentation" className="menu__link">
                           <Link to="#" className="menu_flex menu_item" href="" rel=" noopener noreferrer" target="_self" role="menuitem">
-                            <span>Wishlist</span>
+                            <span><i className="far fa-heart"></i> Wishlist</span>
                           </Link>
                         </li>
                         <li role="presentation" className="menu__link">
                           <Link to="#" className="menu_flex menu_item" href="" rel=" noopener noreferrer" target="_self" role="menuitem">
-                            <span>Teach on Udemy</span>
+                          <span><i className="far fa-heart"></i> Wishlist</span>
                           </Link>
                         </li>
                         <li role="separator" className="divider"></li>
                         <li role="presentation" className="menu__link">
                           <Link to="#" className="menu_flex menu_item" href="" rel=" noopener noreferrer" target="_self" role="menuitem">
-                            <span>Help</span>
+                            <span><i className="far fa-question-circle"></i> Help</span>
                           </Link>
                         </li>
                         <li role="presentation" className="menu__link">
-                          <Link to="#" className="menu_flex menu_item" href="" rel=" noopener noreferrer" target="_self" role="menuitem">
-                            <span>Log out</span>
+                          <Link to="#" onClick={this.props.logout} className="menu_flex menu_item" href="" rel=" noopener noreferrer" target="_self" role="menuitem">
+                            <span><i className="fas fa-sign-out-alt"></i> Log out</span>
                           </Link>
                         </li>
                       </ul>
@@ -203,7 +210,7 @@ class Header extends React.Component {
                 <div className="dropdown dropdown__login">
                   <div>
                     <button className="btn_quaternary btn login_user" type="button" id="id_btn_login"
-                      onClick={this.props.togglePopupLogin}>
+                      onClick={this.togglePopupLogin}>
                       Log In
                     </button>
                   </div>
@@ -216,6 +223,13 @@ class Header extends React.Component {
                   </div>
                 </div>
               </div>
+          }
+          {
+            this.state.showPopupLogin ?
+            <PopupLogin
+              closePopupLogin={this.togglePopupLogin}
+            />
+            :null
           }
         </div>
       </div>
@@ -232,6 +246,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getInfoUser: () => dispatch(accountAction.getInfoUserRequest()),
+    logout: () => dispatch(accountAction.userLogout())
   }
 }
 

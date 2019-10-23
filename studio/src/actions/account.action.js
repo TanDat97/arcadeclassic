@@ -11,6 +11,7 @@ export const accountAction = {
   userLoginRequest,
   userLoginSuccess,
   userLoginFail,
+  userLogout,
   getInfoUserRequest,
   getInfoUserSuccess,
   getInfoUserFail
