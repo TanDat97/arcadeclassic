@@ -5,358 +5,195 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="styles/base.css" rel="stylesheet">
+    <link href="styles/rebase.css" rel="stylesheet">
     <link href="fontawesomefree5.11.2/css/all.css" rel="stylesheet">
     <script type="text/javascript" src="styles/base.js"></script>
     <title>Dashboard</title>
 </head>
 
 <body>
-    <div class="container">
-        <div class="header">
-            <a class="logo">
-                <h3>LOGO EZ</h3>
-            </a>
-            <div class="nav">
-                <li class="nav-item">
-                    <i class="fas fa-align-justify"></i>
-                    Category
-                </li>
-            </div>
-            <div class="nav">
-                <li class="nav-item">
-                    <i class="fas fa-school"></i>
-                    My Courses
-                </li>
-                <li class="nav-item">
-                    <i class="fas fa-shopping-cart"></i>
-                    Cart
-                </li>
-                <li class="nav-item">
-                    <i class="fas fa-envelope"></i>
-                    Notify
-                </li>
-            </div>
-            <div class="user">
-                <div class="username">Tran Tan Dat</div>
-                <img class="avatar" onclick="dropdownFunc()" />
-                <div class="dropdown">
-                    <div id="myDropdown" class="dropdown-content">
-                        <div class="info">
-                            <img class="avatar" />
-                            <div class="infoacc">
-                                <div class="name">
-                                    Tran Tan Dat
+    <div class="main_content_wrapper">
+        <div class="c_header">
+            <div class="c_header__inner">
+                <div class="c_header__logo_container">
+                    <a href="#" class="c_header__logo_wrap">
+                        <img class="udemy-logo" src="https://www.udemy.com/staticx/udemy/images/v6/logo-coral.svg"
+                            alt="Udemy" width="110" height="32" data-purpose="udemy-brand-logo">
+                    </a>
+                </div>
+                <div class="c_header__left">
+                    <div class="dropdown dropdown__topics">
+                        <a class="dropdown_toggle" role="button" id="header.browse">
+                            <span class="udi udi-explore">
+                                <i class="fas fa-align-justify"></i>
+                            </span>
+                            <span> Categories</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="c_header__right">
+                    <div class="visible-xl-block visible-lg-block">
+                        <div class="dropdown dropdown__topics">
+                            <a class="dropdown_toggle" role="button" id="header.instructor">
+                                Teach on Udemy
+                            </a>
+                        </div>
+                    </div>
+                    <div class="visible-lg-block visible-xl-block header_right_divider"></div>
+
+                    <div class="shopping_cart">
+                        <div class="dropdown dropdown__icon">
+                            <a class="dropdown_toggle" role="button" id="header.dropdown.cart">
+                                <div class="fx pos_r text_center">
+                                    <span>
+                                        <i class="fas fa-cart-arrow-down fa-2x"></i>
+                                    </span>
                                 </div>
-                                <div>
-                                    @dat
+                            </a>
+                        </div>
+                    </div>
+                    <div class="dropdown dropdown__login">
+                        <div>
+                            <button class="btn_quaternary btn login_user" type="button" id="id_btn_login"
+                                onclick="document.getElementById('id_loginbox').style.display='block'">
+                                Log In
+                            </button>
+                        </div>
+                    </div>
+                    <div class="dropdown dropdown__signup">
+                        <div>
+                            <button class="btn_primary btn signup_user" type="button" id="id_btn_signup">
+                                Sign Up
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end of header -->
+        <div class="main_content">
+            <div class="browse_container ud_component_browse__app logged_in_home__page_container__2szVV">
+                <h2 class="logged_in_home__section_title__rF4rS">
+                    What to learn
+                </h2>
+                <div>
+                    <div class="course_discovery_unit__course_discovery_unit_container__3MFr9">
+                        <div class="unit_title_title_box__3tVMv">
+                            <h2>
+                                Newest courses in
+                                <a href="/topic/javascript/" data-purpose="discovery-unit-url">JavaScript</a>
+                            </h2>
+                        </div>
+                        <div class="carousel_container carousel_with_shadowed_items">
+                            <div class="slick_slider slick_initiallized">
+                                <div class="slick_list">
+                                    <div class="slick_tract" style="width: 2772px;">
+                                        <div class="slick_slide slick_active">
+                                            <div class="course_card unit__card_margin__2TVw4">
+                                                a
+                                            </div>
+                                        </div>
+                                        <div class="slick_slide slick_active">
+                                            <div class="course_card unit__card_margin__2TVw4">
+                                                b
+                                            </div>
+                                        </div>
+                                        <div class="slick_slide slick_active">
+                                            <div class="course_card unit__card_margin__2TVw4">
+                                                c
+                                            </div>
+                                        </div>
+                                        <div class="slick_slide slick_active">
+                                            <div class="course_card unit__card_margin__2TVw4">
+                                                d
+                                            </div>
+                                        </div>
+                                        <div class="slick_slide slick_active">
+                                            <div class="course_card unit__card_margin__2TVw4">
+                                                e
+                                            </div>
+                                        </div>
+                                        <div class="slick_slide slick_active">
+                                            <div class="course_card unit__card_margin__2TVw4">
+                                                f
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <button class="btn-edit">
-                                    Edit
-                                </button>
                             </div>
                         </div>
-                        <a href="#home">Home</a>
-                        <a href="#about">About</a>
-                        <a href="#contact">Contact</a>
-                        <a href="#signout">Sign out</a>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="header nofixed">
-            <a class="logo">
-                <h3>LOGO EZ</h3>
-            </a>
-            <div class="nav">
-                <li class="nav-item">Category</li>
-            </div>
-            <div class="nav">
-                <li class="nav-item">My Courses</li>
-                <li class="nav-item">Cart</li>
-                <li class="nav-item">Notify</li>
-            </div>
-            <div class="user">
-                <div class="info">Tran Tan Dat</div>
-                <img class="avatar" />
-            </div>
-        </div>
-
-        <div class="main">
-            <div class="discovery-container">
-                <div class="list-category-container">
-                    <button type="button" class="unit-category-item unit-category btn btn-link isActive">
-                        Development
-                    </button>
-                    <button type="button" class="btn btn-link unit-category-item unit-category">
-                        Design
-                    </button>
-                    <button type="button" class="unit-category-item unit-category btn btn-link">
-                        Photography
-                    </button>
-                    <button type="button" class="unit-category-item unit-category btn btn-link">
-                        Marketing
-                    </button>
-                    <button type="button" class="unit-category-item unit-category btn btn-link">
-                        Language
-                    </button>
-                    <button type="button" class="unit-category-item unit-category btn btn-link">
-                        Language
+        <div id="id_loginbox" class="modal">
+            <div class="modal_dialog">
+                <div class="modal_content">
+                    <div class="loginbox_v4">
+                        <div class="loginbox_v4_header">
+                            Login with Social Media or Manually
+                        </div>
+                        <div class="loginbox_v4_content">
+                            <div class="social_button facebook fxac">
+                                <i class="fab fa-facebook-f tab"></i>
+                                Login with Facebook
+                            </div>
+                            <div class="social_button google fxac">
+                                <i class="fab fa-google tab"></i>
+                                Login with Google
+                            </div>
+                            <form class="form_login">
+                                <div class="error_text">Please check your email and password</div>
+                                <div class="form_section">
+                                    <div id="tooltip_reference_name" class="tooltip_reference pos_r ">
+                                        <input type="email" name="name" placeholder="Email" required=""
+                                            class="textinput form_control" id="id_name" maxlength="64">
+                                    </div>
+                                    <div class="icon_auth">
+                                        <i class="fas fa-envelope"></i>
+                                    </div>
+                                </div>
+                                <div class="form_section">
+                                    <div id="tooltip_reference_name" class="tooltip_reference pos_r ">
+                                        <input type="password" name="name" placeholder="Password" required=""
+                                            class="textinput form_control" id="id_name" maxlength="64">
+                                    </div>
+                                    <div class="icon_auth">
+                                        <i class="fas fa-lock"></i>
+                                    </div>
+                                </div>
+                                <button class="btn btn_primary full_width">
+                                    Log In
+                                </button>
+                            </form>
+                            <div class="pos_r text_center">
+                                <a class="forgot_password">Forgot Password</a>
+                            </div>
+                            <div class="loginbox_v4__footer">
+                                Don't have an account
+                                <a>Sign up</a>
+                            </div>
+                        </div>
+                    </div>
+                    <button data-purpose="close_popup" aria-label="Close" type="button" class="close btn btn-default"
+                        onclick="document.getElementById('id_loginbox').style.display='none'">
+                        <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="list-course">
-                    <ul class="cards">
-                        <li class="cards-item">
-                            <div class="card">
-                                <div class="card-image cardimage--fence"></div>
-                                <div class="card-content">
-                                    <div class="card-title">Flex</div>
-                                    <p class="card-text">This is the shorthand for flex-grow, flex-shrink and
-                                        flex-basis combined. The second and third parameters (flex-shrink and
-                                    </p>
-                                    <div class="info">
-                                        <div class="owner">
-                                            Programmer
-                                        </div>
-                                        <div class="price">
-                                            $10.00
-                                        </div>
-                                    </div>
-                                    <button class="btn btn--block btn-card">
-                                        <i class="fas fa-cart-arrow-down"></i>
-                                        Add to cart
-                                    </button>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="cards-item">
-                            <div class="card">
-                                <div class="card-image card-image--river"></div>
-                                <div class="card-content">
-                                    <div class="card-title">Flex Grow</div>
-                                    <p class="card-text">This defines the ability for a flex item to grow if necessary.
-                                        It accepts a unitless value that serves as a proportion. It dictates what amount
-                                        </p>
-                                    <div class="info">
-                                        <div class="owner">
-                                            Programmer
-                                        </div>
-                                        <div class="price">
-                                            $10.00
-                                        </div>
-                                    </div>
-                                    <button class="btn btn--block btn-card">
-                                        <i class="fas fa-cart-arrow-down"></i>
-                                        Add to cart
-                                    </button>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="cards-item">
-                            <div class="card">
-                                <div class="card-image card-image--record"></div>
-                                <div class="card-content">
-                                    <div class="card-title">Flex Shrink</div>
-                                    <p class="card-text">This defines the ability for a flex item to shrink if
-                                        necessary. Negative numbers are invalid.</p>
-                                    <div class="info">
-                                        <div class="owner">
-                                            Programmer
-                                        </div>
-                                        <div class="price">
-                                            $10.00
-                                        </div>
-                                    </div>
-                                    <button class="btn btn--block btn-card">
-                                        <i class="fas fa-cart-arrow-down"></i>
-                                        Add to cart
-                                    </button>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="cards-item">
-                            <div class="card">
-                                <div class="card-image card-image--flowers"></div>
-                                <div class="card-content">
-                                    <div class="card-title">Flex Basis</div>
-                                    <p class="card-text">This defines the default size of an element before the
-                                        remaining space is distributed. It can be a length (e.g. 20%, 5rem, etc.) or a
-                                        keyword."
-                                    </p>
-                                    <div class="info">
-                                        <div class="owner">
-                                            Programmer
-                                        </div>
-                                        <div class="price">
-                                            $10.00
-                                        </div>
-                                    </div>
-                                    <button class="btn btn--block btn-card">
-                                        <i class="fas fa-cart-arrow-down"></i>
-                                        Add to cart
-                                    </button>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="cards-item">
-                            <div class="card">
-                                <div class="card-image card-image--river"></div>
-                                <div class="card-content">
-                                    <div class="card-title">Flex Grow</div>
-                                    <p class="card-text">This defines the ability for a flex item to grow if necessary.
-                                        It accepts a unitless value that serves as a proportion. It dictates what amount
-                                    </p>
-                                    <div class="info">
-                                        <div class="owner">
-                                            Programmer
-                                        </div>
-                                        <div class="price">
-                                            $10.00
-                                        </div>
-                                    </div>
-                                    <button class="btn btn--block btn-card">
-                                        <i class="fas fa-cart-arrow-down"></i>
-                                        Add to cart
-                                    </button>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="cards-item">
-                            <div class="card">
-                                <div class="card-image card-image--record"></div>
-                                <div class="card-content">
-                                    <div class="card-title">Flex Shrink</div>
-                                    <p class="card-text">This defines the ability for a flex item to shrink if
-                                        necessary. Negative numbers are invalid.</p>
-                                    <div class="info">
-                                        <div class="owner">
-                                            Programmer
-                                        </div>
-                                        <div class="price">
-                                            $10.00
-                                        </div>
-                                    </div>
-                                    <button class="btn btn--block btn-card">
-                                        <i class="fas fa-cart-arrow-down"></i>
-                                        Add to cart
-                                    </button>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="cards-item">
-                            <div class="card">
-                                <div class="card-image card-image--flowers"></div>
-                                <div class="card-content">
-                                    <div class="card-title">Flex Basis</div>
-                                    <p class="card-text">This defines the default size of an element before the
-                                        remaining space is distributed. It can be a length (e.g. 20%, 5rem, etc.) or a
-                                        keyword"
-                                    </p>
-                                    <div class="info">
-                                        <div class="owner">
-                                            Programmer
-                                        </div>
-                                        <div class="price">
-                                            $10.00
-                                        </div>
-                                    </div>
-                                    <button class="btn btn--block btn-card">
-                                        <i class="fas fa-cart-arrow-down"></i>
-                                        Add to cart
-                                    </button>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
             </div>
-
-            <div class="top-category-container">
-                <div class="top-category-header">
-                    Top Category
-                </div>
-                <ul class="flex-container">
-                    <li class="flex-item">
-                        <a class="panel" style="text-decoration:none" href="">
-                            <div class="panel-body">
-                                <div class="icon-panel">
-                                    <i class="fas fa-file-code"></i>
-                                </div>
-                                <div class="name-panel">
-                                    Development
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="flex-item">
-                        <a class="panel" style="text-decoration:none" href="">
-                            <div class="panel-body">
-                                <div class="icon-panel">
-                                    <i class="fas fa-file-code"></i>
-                                </div>
-                                <div class="name-panel">
-                                    Development
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="flex-item">
-                        <a class="panel" style="text-decoration:none" href="">
-                            <div class="panel-body">
-                                <div class="icon-panel">
-                                    <i class="fas fa-file-code"></i>
-                                </div>
-                                <div class="name-panel">
-                                    Development
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="flex-item">
-                        <a class="panel" style="text-decoration:none" href="">
-                            <div class="panel-body">
-                                <div class="icon-panel">
-                                    <i class="fas fa-file-code"></i>
-                                </div>
-                                <div class="name-panel">
-                                    Development
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="flex-item">
-                        <a class="panel" style="text-decoration:none" href="">
-                            <div class="panel-body">
-                                <div class="icon-panel">
-                                    <i class="fas fa-file-code"></i>
-                                </div>
-                                <div class="name-panel">
-                                    Development
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="flex-item">
-                        <a class="panel" style="text-decoration:none" href="">
-                            <div class="panel-body">
-                                <div class="icon-panel">
-                                    <i class="fas fa-file-code"></i>
-                                </div>
-                                <div class="name-panel">
-                                    Development
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-        </div>
-        <div class="footer">
-            footer
         </div>
     </div>
 </body>
+<script>
+    // Get the modal
+    var modal = document.getElementById('id_loginbox');
+    // When the user clicks anywhere outside of the content_modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
 
 </html>
