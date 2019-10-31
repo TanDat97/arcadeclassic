@@ -4,6 +4,22 @@
     box-sizing: border-box;
 }
 
+.container:before,
+.container:after,
+.container_fluid:before,
+.container_fluid:after,
+.row:before,
+.row:after {
+    content: ' ';
+    display: table;
+}
+
+.container:after,
+.container_fluid:after,
+.row:after {
+    clear: both;
+}
+
 [role=button] {
     cursor: pointer;
 }
@@ -127,6 +143,7 @@ body,
     display: block;
     position: relative;
     z-index: 100;
+    min-width: 750px;
 }
 
 .c_header .c_header__inner {
@@ -736,11 +753,11 @@ body,
     vertical-align: top;
     width: 216px;
     height: 290px;
-    box-shadow: 0 0 1px 1px rgba(20,23,28,.1), 0 3px 1px 0 rgba(20,23,28,.1);
+    box-shadow: 0 0 1px 1px rgba(20, 23, 28, .1), 0 3px 1px 0 rgba(20, 23, 28, .1);
 }
 
 .course_card:hover {
-    box-shadow: 0 0 2px 4px rgba(20,23,28,.1), 0 3px 2px 0 rgba(20,23,28,.1);
+    box-shadow: 0 0 2px 4px rgba(20, 23, 28, .1), 0 3px 2px 0 rgba(20, 23, 28, .1);
 }
 
 .course_card:hover .course_card__course_image {
@@ -770,7 +787,7 @@ body,
     display: block;
     height: 122px;
     object-fit: cover;
-    box-shadow: 0 1px 0 0 rgba(232,233,235,.5);
+    box-shadow: 0 1px 0 0 rgba(232, 233, 235, .5);
     -webkit-filter: sepia(.1) grayscale(.1) saturate(.8) contrast(80%);
     filter: sepia(.1) grayscale(.1) saturate(.8) contrast(80%);
 }
@@ -845,7 +862,7 @@ body,
 .topic_button {
     align-items: center;
     background-color: #fff;
-    box-shadow: 0 0 1px 1px rgba(20,23,28,.1), 0 3px 1px 0 rgba(20,23,28,.1);
+    box-shadow: 0 0 1px 1px rgba(20, 23, 28, .1), 0 3px 1px 0 rgba(20, 23, 28, .1);
     color: #505763;
     display: inline-flex;
     font-size: 15px;
@@ -864,16 +881,16 @@ body,
 }
 
 .topic_button:before {
-    box-shadow: 0 0 1px 1px rgba(20,23,28,.1), 0 3px 1px 0 rgba(20,23,28,.1);
+    box-shadow: 0 0 1px 1px rgba(20, 23, 28, .1), 0 3px 1px 0 rgba(20, 23, 28, .1);
     opacity: 1;
 }
 
 .topic_button:after {
     opacity: 0;
-    box-shadow: 0 2px 8px 2px rgba(20,23,28,.15);
+    box-shadow: 0 2px 8px 2px rgba(20, 23, 28, .15);
 }
 
-.topic_button:before, 
+.topic_button:before,
 .topic_button:after {
     content: '';
     position: absolute;
@@ -887,6 +904,93 @@ body,
 
 .popular_topics_unit_topic_button {
     width: calc(100% - 15px);
+}
+
+.topic_menu {
+    min-height: 44px;
+    background-color: #f7f8fa;
+    min-width: 750px;
+}
+
+.topic_menu__items {
+    flex: 1;
+    min-width: 1px;
+    height: 44px;
+    overflow: hidden;
+    position: relative;
+}
+
+.topic_menu__item {
+    display: flex;
+    align-items: center;
+    float: left;
+    height: 44px;
+    min-width: 1px;
+    white-space: nowrap;
+}
+
+.topic_menu__link {
+    color: #686f7a;
+    display: block;
+    font-size: 13px;
+    padding: 12px;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.topic_menu__link:hover {
+    background-color: #dfdfdf;
+}
+
+.topic_menu__item:first-of-type .topic_menu__link {
+    font-weight: 700;
+}
+
+div.topic_menu__items div+div:before {
+    color: #686f7a;
+    content: '>';
+    padding: 4px;
+}
+
+.streamer__complete {
+    padding-bottom: 60px;
+    background: linear-gradient(#29303B, #29303B, #29303B);
+    color: #fff;
+    min-width: 750px;
+}
+
+.full_width__streamer {
+    background-color: #505763;
+}
+
+.non_purchase_actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+.wishlist_button {
+    display: flex;
+    align-items: center;
+    height: 32px;
+    color: #fff;
+    padding: 0 1px;
+    border: 0;
+}
+
+.wishlist_button_status_text {
+    font-size: 15px;
+    padding-left: 8px;
+}
+
+.clp_lead .clp_lead__title {
+    font-size: 36px;
+    line-height: 41px;
+}
+
+.clp_lead .clp_lead__headline {
+    font-size: 21px;
+    line-height: 27px;
 }
 
 @media (max-width: 1439px) and (min-width: 1200px) {
@@ -962,7 +1066,7 @@ body,
     }
 
     .main_content .container {
-        width: 1170px;
+        width: 1170px !important;
     }
 
     .course_discovery_unit__course_discovery_unit_container__3MFr9 {
@@ -976,7 +1080,7 @@ body,
     }
 
     .main_content .container {
-        width: 1170px;
+        width: 1170px !important;
     }
 
     .course_discovery_unit__course_discovery_unit_container__3MFr9 {
@@ -1281,7 +1385,7 @@ button.close {
 
 .text__semibold__DLyJV {
     font-weight: 600;
-}   
+}
 
 .text__xsmall__nWcmv {
     font-size: 13px;
@@ -1294,4 +1398,150 @@ button.close {
 
 .text__black__1qJbH {
     color: #29303b;
+}
+
+.row {
+    margin-left: -15px;
+    margin-right: -15px;
+}
+
+.col_xxs_1,
+.col_xs_1,
+.col_sm_1,
+.col_md_1,
+.col_lg_1,
+.col_xl_1,
+.col_xxs_2,
+.col_xs_2,
+.col_sm_2,
+.col_md_2,
+.col_lg_2,
+.col_xl_2,
+.col_xxs_3,
+.col_xs_3,
+.col_sm_3,
+.col_md_3,
+.col_lg_3,
+.col_xl_3,
+.col_xxs_4,
+.col_xs_4,
+.col_sm_4,
+.col_md_4,
+.col_lg_4,
+.col_xl_4,
+.col_xxs_5,
+.col_xs_5,
+.col_sm_5,
+.col_md_5,
+.col_lg_5,
+.col_xl_5,
+.col_xxs_6,
+.col_xs_6,
+.col_sm_6,
+.col_md_6,
+.col_lg_6,
+.col_xl_6,
+.col_xxs_7,
+.col_xs_7,
+.col_sm_7,
+.col_md_7,
+.col_lg_7,
+.col_xl_7,
+.col_xxs_8,
+.col_xs_8,
+.col_sm_8,
+.col_md_8,
+.col_lg_8,
+.col_xl_8,
+.col_xxs_9,
+.col_xs_9,
+.col_sm_9,
+.col_md_9,
+.col_lg_9,
+.col_xl_9,
+.col_xxs_10,
+.col_xs_10,
+.col_sm_10,
+.col_md_10,
+.col_lg_10,
+.col_xl_10,
+.col_xxs_11,
+.col_xs_11,
+.col_sm_11,
+.col_md_11,
+.col_lg_11,
+.col_xl_11,
+.col_xxs_12,
+.col_xs_12,
+.col_sm_12,
+.col_md_12,
+.col_lg_12,
+.col_xl_12 {
+    position: relative;
+    min-height: 1px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.col_xs_1,
+.col_xs_2,
+.col_xs_3,
+.col_xs_4,
+.col_xs_5,
+.col_xs_6,
+.col_xs_7,
+.col_xs_8,
+.col_xs_9,
+.col_xs_10,
+.col_xs_11,
+.col_xs_12 {
+    float: left;
+}
+
+.col_xs_1 {
+    width: 8.33%
+}
+
+.col_xs_2 {
+    width: 16.66%;
+}
+
+.col_xs_3 {
+    width: 25%;
+}
+
+.col_xs_4 {
+    width: 33.33%;
+}
+
+.col_xs_5 {
+    width: 41.66%;
+}
+
+.col_xs_6 {
+    width: 50%;
+}
+
+.col_xs_7 {
+    width: 58.34%;
+}
+
+.col_xs_8 {
+    width: 66.67%
+}
+
+.col_xs_9 {
+    width: 75%;
+}
+
+.col_xs_10 {
+    width: 83.34%;
+}
+
+.col_xs_11 {
+    width: 91.67%;
+}
+
+.col_xs_12 {
+    width: 100%;
 }
