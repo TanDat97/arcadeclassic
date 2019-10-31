@@ -993,6 +993,62 @@ div.topic_menu__items div+div:before {
     line-height: 27px;
 }
 
+.course_detail {
+    width: 100%;
+    left: auto;
+    top: 10px;
+    position: absolute;
+    margin-top: 18px;
+    z-index: 110;
+}
+
+.right_col_module {
+    background-color: #fff;
+    color: #505763;
+    box-shadow: 0 0 1px 1px rgba(20, 23, 28, .1), 0 3px 1px 0 rgba(20, 23, 28, .1);
+    border-radius: 4px;
+    padding: 3px;
+}
+
+.right_col_render {
+    padding: 15px;
+}
+
+.buy_box .buy_box_element {
+    margin-bottom: 5px;
+}
+
+.price_text_container {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.course_price_text {
+    margin-right: 10px;
+    white-space: nowrap;
+}
+
+.course_price_text_base {
+    margin-right: 10px;
+}
+
+.buy_box .buy_box_expiration {
+    margin-top: -5px;
+}
+
+.discount_expiration {
+    display: flex;
+    color: #992337;
+    font-size: 14px;
+    align-items: center;
+}
+
+.buy_box .buy_box_add_to_cart_button {
+    margin: 14px 0;
+}
+
 @media (max-width: 1439px) and (min-width: 1200px) {
     .visible-lg-block {
         display: block !important;
@@ -1242,6 +1298,13 @@ div.topic_menu__items div+div:before {
     background-color: rgb(202, 66, 66);
 }
 
+.btn_lg {
+    padding: 16px 12px;
+    font-size: 15px;
+    line-height: 1.35135;
+    border-radius: 2px;
+}
+
 button.close {
     padding: 0;
     cursor: pointer;
@@ -1379,25 +1442,40 @@ button.close {
     font-size: 13px;
 }
 
-.text__regular_2DIi {
+.text_regular_2DIi {
     font-weight: 400;
 }
 
-.text__semibold__DLyJV {
+.text_semibold_DLyJV {
     font-weight: 600;
 }
 
-.text__xsmall__nWcmv {
+.text_bold_ldWad {
+    font-weight: 700;
+}
+
+.text_xsmall_nWcmv {
     font-size: 13px;
 }
 
-.text__medium__2clK9 {
+.text_medium_2clK9 {
     font-size: 18px;
 }
 
+.text_xlarge_LEWuO {
+    font-size: 36px;
+}
 
-.text__black__1qJbH {
+.text_black_1qJbH {
     color: #29303b;
+}
+
+.text_light_3Zi7y {
+    color: #505763;
+}
+
+.text_lightest_6l12u {
+    color: #a1a7b3;
 }
 
 .row {
