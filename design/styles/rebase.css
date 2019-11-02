@@ -1049,6 +1049,77 @@ div.topic_menu__items div+div:before {
     margin: 14px 0;
 }
 
+.row_component_margin {
+    margin-top: 40px;
+}
+
+.js_simple_collapse {
+    overflow: hidden;
+    position: relative;
+}
+
+.js_simple_collapse_what_you_get {
+    max-height: 301px;
+}
+
+.what_you_get {
+    background-color: #f9f9f9;
+    border: 1px solid #dedfe0;
+    padding: 10px 15px;
+}
+
+.what_you_get_title {
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0 0 10px;
+}
+
+.what_you_get_items {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.what_you_get_item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.what_you_get_item_columns {
+    width: 45%;
+}
+
+.what_you_get_icon {
+    align-self: flex-start;
+    margin-top: 5px;
+    margin-right: 10px;
+}
+
+.what_you_get_text {
+    font-size: 15px;
+}
+
+.what_you_get .js_wrapper_collapse_more_btn {
+    background: linear-gradient(rgba(249, 249, 249, 0), rgba(249, 249, 249, 0.95), #f9f9f9);
+}
+
+.js_wrapper_collapse_more_btn {
+    background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.95), #FFF);
+    bottom: 0;
+    display: block;
+    padding-top: 30px;
+    position: absolute;
+    width: 100%;
+}
+
+.js_simple_collapse_more_btn {
+    padding: 0;
+    margin: 3px;
+}
+
 @media (max-width: 1439px) and (min-width: 1200px) {
     .visible-lg-block {
         display: block !important;
@@ -1204,6 +1275,10 @@ div.topic_menu__items div+div:before {
     display: table;
 }
 
+.main_content .width_default {
+    min-width: 750px;
+}
+
 .browse_container {
     margin-right: auto;
     margin-left: auto;
@@ -1266,6 +1341,20 @@ div.topic_menu__items div+div:before {
     user-select: none;
 }
 
+.btn_lg {
+    padding: 16px 12px;
+    font-size: 15px;
+    line-height: 1.35135;
+    border-radius: 2px;
+}
+
+.btn_sm {
+    padding: 6px 10px;
+    font-size: 15px;
+    line-height: 1.35135;
+    border-radius: 2px;
+}
+
 .btn_quaternary {
     color: #686f7a;
     background-color: #fff;
@@ -1298,11 +1387,31 @@ div.topic_menu__items div+div:before {
     background-color: rgb(202, 66, 66);
 }
 
-.btn_lg {
-    padding: 16px 12px;
-    font-size: 15px;
-    line-height: 1.35135;
-    border-radius: 2px;
+.btn_link {
+    color: #007791;
+    font-weight: 400;
+    border-radius: 0;
+}
+
+.btn_link:hover {
+    color: #161616;
+}
+
+.btn_link,
+.btn_link:hover,
+.btn_link:focus,
+.btn_link:active {
+    border-color: transparent;
+}
+
+.btn_link,
+.btn_link:active,
+.btn_link.active,
+.btn_link[disabled],
+fieldset[disabled] .btn_link {
+    background-color: transparent;
+    -webkit-box-shadow: none;
+    box-shadow: none;
 }
 
 button.close {

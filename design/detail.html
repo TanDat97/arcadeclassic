@@ -138,7 +138,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="buy_box_element buy_box_expiration_element">
+                                            <div class="buy_box_element buy_box_expiration">
                                                 <div class="clp_component_render">
                                                     <div class="discount_expiration">
                                                         <i class="far fa-clock"></i>
@@ -165,6 +165,86 @@
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="width_default container">
+                <div class="row row_component_margin">
+                    <div class="col_xs_8">
+                        <div class="clp_component_render">
+                            <div class="what_you_get">
+                                <div id="collapse1" class="js_simple_collapse js_simple_collapse_what_you_get">
+                                    <div class ="js_simple_collapse_inner">
+                                        <div class="what_you_get_content">
+                                            <div class="what_you_get_title">
+                                                What you'll learn
+                                            </div>
+                                            <ul class="what_you_get_items">
+                                                <li class="what_you_get_item what_you_get_item_columns">
+                                                    <i class="fas fa-check what_you_get_icon"></i>
+                                                    <span class="what_you_get_text">
+                                                        Build enterprise level React applications and deploy to production
+                                                    </span>
+                                                </li>
+                                                <li class="what_you_get_item what_you_get_item_columns">
+                                                    <i class="fas fa-check what_you_get_icon"></i>
+                                                    <span class="what_you_get_text">
+                                                        Learn the latest features in React including Hooks, Context API, Suspense, React Lazy + more
+                                                    </span>
+                                                </li>
+                                                <li class="what_you_get_item what_you_get_item_columns">
+                                                    <i class="fas fa-check what_you_get_icon"></i>
+                                                    <span class="what_you_get_text">
+                                                        Learn to build reactive, performant, large scale applications like a senior developer
+                                                    </span>
+                                                </li>
+                                                <li class="what_you_get_item what_you_get_item_columns">
+                                                    <i class="fas fa-check what_you_get_icon"></i>
+                                                    <span class="what_you_get_text">
+                                                        Build enterprise level React applications and deploy to production
+                                                    </span>
+                                                </li>
+                                                <li class="what_you_get_item what_you_get_item_columns">
+                                                    <i class="fas fa-check what_you_get_icon"></i>
+                                                    <span class="what_you_get_text">
+                                                        Master the latest ecosystem of a React Developer from scratch
+                                                    </span>
+                                                </li>
+                                                <li class="what_you_get_item what_you_get_item_columns">
+                                                    <i class="fas fa-check what_you_get_icon"></i>
+                                                    <span class="what_you_get_text">
+                                                        Build enterprise level React applications and deploy to production
+                                                    </span>
+                                                </li>
+                                                <li class="what_you_get_item what_you_get_item_columns">
+                                                    <i class="fas fa-check what_you_get_icon"></i>
+                                                    <span class="what_you_get_text">
+                                                        Master the latest ecosystem of a React Developer from scratch
+                                                    </span>
+                                                </li>
+                                                <li class="what_you_get_item what_you_get_item_columns">
+                                                    <i class="fas fa-check what_you_get_icon"></i>
+                                                    <span class="what_you_get_text">
+                                                        Build enterprise level React applications and deploy to production
+                                                    </span>
+                                                </li>
+                                                <li class="what_you_get_item what_you_get_item_columns">
+                                                    <i class="fas fa-check what_you_get_icon"></i>
+                                                    <span class="what_you_get_text">
+                                                        Build enterprise level React applications and deploy to production
+                                                    </span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <span id="wrapper_more_btn" class="js_wrapper_collapse_more_btn">
+                                            <button id="id_btn_collapse1" class="js_simple_collapse_more_btn btn_sm btn btn_link">
+                                                See more
+                                            </button>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -241,6 +321,21 @@
             modal.style.display = "none";
         }
     }
+
+    var collapse1 = document.getElementById("collapse1");
+    var btn_collapse1 = document.getElementById("id_btn_collapse1")
+    var wrapperBtn = document.getElementById("wrapper_more_btn")
+    
+    btn_collapse1.onclick = () => {
+        if(collapse1.style.maxHeight !== "1000px") {
+            collapse1.style.maxHeight = "1000px"
+            wrapperBtn.style.paddingTop = "0px"
+        } else {
+            collapse1.style.maxHeight = "301px"
+            wrapperBtn.style.paddingTop = "30px"
+        }
+    }
+
 </script>
 
 </html>
