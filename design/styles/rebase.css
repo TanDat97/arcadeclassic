@@ -993,6 +993,50 @@ div.topic_menu__items div+div:before {
     line-height: 27px;
 }
 
+.clp_lead .clp_element_row {
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    display: flex;
+}
+
+.clp_lead .clp_element_item {
+    margin-right: 20px;
+}
+
+.clp_lead .clp_element_item {
+    margin-top: 5px;
+}
+
+.clp_lead .clp_element_item:last-child {
+    margin-right: 0;
+}
+
+.rating{
+    display: flex;
+}
+
+.rating_stars {
+    margin-right: 10px;
+    margin-top: 1px;
+    color: rgb(212, 210, 45);
+}
+
+.star_rating_static_3wPvS {
+    position: relative;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.star_rating_static_3wPvS div {
+    position: relative;
+    display: inline-block;
+}
+
+.instructor_links__link {
+    color: #e6f2f5;
+}
+
 .course_detail {
     width: 100%;
     left: auto;
