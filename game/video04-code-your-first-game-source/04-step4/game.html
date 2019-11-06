@@ -6,13 +6,16 @@
 <script>
 	var canvas;
 	var canvasContext;
-	var ballX = 50;
-	var ballY = 50;
+	var ballX = 400;
+	var ballY = 300;
 	var ballSpeedX = 10;
 	var ballSpeedY = 4;
 
 	var player1Score = 0;
 	var player2Score = 0;
+	const WINNING_SCORE = 3;
+
+	var showWinScreen = false;
 
 	var paddle1Y = 50;
 	var paddle2Y = 50;
@@ -27,6 +30,14 @@
 		return {
 			x: mouseX,
 			y: mouseY,
+		}
+	}
+
+	function handleMouseClick(evt) {
+		if (showWinScreen) {
+			player1Score = 0
+			player2Score = 0
+			showWinScreen = false
 		}
 	}
 
@@ -47,6 +58,9 @@
 	}
 
 	function ballReset() {
+		if (player1Score >= WINNING_SCORE || player2Score >= WINNING_SCORE) {
+			showWinScreen = true
+		}
 		ballSpeedX = -ballSpeedX
 		ballX = canvas.width / 2
 		ballY = canvas.height / 2
@@ -62,6 +76,10 @@
 	}
 
 	function moveEverything() {
+		if (showWinScreen) {
+			return
+		}
+
 		computerMovement()
 
 		ballX += ballSpeedX;
@@ -72,8 +90,8 @@
 				var deltaY = ballY - (paddle1Y + PADDLE_HEIGHT / 2)
 				ballSpeedY = deltaY * 0.35
 			} else {
-				ballReset();
 				player2Score++
+				ballReset()
 			}
 		}
 		if (ballX >= canvas.width) {
@@ -82,8 +100,8 @@
 				var deltaY = ballY - (paddle1Y + PADDLE_HEIGHT / 2)
 				ballSpeedY = deltaY * 0.35
 			} else {
-				ballReset();
 				player1Score++
+				ballReset()
 			}
 		}
 
@@ -95,8 +113,28 @@
 			ballSpeedY = -ballSpeedY;
 		}
 	}
+
+	function drawNet() {
+		for (var i = 0; i < canvas.height; i += 40) {
+			colorRect(canvas.width / 2 - 1, i, 2, 20, 'white')
+		}
+	}
+
 	function drawEverything() {
 		colorRect(0, 0, canvas.width, canvas.height, 'black');
+
+		if (showWinScreen) {
+			canvasContext.fillStyle = 'white'
+			if (player1Score >= WINNING_SCORE) {
+				canvasContext.fillText("player left won!", 350, 200)
+			} else if (player2Score >= WINNING_SCORE) {
+				canvasContext.fillText("player right won!", 350, 200)
+			}
+			canvasContext.fillText("click to continue", 350, 400)
+			return
+		}
+
+		drawNet()
 
 		colorRect(0, paddle1Y, PADDLE_THICKNESS, PADDLE_HEIGHT, 'white');
 		colorRect(canvas.width - PADDLE_THICKNESS, paddle2Y, PADDLE_THICKNESS, PADDLE_HEIGHT, 'white');

@@ -1360,6 +1360,12 @@ div.topic_menu__items div+div:before {
     margin-bottom: 0;
 }
 
+.description_title {
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0 0 10px;
+}
+
 @media (max-width: 1439px) and (min-width: 1200px) {
     .visible-lg-block {
         display: block !important;
