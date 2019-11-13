@@ -12,16 +12,16 @@
 
 <body>
   <div class="skin_blue">
-    <div class="wrapper">
+    <div id="id_wrapper" class="wrapper">
       <div class="main_header">
         <span class="logo_mini">
-          <a href="/">
-            <img src="https://www.udemy.com/staticx/udemy/images/v6/logo-coral.svg" alt="Logo"
-              class="img-responsive center-block logo" width="110" height="50">
+          <a class="logo_link" href="/">
+            <img src="https://www.udemy.com/staticx/udemy/images/v6/logo-coral.svg" alt="Logo" class="logo" width="110"
+              height="50">
           </a>
         </span>
         <nav class="navbar nav_static_top">
-          <a href="javascript:;" data-toggle="offcanvas" role="button" class="sidebar_toggle">
+          <a onclick="sidebarToggleFunc()" data-toggle="offcanvas" role="button" class="sidebar_toggle">
             <i class="fas fa-align-justify"></i>
             <span class="sr_only">Toggle navigation</span>
           </a>
@@ -40,7 +40,7 @@
                       </div>
                       <div class="message_info">
                         <div class="message">
-                          hello how are you hello hello hello how are you hello hello 
+                          hello how are you hello hello hello how are you hello hello
                         </div>
                         <div class="time_message">
                           11:00am
@@ -100,28 +100,105 @@
           <div class="page_link active">
             <a class="page_link_a" href="/dashboard">
               <i class="fas fa-desktop"></i>
-              <span class="pages_name">Dashboard</span>
+              <span class="pages_name ml_space_xs">Dashboard</span>
             </a>
           </div>
           <div class="page_link">
             <a class="page_link_a" href="/dashboard">
               <i class="fas fa-table"></i>
-              <span class="pages_name">Table</span>
+              <span class="pages_name ml_space_xs">Table</span>
             </a>
           </div>
         </div>
       </div>
 
       <div class="content_wrapper">
-
+        <div class="content_header">
+          <h1>TABLE <small>Simple and advance table in CoPilot</small></h1>
+          <div class="topic_menu__items">
+            <div class="topic_menu__item">
+              <a class="topic_menu__link">
+                <i class="fas fa-home"></i> Home
+              </a>
+            </div>
+            <div class="topic_menu__item">
+              <a class="topic_menu__link">
+                Table
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="content">
+          <div class="row center_block">
+            <h2>Data Table</h2>
+            <div class="col_lg_12">
+              <div class="box">
+                <div class="box_header">
+                  <h3 class="box_title">Data table full features</h3>
+                </div>
+                <div class="box_body">
+                  <div class="row">
+                    <div class="col_lg_12">
+                      <div id="dataTable_wrapper">
+                        <div class="row">
+                          <div class="col_xs_6">
+                            <div id="id_data_table_length" class="data_table_length">
+                              <label>
+                                Show
+                                <select name="example1_length" aria-controls="example1" class="form_control input_sm">
+                                  <option value="10">10</option>
+                                  <option value="25">25</option>
+                                  <option value="50">50</option>
+                                  <option value="100">100</option>
+                                </select>
+                                entries
+                              </label>
+                            </div>
+                          </div>
+                          <div class="col_xs_6">
+                            <div id="id_data_table_filter" class="data_table_filter">
+                              <label>
+                                Search:
+                                <input type="search" class="form_control input_sm" placeholder="Type to search"/>
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col_xs_12">
+                            
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <footer class="main_footer"><strong>Copyright © 2019
-        <a href="javascript:;">CoPilot</a>.</strong> All rights reserved.
+          <a href="javascript:;">CoPilot</a>.</strong> All rights reserved.
       </footer>
 
     </div>
   </div>
 </body>
+
+<script>
+  var isCollapse = false;
+  function sidebarToggleFunc() {
+    var wrapper = document.getElementById("id_wrapper")
+    if (!isCollapse) {
+      wrapper.classList.add("sidebar_collapse")
+      isCollapse = true
+    } else {
+      wrapper.classList.remove("sidebar_collapse")
+      isCollapse = false
+    }
+  }
+</script>
 
 </html>
