@@ -484,7 +484,7 @@ body,
 .modal {
     display: none;
     position: fixed;
-    z-index: 102;
+    z-index: 120;
     left: 0;
     top: 0;
     width: 100%;
@@ -1043,7 +1043,7 @@ div.topic_menu__items div+div:before {
     top: 10px;
     position: absolute;
     margin-top: 18px;
-    z-index: 110;
+    z-index: 105;
 }
 
 .right_col_module {

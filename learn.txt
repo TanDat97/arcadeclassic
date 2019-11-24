@@ -1,0 +1,30 @@
+1. Lifehacker
+- Link: https://lifehacker.com/
+2. Library of Congress
+- Link: https://www.loc.gov/
+3. Boundless
+- Link: https://courses.lumenlearning.com/catalog/boundlesscourses
+4. Google World Wonders
+- Link: https://www.google.com/culturalinstitute/beta/?hl=en
+5. TED Talks
+- Link: https://www.ted.com/talks
+6. Reddit Lectures
+- Link: https://www.reddit.com/r/lectures/
+7. Internet Sacred Text Archive
+- Link: http://www.sacred-texts.com/index.htm
+8. MeetUp
+- Link: https://www.meetup.com/fr-FR/
+9. Trivium Education
+- Link: http://www.triviumeducation.com/trivium/
+10. HubSpot Academy
+- Link: https://academy.hubspot.com/
+11. University of the People
+- Link: https://www.uopeople.edu/
+12. PBS Video
+- Link: http://www.pbs.org/video/
+13. Project Gutenberg
+- Link: https://www.gutenberg.org/
+14. Pocket
+- Link: https://getpocket.com/
+15. MIT Open Courseware
+- Link: https://ocw.mit.edu/index.htm
