@@ -1111,6 +1111,11 @@ summary {
   border-radius: 50%;
 }
 
+.sidebar .user_avatar__initials {
+  width: 48px;
+  height: 48px;
+}
+
 .sidebar .header_side {
   overflow: hidden;
   text-overflow: clip;
@@ -1486,6 +1491,11 @@ div.data_table_paginate .pagination {
 }
 
 .wrapper.sidebar_collapse .sidebar .user_avatar {
+  width: 30px;
+  height: 30px;
+}
+
+.wrapper.sidebar_collapse .sidebar .user_avatar__initials {
   width: 30px;
   height: 30px;
 }
