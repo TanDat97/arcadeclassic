@@ -792,7 +792,7 @@ summary {
 }
 
 .az_card_signin {
-  height: 380px;
+  height: auto;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

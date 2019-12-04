@@ -651,6 +651,78 @@ body,
     margin-top: 32px;
 }
 
+.browse_full_width_container_1v4rg {
+    display: block;
+}
+
+.link_bar__wrapper_2tiYo {
+    background-color: #f7f8fa;
+    min-height: 44px;
+    border-bottom: 1px solid #dedfe0;
+}
+
+.link_bar__menu_container_1b4HL {
+    display: flex;
+    height: 44px;
+    justify-content: flex-start;
+    position: relative;
+    overflow: hidden;
+}
+
+.link_bar__menu_items_2khvd {
+    flex: 1;
+    min-width: 1px;
+    height: 44px;
+    overflow: hidden;
+    position: relative;
+}
+
+.link_bar__menu_item_2QDNh {
+    display: inline-block;
+    position: relative;
+    white-space: nowrap;
+}
+
+.link_bar__menu_item_2QDNh:hover {
+    background-color: #e6e6e6;
+}
+
+.link_bar__menu_item_2QDNh.active .link_bar__menu_item_link_NScgd {
+    background-color: #e6e6e6;
+    color: #161616;
+}
+
+.link_bar__menu_item_link_NScgd {
+    color: #686f7a;
+    display: block;
+    font-size: 13px;
+    padding: 13px;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.jumbotron__group {
+    width: 100%;
+    min-width: 750px;
+}
+
+.jumbotron__expanded,
+.jumbotron__collapsed,
+.jumbotron__topic {
+    background: linear-gradient(220deg, #EC5252 -10%, #6E1A52 70%);
+    min-height: 90px;
+    padding-top: 32px;
+}
+
+.jumbotron__title {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    color: #fff;
+    font-size: 19px;
+    font-weight: 700;
+}
+
 .course_discovery_unit__course_discovery_unit_container__3MFr9 {
     margin: 0 auto;
     margin-bottom: 24px;
@@ -905,6 +977,26 @@ body,
 .popular_topics_unit_topic_button {
     width: calc(100% - 15px);
 }
+
+.filter_panel_container {
+    background-color: #f7f8fa;
+    padding: 16px;
+}
+
+.filter_panel__toolbar_ObqV {
+    display: flex;
+}
+
+.filter_panel__dropdown_filter_container {
+    margin-left: 24px;
+}
+
+.dropdown_filter__dropdown_button+.dropdown_menu {
+    padding: 8px;
+    display: block;
+}
+
+
 
 .topic_menu {
     min-height: 44px;
@@ -1509,7 +1601,7 @@ div.topic_menu__items div+div:before {
 }
 
 @media (min-width: 1440px) {
-    .visible-xl-block { 
+    .visible-xl-block {
         display: block !important;
     }
 }
@@ -1666,7 +1758,7 @@ div.topic_menu__items div+div:before {
     margin-left: auto;
     padding-left: 15px;
     padding-right: 15px;
-    min-width: 320px;
+    min-width: 750px;
 }
 
 .container {
@@ -1674,7 +1766,7 @@ div.topic_menu__items div+div:before {
     margin-left: auto;
     padding-left: 15px;
     padding-right: 15px;
-    min-width: 320px;
+    min-width: 750px;
 }
 
 .tooltip_container,
@@ -1802,6 +1894,19 @@ button.close {
     background: 0 0;
     border: 0;
     -webkit-appearance: none;
+}
+
+.btn_toolbar .btn,
+.btn_toolbar .btn_group,
+.btn_toolbar .input_group {
+    float: left;
+}
+
+.btn_group,
+.btn_group_vertical {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .close {
