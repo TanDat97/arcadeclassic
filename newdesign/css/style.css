@@ -60,7 +60,7 @@ body {
   margin: 0 auto; }
 
 .l-width {
-  width: 1248px; }
+  max-width: 1440px; }
 
 .u-center-text {
   text-align: center !important; }
@@ -153,7 +153,8 @@ body {
 .header {
   font-size: 1.4rem;
   background-color: #fff;
-  box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.15); }
+  box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.15);
+  width: 100%; }
   .header__content {
     display: flex;
     height: 6rem;
