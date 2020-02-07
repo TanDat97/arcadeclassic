@@ -16,6 +16,8 @@ const createCredentialTable = () => {
   const createQuery = `CREATE TABLE IF NOT EXISTS
   credential(
     id serial PRIMARY KEY NOT NULL,
+    email VARCHAR(128) UNIQUE NOT NULL,
+    username VARCHAR(128) UNIQUE NOT NULL,
     password TEXT NOT NULL,
     reset_token TEXT NOT NULL,
     last_reset_password TIMESTAMP NOT NULL
@@ -50,15 +52,32 @@ const createRoleTable = () => {
     });
 }
 
+const insertRoleTable = () => {
+  const createQuery = `INSERT INTO role(id, name) VALUES (1,'USER_ROLE'), (2, 'ADMIN_ROLE')`;
+
+  pool.query(createQuery)
+    .then((res) => {
+      console.log(res);
+      pool.end();
+    })
+    .catch((err) => {
+      console.log(err);
+      pool.end();
+    });
+}
+
 const createUsersTable = () => {
   const createQuery = `CREATE TABLE IF NOT EXISTS
   users(
     id serial PRIMARY KEY NOT NULL,
-    fullname VARCHAR(128) NOT NULL,
-    email VARCHAR(128) NOT NULL,
-    description TEXT NOT NULL,
-    avatar TEXT NOT NULL,
+    email VARCHAR(128) UNIQUE NOT NULL,
+    user_name VARCHAR(128) UNIQUE NOT NULL,
+    first_name VARCHAR(128) NOT NULL,
+    last_name VARCHAR(128) NOT NULL,
+    description TEXT,
+    avatar TEXT,
     slug TEXT,
+    create_at TIMESTAMP NOT NULL,
     credential_id INT REFERENCES credential(id) ON DELETE RESTRICT,
     date_of_birth TIMESTAMP NOT NULL
   )`;
@@ -142,7 +161,9 @@ const createTagTable = () => {
   const createQuery = `CREATE TABLE IF NOT EXISTS
   tag(
     id serial PRIMARY KEY NOT NULL,
-    name TEXT NOT NULL
+    name TEXT NOT NULL,
+    create_at TIMESTAMP NOT NULL,
+    update_at TIMESTAMP NOT NULL
   )`;
 
   pool.query(createQuery)
@@ -161,6 +182,7 @@ const createPostTagTable = () => {
   posttag(
     post_id INT REFERENCES post(id) ON DELETE RESTRICT,
     tag_id INT REFERENCES tag(id) ON DELETE RESTRICT,
+    create_at TIMESTAMP NOT NULL,
 
     PRIMARY KEY (post_id, tag_id)
   )`;
@@ -333,6 +355,7 @@ const createAllTables = () => {
   createTagTable(),
   createPostTagTable(),
   createUserHistoryTable()
+  insertRoleTable()
 };
 
 /**
