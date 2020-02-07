@@ -354,7 +354,7 @@ const createAllTables = () => {
   createPostTable(),
   createTagTable(),
   createPostTagTable(),
-  createUserHistoryTable()
+  createUserHistoryTable(),
   insertRoleTable()
 };
 

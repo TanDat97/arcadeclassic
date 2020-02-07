@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./bin/backend.js",
+    "dev": "nodemon ./bin/backend.js",
     "test": "mocha --require babel-core/register ./test/**/*.js --timeout 10000",
     "create-dev-tables": "babel-node ./db/db createAllTables",
     "seed-user-table": "babel-node ./app/helpers/seed seedUser",

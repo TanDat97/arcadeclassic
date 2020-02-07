@@ -1,3 +1,4 @@
+const moment = require('moment');
 const dbQuery = require('../db/dbQuery');
 const { errorMessage, successMessage, status } = require('../utils/status');
 const {
@@ -26,6 +27,7 @@ const getOneTag = async (req, res) => {
       errorMessage.message = 'Tag cannot be found';
       return res.status(status.notfound).json(errorMessage);
     }
+    successMessage.status = status.success;
     successMessage.data = dbResponse;
     return res.status(status.success).json(successMessage);
   } catch (error) {
@@ -45,7 +47,7 @@ const createTag = async (req, res) => {
     return res.status(status.bad).json(errorMessage);
   }
   const createTagQuery = `INSERT INTO
-      users(name, create_at, update_at)
+      tag(name, create_at, update_at)
       VALUES($1, $2, $3)
       returning *`;
   const values = [
@@ -88,9 +90,11 @@ const updateTag = async (req, res) => {
     const values = [
       name,
       update_at,
+      tagId
     ];
     const response = await dbQuery.query(updateTag, values);
     const dbResult = response.rows[0];
+    successMessage.status = status.success;
     successMessage.data = dbResult;
     return res.status(status.success).json(successMessage);
   } catch (error) {
@@ -99,8 +103,32 @@ const updateTag = async (req, res) => {
   }
 }
 
+const deleteTag = async (req, res) => {
+  const { tagId } = req.params;
+  if (isEmpty(tagId)) {
+    errorMessage.message = 'id is invalid';
+    return res.status(status.bad).json(errorMessage);
+  }
+  const deleteTagQuery = 'DELETE FROM tag WHERE id=$1 returning *';
+  try {
+    const { rows } = await dbQuery.query(deleteTagQuery, [tagId]);
+    const dbResponse = rows[0];
+    if (!dbResponse) {
+      errorMessage.status = status.notfound;
+      errorMessage.message = 'Tag cannot be found';
+      return res.status(status.notfound).json(errorMessage);
+    }
+    successMessage.status = status.success;
+    successMessage.data = dbResponse;
+    return res.status(status.success).json(successMessage);
+  } catch (error) {
+    return res.status(status.error).json(errorMessage);
+  }
+}
+
 module.exports = {
   getOneTag,
   createTag,
-  updateTag
+  updateTag,
+  deleteTag
 }

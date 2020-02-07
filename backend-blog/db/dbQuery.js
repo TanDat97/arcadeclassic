@@ -1,4 +1,4 @@
-const pool =require('./pool.js').default;
+const pool = require('./pool.js');
 
 module.exports = {
   /**
@@ -7,7 +7,7 @@ module.exports = {
    * @param {object} res
    * @returns {object} object
    */
-  query(quertText, params) {
+  query (quertText, params) {
     return new Promise((resolve, reject) => {
       pool.query(quertText, params)
         .then((res) => {
@@ -19,3 +19,5 @@ module.exports = {
     });
   },
 };
+
+// https://itnext.io/building-restful-api-with-node-js-express-js-and-postgresql-the-right-way-b2e718ad1c66
