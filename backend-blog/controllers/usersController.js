@@ -27,14 +27,17 @@ const createUser = async (req, res) => {
     user_name = email;
   }
   if(isEmpty(email)||isEmpty(first_name)||isEmpty(last_name)||isEmpty(password)||isEmpty(date_of_birth)) {
+    errorMessage.status = status.bad;
     errorMessage.message = 'Email, password, first name and last name field cannot be empty';
     return res.status(status.bad).json(errorMessage);
   }
   if (!isValidEmail(email)) {
+    errorMessage.status = status.bad;
     errorMessage.message = 'Please enter a valid Email';
     return res.status(status.bad).send(errorMessage);
   }
   if (!validatePassword(password)) {
+    errorMessage.status = status.bad;
     errorMessage.message = 'Password is invalid, please try again';
     return res.status(status.bad).send(errorMessage);
   }
