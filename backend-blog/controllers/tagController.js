@@ -29,6 +29,7 @@ const getOneTag = async (req, res) => {
     successMessage.data = dbResponse;
     return res.status(status.success).json(successMessage);
   } catch (error) {
+    errorMessage.status = status.error;
     errorMessage.message = 'Operation was not successful';
     return res.status(status.error).json(errorMessage);
   }
@@ -61,6 +62,7 @@ const createTag = async (req, res) => {
     successMessage.status = status.created;
     return res.status(status.created).json(successMessage);
   } catch (error) {
+    errorMessage.status = status.error;
     errorMessage.message = 'Operation was not successful';
     return res.status(status.error).json(errorMessage);
   }
@@ -96,6 +98,7 @@ const updateTag = async (req, res) => {
     successMessage.data = dbResult;
     return res.status(status.success).json(successMessage);
   } catch (error) {
+    errorMessage.status = status.error;
     errorMessage.message = 'Operation was not successful';
     return res.status(status.error).json(errorMessage);
   }
@@ -120,6 +123,8 @@ const deleteTag = async (req, res) => {
     successMessage.data = dbResponse;
     return res.status(status.success).json(successMessage);
   } catch (error) {
+    errorMessage.status = status.error;
+    errorMessage.message = 'Operation was not successful';
     return res.status(status.error).json(errorMessage);
   }
 }
