@@ -1,9 +1,7 @@
 const moment = require('moment');
 const dbQuery = require('../db/dbQuery');
 const { errorMessage, successMessage, status } = require('../utils/status');
-const {
-  isEmpty,
-} = require('../utils/validation');
+const { isEmpty } = require('../utils/validation');
 
 /**
    * Create A Role

@@ -17,7 +17,7 @@ const createCredentialTable = () => {
   credential(
     id serial PRIMARY KEY NOT NULL,
     email VARCHAR(128) UNIQUE NOT NULL,
-    username VARCHAR(128) UNIQUE NOT NULL,
+    user_name VARCHAR(128) UNIQUE NOT NULL,
     password TEXT NOT NULL,
     reset_token TEXT NOT NULL,
     last_reset_password TIMESTAMP NOT NULL
