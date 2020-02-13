@@ -1,5 +1,7 @@
 const moment = require('moment');
 
+const credentialModel = require('../models/credential');
+const userModel = require('../models/user');
 const pool = require('../db/pool.js');
 const dbQuery = require('../db/dbQuery');
 const {
@@ -113,6 +115,106 @@ const createUser = async (req, res) => {
   }
 }
 
+const signinUser = async (req, res) => {
+  const {
+    email,
+    user_name,
+    password
+  } = req.body;
+  if (isEmpty(email) && isEmpty(password) || (isEmpty(user_name) && isEmpty(password))) {
+    errorMessage.status = status.bad;
+    errorMessage.message = 'Please enter enough field to signin';
+    return res.status(status.bad).json(errorMessage);
+  }
+  if (!isEmpty(email) && !isEmpty(password) && (!isValidEmail(email) || !validatePassword(password))) {
+    errorMessage.status = status.bad;
+    errorMessage.message = 'Please enter a valid Email/Username or Password';
+    return res.status(status.bad).send(errorMessage);
+  } else if (!isEmpty(user_name) && !isEmpty(password) && !validatePassword(password)) {
+    errorMessage.status = status.bad;
+    errorMessage.message = 'Please enter a valid Email/Username or Password';
+    return res.status(status.bad).send(errorMessage);
+  }
+  try {
+    const loginTemp = await credentialModel.signinRequest(email, user_name, password);
+    if (!loginTemp) {
+      errorMessage.status = status.bad;
+      errorMessage.message = 'Your information is not correct, please try again';
+      return res.status(status.bad).json(errorMessage);
+    }
+    const userInfo = await userModel.getInfoUser(email, user_name);
+    if (userInfo != null) {
+      const token = generateUserToken(userInfo.id, userInfo.email, userInfo.user_name, userInfo.first_name, userInfo.last_name);
+      successMessage.data = userInfo
+      successMessage.data.token = token
+      return res.status(status.success).json(successMessage);
+    } else {
+      throw new Error('cannot find user info');
+    }
+  } catch (err) {
+    console.log(err)
+    errorMessage.message = 'Operation was not successful';
+    return res.status(status.error).json(errorMessage);
+  }
+}
+
+const getInfoUser = async (req, res) => {
+  const {
+    email,
+    user_name
+  } = req.userData;
+  try {
+    const userInfo = await userModel.getInfoUser(email, user_name);
+    if (userInfo != null) {
+      successMessage.message = 'Get info user success'
+      successMessage.data = userInfo
+      return res.status(status.success).json(successMessage);
+    } else {
+      throw new Error('cannot find user info');
+    }
+  } catch (err) {
+    console.log(err)
+    errorMessage.message = 'Operation was not successful';
+    return res.status(status.error).json(errorMessage);
+  }
+}
+
+const updateInfoUser = async (req, res) => {
+  let {
+    first_name,
+    last_name,
+    description,
+    slug,
+    avatar,
+    date_of_birth
+  } = req.body;
+  description = description ? description : ''
+  slug = slug ? slug : ''
+  avatar = avatar ? avatar : ''
+  if (isEmpty(first_name) || isEmpty(last_name) || isEmpty(date_of_birth)) {
+    errorMessage.status = status.bad;
+    errorMessage.message = 'first name and last name, birthday field cannot be empty';
+    return res.status(status.bad).json(errorMessage);
+  }
+  try {
+    const userInfo = await userModel.updateInfoUser(req.userData.user_id, first_name, last_name, description, slug, avatar, date_of_birth)
+    if (userInfo != null) {
+      successMessage.message = 'Update info user success'
+      successMessage.data = userInfo
+      return res.status(status.success).json(successMessage);
+    } else {
+      throw new Error('some thing went wrong');
+    }
+  } catch (err) {
+    console.log(err)
+    errorMessage.message = 'Operation was not successful';
+    return res.status(status.error).json(errorMessage);
+  }
+}
+
 module.exports = {
-  createUser
+  createUser,
+  signinUser,
+  getInfoUser,
+  updateInfoUser
 }

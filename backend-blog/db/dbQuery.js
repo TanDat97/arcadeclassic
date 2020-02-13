@@ -1,6 +1,5 @@
 const pool = require('./pool.js');
 
-
 /**
  * DB Query
  * @param {object} req

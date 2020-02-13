@@ -1,6 +1,8 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+const env= require('../env');
+
 /**
  * Hash Password Method
  * @param {string} password
@@ -73,13 +75,13 @@ const empty = (input) => {
  * @param {string} id
  * @returns {string} token
  */
-const generateUserToken = (email, id, first_name, last_name, role_id) => {
+const generateUserToken = (id, email, user_name, first_name, last_name) => {
   const token = jwt.sign({
-      email,
       user_id: id,
+      email,
+      user_name,
       first_name,
-      last_name,
-      role_id
+      last_name
     },
     env.secret, {
       expiresIn: '3d'
