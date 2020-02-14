@@ -1,9 +1,9 @@
-const moment = require('moment');
+const moment = require('moment')
 
-const credentialModel = require('../models/credential');
-const userModel = require('../models/user');
-const pool = require('../db/pool.js');
-const dbQuery = require('../db/dbQuery');
+const credentialModel = require('../models/credential')
+const userModel = require('../models/user')
+const pool = require('../db/pool.js')
+const dbQuery = require('../db/dbQuery')
 const {
   errorMessage,
   successMessage,
@@ -16,7 +16,7 @@ const {
   validatePassword,
   isEmpty,
   generateUserToken,
-} = require('../utils/validation');
+} = require('../utils/validation')
 
 /**
  * Create A User
@@ -39,79 +39,79 @@ const createUser = async (req, res) => {
   description = description ? description : ''
   slug = slug ? slug : ''
   avatar = avatar ? avatar : ''
-  const create_at = moment(new Date());
+  const create_at = moment(new Date())
   if (isEmpty(user_name)) {
-    user_name = email;
+    user_name = email
   }
   if (isEmpty(email) || isEmpty(first_name) || isEmpty(last_name) || isEmpty(password) || isEmpty(date_of_birth)) {
-    errorMessage.status = status.bad;
-    errorMessage.message = 'Email, password, first name and last name field cannot be empty';
+    errorMessage.status = status.bad
+    errorMessage.message = 'Email, password, first name and last name field cannot be empty'
     return res.status(status.bad).json(errorMessage);
   }
   if (!isValidEmail(email)) {
     errorMessage.status = status.bad;
-    errorMessage.message = 'Please enter a valid Email';
-    return res.status(status.bad).send(errorMessage);
+    errorMessage.message = 'Please enter a valid Email'
+    return res.status(status.bad).send(errorMessage)
   }
   if (!validatePassword(password)) {
-    errorMessage.status = status.bad;
+    errorMessage.status = status.bad
     errorMessage.message = 'Password is invalid, please try again';
-    return res.status(status.bad).send(errorMessage);
+    return res.status(status.bad).send(errorMessage)
   }
-  const hashedPassword = hashPassword(password);
-  const client = await dbQuery.clientConnect(pool);
+  const hashedPassword = hashPassword(password)
+  const client = await dbQuery.clientConnect(pool)
   try {
     await client.query("BEGIN");
     try {
       const createCredentialQuery = `INSERT INTO
       credential(email, user_name, password, reset_token, last_reset_password)
       VALUES($1, $2, $3, $4, $5)
-      returning *`;
+      returning *`
       const credentialValues = [email, user_name, hashedPassword, '', create_at];
       await client.query(createCredentialQuery, credentialValues, function (err, result1) {
         if (err) {
-          errorMessage.message = 'Operation was not successful';
+          errorMessage.message = 'Operation was not successful'
           res.status(status.error).json(errorMessage);
-          return dbQuery.rollback(client);
+          return dbQuery.rollback(client)
         }
         const credential_id = result1.rows[0].id
         const createUserQuery = `INSERT INTO
         users(email, user_name, first_name, last_name, description, avatar, slug, create_at, credential_id, date_of_birth)
         VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
-        returning *`;
+        returning *`
         const userValue = [email, user_name, first_name, last_name, description, avatar, slug, create_at, credential_id, date_of_birth];
         client.query(createUserQuery, userValue, function (err, result2) {
           if (err) {
-            errorMessage.message = 'Operation was not successful';
-            res.status(status.error).json(errorMessage);
-            return dbQuery.rollback(client);
+            errorMessage.message = 'Operation was not successful'
+            res.status(status.error).json(errorMessage)
+            return dbQuery.rollback(client)
           }
           const user_id = result2.rows[0].id
           const createUserRoleQuery = `INSERT INTO
           userrole(user_id, role_id)
           VALUES($1, $2)
-          returning *`;
+          returning *`
           const userRoleValue = [user_id, 1];
           client.query(createUserRoleQuery, userRoleValue, function (err, result3) {
             if (err) {
-              errorMessage.message = 'Operation was not successful';
+              errorMessage.message = 'Operation was not successful'
               res.status(status.error).json(errorMessage);
-              return dbQuery.rollback(client);
+              return dbQuery.rollback(client)
             }
-            client.query("COMMIT");
-            successMessage.status = status.created;
-            successMessage.message = 'Sign up success';
-            return res.status(status.created).json(successMessage);
+            client.query("COMMIT")
+            successMessage.status = status.created
+            successMessage.message = 'Sign up success'
+            return res.status(status.created).json(successMessage)
           })
         })
       });
     } catch (err) {
-      errorMessage.message = 'Operation was not successful';
-      return res.status(status.error).json(errorMessage);
+      errorMessage.message = 'Operation was not successful'
+      return res.status(status.error).json(errorMessage)
     }
   } finally {
-    client.release();
-    console.log('client is released');
+    client.release()
+    console.log('client is released')
   }
 }
 
@@ -123,38 +123,38 @@ const signinUser = async (req, res) => {
   } = req.body;
   if (isEmpty(email) && isEmpty(password) || (isEmpty(user_name) && isEmpty(password))) {
     errorMessage.status = status.bad;
-    errorMessage.message = 'Please enter enough field to signin';
+    errorMessage.message = 'Please enter enough field to signin'
     return res.status(status.bad).json(errorMessage);
   }
   if (!isEmpty(email) && !isEmpty(password) && (!isValidEmail(email) || !validatePassword(password))) {
     errorMessage.status = status.bad;
-    errorMessage.message = 'Please enter a valid Email/Username or Password';
+    errorMessage.message = 'Please enter a valid Email/Username or Password'
     return res.status(status.bad).send(errorMessage);
   } else if (!isEmpty(user_name) && !isEmpty(password) && !validatePassword(password)) {
     errorMessage.status = status.bad;
-    errorMessage.message = 'Please enter a valid Email/Username or Password';
-    return res.status(status.bad).send(errorMessage);
+    errorMessage.message = 'Please enter a valid Email/Username or Password'
+    return res.status(status.bad).send(errorMessage)
   }
   try {
-    const loginTemp = await credentialModel.signinRequest(email, user_name, password);
+    const loginTemp = await credentialModel.signinRequest(email, user_name, password)
     if (!loginTemp) {
       errorMessage.status = status.bad;
-      errorMessage.message = 'Your information is not correct, please try again';
-      return res.status(status.bad).json(errorMessage);
+      errorMessage.message = 'Your information is not correct, please try again'
+      return res.status(status.bad).json(errorMessage)
     }
-    const userInfo = await userModel.getInfoUser(email, user_name);
+    const userInfo = await userModel.getInfoUser(email, user_name)
     if (userInfo != null) {
-      const token = generateUserToken(userInfo.id, userInfo.email, userInfo.user_name, userInfo.first_name, userInfo.last_name);
+      const token = generateUserToken(userInfo.id, userInfo.email, userInfo.user_name, userInfo.first_name, userInfo.last_name)
       successMessage.data = userInfo
       successMessage.data.token = token
-      return res.status(status.success).json(successMessage);
+      return res.status(status.success).json(successMessage)
     } else {
-      throw new Error('cannot find user info');
+      throw new Error('cannot find user info')
     }
   } catch (err) {
     console.log(err)
-    errorMessage.message = 'Operation was not successful';
-    return res.status(status.error).json(errorMessage);
+    errorMessage.message = 'Operation was not successful'
+    return res.status(status.error).json(errorMessage)
   }
 }
 
@@ -162,20 +162,20 @@ const getInfoUser = async (req, res) => {
   const {
     email,
     user_name
-  } = req.userData;
+  } = req.userData
   try {
-    const userInfo = await userModel.getInfoUser(email, user_name);
+    const userInfo = await userModel.getInfoUser(email, user_name)
     if (userInfo != null) {
       successMessage.message = 'Get info user success'
       successMessage.data = userInfo
-      return res.status(status.success).json(successMessage);
+      return res.status(status.success).json(successMessage)
     } else {
-      throw new Error('cannot find user info');
+      throw new Error('cannot find user info')
     }
   } catch (err) {
     console.log(err)
-    errorMessage.message = 'Operation was not successful';
-    return res.status(status.error).json(errorMessage);
+    errorMessage.message = 'Operation was not successful'
+    return res.status(status.error).json(errorMessage)
   }
 }
 
@@ -192,23 +192,24 @@ const updateInfoUser = async (req, res) => {
   slug = slug ? slug : ''
   avatar = avatar ? avatar : ''
   if (isEmpty(first_name) || isEmpty(last_name) || isEmpty(date_of_birth)) {
-    errorMessage.status = status.bad;
-    errorMessage.message = 'first name and last name, birthday field cannot be empty';
-    return res.status(status.bad).json(errorMessage);
+    errorMessage.status = status.bad
+    errorMessage.message = 'first name and last name, birthday field cannot be empty'
+    return res.status(status.bad).json(errorMessage)
   }
   try {
-    const userInfo = await userModel.updateInfoUser(req.userData.user_id, first_name, last_name, description, slug, avatar, date_of_birth)
+    const userValues = [first_name, last_name, description, slug, avatar, date_of_birth, req.userData.user_id]
+    const userInfo = await userModel.updateInfoUser(userValues)
     if (userInfo != null) {
       successMessage.message = 'Update info user success'
       successMessage.data = userInfo
-      return res.status(status.success).json(successMessage);
+      return res.status(status.success).json(successMessage)
     } else {
-      throw new Error('some thing went wrong');
+      throw new Error('some thing went wrong')
     }
   } catch (err) {
     console.log(err)
-    errorMessage.message = 'Operation was not successful';
-    return res.status(status.error).json(errorMessage);
+    errorMessage.message = 'Operation was not successful'
+    return res.status(status.error).json(errorMessage)
   }
 }
 

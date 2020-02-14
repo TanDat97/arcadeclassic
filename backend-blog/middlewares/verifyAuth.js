@@ -1,8 +1,8 @@
-const jwt = require('jsonwebtoken');
-const dotenv = require('dotenv');
-const { status } = require('../utils/status');
+const jwt = require('jsonwebtoken')
+const dotenv = require('dotenv')
+const { status } = require('../utils/status')
 
-dotenv.config();
+dotenv.config()
 
 /**
    * Verify Token
