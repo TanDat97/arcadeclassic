@@ -2,6 +2,7 @@ const moment = require('moment')
 
 const credentialModel = require('../models/credential')
 const userModel = require('../models/user')
+const userRoleModel = require('../models/userrole')
 const pool = require('../db/pool.js')
 const dbQuery = require('../db/dbQuery')
 const {
@@ -63,48 +64,36 @@ const createUser = async (req, res) => {
   try {
     await client.query("BEGIN");
     try {
-      const createCredentialQuery = `INSERT INTO
-      credential(email, user_name, password, reset_token, last_reset_password)
-      VALUES($1, $2, $3, $4, $5)
-      returning *`
       const credentialValues = [email, user_name, hashedPassword, '', create_at];
-      await client.query(createCredentialQuery, credentialValues, function (err, result1) {
-        if (err) {
+      const credentialRes = await credentialModel.createCredential(client, credentialValues)
+      if (credentialRes == null) {
+        errorMessage.message = 'Operation was not successful'
+        res.status(status.error).json(errorMessage)
+        return dbQuery.rollback(client)
+      } else {
+        const credential_id = credentialRes.id
+        const userValues = [email, user_name, first_name, last_name, description, avatar, slug, create_at, credential_id, date_of_birth];
+        const userRes = await userModel.createUser(client, userValues)
+        if(userRes == null) {
           errorMessage.message = 'Operation was not successful'
-          res.status(status.error).json(errorMessage);
+          res.status(status.error).json(errorMessage)
           return dbQuery.rollback(client)
-        }
-        const credential_id = result1.rows[0].id
-        const createUserQuery = `INSERT INTO
-        users(email, user_name, first_name, last_name, description, avatar, slug, create_at, credential_id, date_of_birth)
-        VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
-        returning *`
-        const userValue = [email, user_name, first_name, last_name, description, avatar, slug, create_at, credential_id, date_of_birth];
-        client.query(createUserQuery, userValue, function (err, result2) {
-          if (err) {
+        } else {
+          const user_id = userRes.id
+          const userRoleValues = [user_id, 1]
+          const userRoleRes = await userRoleModel.createUserRole(client, userRoleValues)
+          if (userRoleRes == null) {
             errorMessage.message = 'Operation was not successful'
-            res.status(status.error).json(errorMessage)
+            res.status(status.error).json(errorMessage);
             return dbQuery.rollback(client)
-          }
-          const user_id = result2.rows[0].id
-          const createUserRoleQuery = `INSERT INTO
-          userrole(user_id, role_id)
-          VALUES($1, $2)
-          returning *`
-          const userRoleValue = [user_id, 1];
-          client.query(createUserRoleQuery, userRoleValue, function (err, result3) {
-            if (err) {
-              errorMessage.message = 'Operation was not successful'
-              res.status(status.error).json(errorMessage);
-              return dbQuery.rollback(client)
-            }
+          } else {
             client.query("COMMIT")
             successMessage.status = status.created
             successMessage.message = 'Sign up success'
             return res.status(status.created).json(successMessage)
-          })
-        })
-      });
+          }
+        }
+      }
     } catch (err) {
       errorMessage.message = 'Operation was not successful'
       return res.status(status.error).json(errorMessage)

@@ -3,11 +3,6 @@ const moment = require('moment')
 const pool = require('../db/pool.js')
 const dbQuery = require('../db/dbQuery')
 const {
-  errorMessage,
-  successMessage,
-  status
-} = require('../utils/status')
-const {
   hashPassword,
   comparePassword,
   isValidEmail,
@@ -31,6 +26,25 @@ const signinRequest = async (email, user_name, password) => {
   }
 }
 
+const createCredential = async (client, credentialValues) => {
+  const createCredentialQuery = `INSERT INTO
+      credential(email, user_name, password, reset_token, last_reset_password)
+      VALUES($1, $2, $3, $4, $5)
+      returning *`
+  try {
+    const { rows } = await client.query(createCredentialQuery, credentialValues)
+    const dbResponse = rows[0]
+    if (!dbResponse) {
+      return null
+    }
+    return dbResponse
+  } catch (err) {
+    console.log(err)
+    return null
+  }
+}
+
 module.exports = {
-  signinRequest
+  signinRequest,
+  createCredential
 }

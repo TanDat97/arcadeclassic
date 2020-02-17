@@ -4,6 +4,7 @@ const successMessage = {
 };
 const errorMessage = { 
   status: 500,
+  error_code: 0,
   message: 'error' 
 };
 const status = {

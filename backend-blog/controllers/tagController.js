@@ -1,5 +1,6 @@
 const moment = require('moment')
 const dbQuery = require('../db/dbQuery')
+const tagModel = require('../models/tag')
 const { errorMessage, successMessage, status } = require('../utils/status')
 const { isEmpty } = require('../utils/validation')
 
@@ -16,10 +17,8 @@ const getOneTag = async (req, res) => {
     errorMessage.message = 'id is invalid';
     return res.status(status.bad).json(errorMessage)
   }
-  const getOneTagQuery = 'SELECT * FROM tag WHERE id=$1'
   try {
-    const { rows } = await dbQuery.query(getOneTagQuery, [tagId])
-    const dbResponse = rows[0];
+    const dbResponse = await tagModel.getOneTag(tagId);
     if (!dbResponse) {
       errorMessage.status = status.notfound
       errorMessage.message = 'Tag cannot be found'
@@ -45,19 +44,18 @@ const createTag = async (req, res) => {
     errorMessage.message = 'Name field cannot be empty'
     return res.status(status.bad).json(errorMessage)
   }
-  const createTagQuery = `INSERT INTO
-      tag(name, create_at, update_at)
-      VALUES($1, $2, $3)
-      returning *`;
-  const values = [
+  const tagValues = [
     name,
     create_at,
     update_at,
   ];
   try {
-    const { rows } = await dbQuery.query(createTagQuery, values)
-    const dbResponse = rows[0]
-    delete dbResponse.password
+    const dbResponse = await tagModel.createTag(tagValues)
+    if (!dbResponse) {
+      errorMessage.status = status.error
+      errorMessage.message = 'Tag cannot be created'
+      return res.status(status.error).json(errorMessage)
+    }
     successMessage.data = dbResponse
     successMessage.status = status.created
     return res.status(status.created).json(successMessage)
@@ -76,26 +74,20 @@ const updateTag = async (req, res) => {
     return res.status(status.bad).json(errorMessage)
   }
   const update_at = moment(new Date())
-  const findTagQuery = 'SELECT * FROM tag WHERE id=$1'
-  const updateTag = `UPDATE tag
-        SET name=$1, update_at=$2 WHERE id=$3 returning *`
+  const tagValues = [
+    name,
+    update_at,
+    tagId
+  ];
   try {
-    const { rows } = await dbQuery.query(findTagQuery, [tagId])
-    const dbResponse = rows[0]
+    const dbResponse = await tagModel.updateTag(tagId, tagValues)
     if (!dbResponse) {
       errorMessage.status = status.notfound
       errorMessage.message = 'Tag cannot be found'
       return res.status(status.notfound).json(errorMessage)
     }
-    const values = [
-      name,
-      update_at,
-      tagId
-    ];
-    const response = await dbQuery.query(updateTag, values)
-    const dbResult = response.rows[0]
     successMessage.status = status.success
-    successMessage.data = dbResult
+    successMessage.data = dbResponse
     return res.status(status.success).json(successMessage)
   } catch (err) {
     errorMessage.status = status.error
@@ -110,10 +102,8 @@ const deleteTag = async (req, res) => {
     errorMessage.message = 'id is invalid';
     return res.status(status.bad).json(errorMessage)
   }
-  const deleteTagQuery = 'DELETE FROM tag WHERE id=$1 returning *'
   try {
-    const { rows } = await dbQuery.query(deleteTagQuery, [tagId])
-    const dbResponse = rows[0]
+    const dbResponse = await tagModel.deleteTag(tagId)
     if (!dbResponse) {
       errorMessage.status = status.notfound
       errorMessage.message = 'Tag cannot be found'

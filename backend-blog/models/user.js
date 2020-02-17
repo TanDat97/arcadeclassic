@@ -1,12 +1,7 @@
-const moment = require('moment');
+const moment = require('moment')
 
-const pool = require('../db/pool.js');
-const dbQuery = require('../db/dbQuery');
-const {
-  errorMessage,
-  successMessage,
-  status
-} = require('../utils/status');
+const pool = require('../db/pool.js')
+const dbQuery = require('../db/dbQuery')
 const {
   hashPassword,
   comparePassword,
@@ -14,13 +9,31 @@ const {
   validatePassword,
   isEmpty,
   generateUserToken,
-} = require('../utils/validation');
+} = require('../utils/validation')
+
+const createUser = async (client, userValues) => {
+  const createUserQuery = `INSERT INTO
+    users(email, user_name, first_name, last_name, description, avatar, slug, create_at, credential_id, date_of_birth)
+    VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+    returning *`
+  try {
+    const { rows } = await client.query(createUserQuery, userValues)
+    const dbResponse = rows[0]
+    if (!dbResponse) {
+      return null
+    }
+    return dbResponse
+  } catch (err) {
+    console.log(err)
+    return null
+  }
+}
 
 const getInfoUser = async (email, user_name) => {
   const getUserQuery = 'SELECT * FROM users WHERE email = $1 OR user_name = $2'
   try {
     const { rows } = await dbQuery.query(getUserQuery, [email, user_name]);
-    const dbResponse = rows[0];
+    const dbResponse = rows[0]
     if (!dbResponse) {
       return null
     }
@@ -38,7 +51,7 @@ const updateInfoUser = async (userValues) => {
   WHERE id=$7 returning *`;
   try{
     const { rows } = await dbQuery.query(updateUserQuery, userValues)
-    const dbResponse = rows[0];
+    const dbResponse = rows[0]
     if (!dbResponse) {
       return null
     }
@@ -51,6 +64,7 @@ const updateInfoUser = async (userValues) => {
 }
 
 module.exports = {
+  createUser,
   getInfoUser,
   updateInfoUser
 }
