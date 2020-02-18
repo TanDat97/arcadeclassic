@@ -133,7 +133,9 @@ const signinUser = async (req, res) => {
     }
     const userInfo = await userModel.getInfoUser(email, user_name)
     if (userInfo != null) {
-      const token = generateUserToken(userInfo.id, userInfo.email, userInfo.user_name, userInfo.first_name, userInfo.last_name)
+      const token = generateUserToken(userInfo.id, userInfo.email, userInfo.user_name, userInfo.first_name, userInfo.last_name, userInfo.role_name)
+      delete userInfo.role_name
+      successMessage.message = 'Signin success'
       successMessage.data = userInfo
       successMessage.data.token = token
       return res.status(status.success).json(successMessage)
@@ -155,6 +157,7 @@ const getInfoUser = async (req, res) => {
   try {
     const userInfo = await userModel.getInfoUser(email, user_name)
     if (userInfo != null) {
+      delete userInfo.role_name
       successMessage.message = 'Get info user success'
       successMessage.data = userInfo
       return res.status(status.success).json(successMessage)

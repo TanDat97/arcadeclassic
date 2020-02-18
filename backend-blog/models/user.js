@@ -2,14 +2,8 @@ const moment = require('moment')
 
 const pool = require('../db/pool.js')
 const dbQuery = require('../db/dbQuery')
-const {
-  hashPassword,
-  comparePassword,
-  isValidEmail,
-  validatePassword,
-  isEmpty,
-  generateUserToken,
-} = require('../utils/validation')
+
+const dbUtils = require('../utils/dbutils')
 
 const createUser = async (client, userValues) => {
   const createUserQuery = `INSERT INTO
@@ -30,10 +24,13 @@ const createUser = async (client, userValues) => {
 }
 
 const getInfoUser = async (email, user_name) => {
-  const getUserQuery = 'SELECT * FROM users WHERE email = $1 OR user_name = $2'
+  const getUserQuery = `SELECT distinct users.*, role.name as role_name FROM users
+    INNER JOIN userrole on users.id = userrole.user_id
+    INNER JOIN role on userrole.role_id = role.id
+    WHERE email = $1 OR user_name = $2`
   try {
     const { rows } = await dbQuery.query(getUserQuery, [email, user_name]);
-    const dbResponse = rows[0]
+    const dbResponse = dbUtils.setDataIntoOne(rows, ['role_name'])
     if (!dbResponse) {
       return null
     }

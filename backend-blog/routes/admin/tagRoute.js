@@ -1,11 +1,13 @@
 const express = require('express')
 const router = express.Router()
 
-const tagController = require('../../controllers/tagController');
+const verifyAuthAdmin = require('../../middlewares/verifyAuthAdmin')
+const tagController = require('../../controllers/tagController')
 
-router.get('/tag/:tagId', tagController.getOneTag);
-router.post('/tag', tagController.createTag);
-router.put('/tag/:tagId', tagController.updateTag);
-router.delete('/tag/:tagId', tagController.deleteTag);
+router.get('/tag/getone/:tagId', tagController.getOneTag)
+router.get('/tag/getlist', verifyAuthAdmin, tagController.getListTag)
+router.post('/tag', verifyAuthAdmin, tagController.createTag)
+router.put('/tag/:tagId', verifyAuthAdmin, tagController.updateTag)
+router.delete('/tag/:tagId', verifyAuthAdmin, tagController.deleteTag)
 
-module.exports = router;
+module.exports = router

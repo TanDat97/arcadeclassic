@@ -12,7 +12,7 @@ const {
 } = require('../utils/validation')
 
 const signinRequest = async (email, user_name, password) => {
-  const signinUserQuery = 'SELECT * FROM credential WHERE email = $1 OR user_name = $2'
+  const signinUserQuery = `SELECT * FROM credential WHERE email = $1 OR user_name = $2`
   try {
     const { rows } = await dbQuery.query(signinUserQuery, [email, user_name])
     const dbResponse = rows[0]

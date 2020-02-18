@@ -18,6 +18,9 @@ const verifyToken = async (req, res, next) => {
     const decoded = jwt.verify(token, process.env.secret)
     // console.log(decoded)
     req.userData = decoded
+    if(decoded.role_name.indexOf('ADMIN_ROLE') === -1) {
+      throw new Error('Permission denied')
+    }
     next()
   } catch (error) {
     return res.status(status.unauthorized).json({

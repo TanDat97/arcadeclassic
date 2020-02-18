@@ -14,11 +14,11 @@ const { isEmpty } = require('../utils/validation')
 const getOneTag = async (req, res) => {
   const { tagId } = req.params;
   if (isEmpty(tagId)) {
-    errorMessage.message = 'id is invalid';
+    errorMessage.message = 'id is invalid'
     return res.status(status.bad).json(errorMessage)
   }
   try {
-    const dbResponse = await tagModel.getOneTag(tagId);
+    const dbResponse = await tagModel.getOneTag(tagId)
     if (!dbResponse) {
       errorMessage.status = status.notfound
       errorMessage.message = 'Tag cannot be found'
@@ -28,7 +28,29 @@ const getOneTag = async (req, res) => {
     successMessage.data = dbResponse
     return res.status(status.success).json(successMessage)
   } catch (err) {
-    errorMessage.status = status.error;
+    errorMessage.status = status.error
+    errorMessage.message = 'Operation was not successful'
+    return res.status(status.error).json(errorMessage)
+  }
+}
+
+const getListTag = async (req, res) => {
+  const { page, limit } = req.query
+  try {
+    const dbResponse = await tagModel.getListTag(page, limit)
+    if (!dbResponse) {
+      errorMessage.status = status.notfound
+      errorMessage.message = 'Something went wrong'
+      return res.status(status.notfound).json(errorMessage)
+    }
+    successMessage.status = status.success
+    successMessage.page = page
+    successMessage.limit = limit
+    successMessage.total_count = dbResponse.total_count
+    successMessage.data = dbResponse.data
+    return res.status(status.success).json(successMessage)
+  } catch (err) {
+    errorMessage.status = status.error
     errorMessage.message = 'Operation was not successful'
     return res.status(status.error).json(errorMessage)
   }
@@ -38,8 +60,8 @@ const createTag = async (req, res) => {
   const {
     name,
   } = req.body;
-  const create_at = moment(new Date());
-  const update_at = create_at;
+  const create_at = moment(new Date())
+  const update_at = create_at
   if (isEmpty(name)) {
     errorMessage.message = 'Name field cannot be empty'
     return res.status(status.bad).json(errorMessage)
@@ -99,7 +121,7 @@ const updateTag = async (req, res) => {
 const deleteTag = async (req, res) => {
   const { tagId } = req.params
   if (isEmpty(tagId)) {
-    errorMessage.message = 'id is invalid';
+    errorMessage.message = 'id is invalid'
     return res.status(status.bad).json(errorMessage)
   }
   try {
@@ -113,7 +135,7 @@ const deleteTag = async (req, res) => {
     successMessage.data = dbResponse
     return res.status(status.success).json(successMessage)
   } catch (err) {
-    errorMessage.status = status.error;
+    errorMessage.status = status.error
     errorMessage.message = 'Operation was not successful'
     return res.status(status.error).json(errorMessage)
   }
@@ -121,6 +143,7 @@ const deleteTag = async (req, res) => {
 
 module.exports = {
   getOneTag,
+  getListTag,
   createTag,
   updateTag,
   deleteTag

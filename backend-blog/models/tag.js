@@ -2,18 +2,7 @@ const moment = require('moment');
 
 const pool = require('../db/pool.js');
 const dbQuery = require('../db/dbQuery');
-const {
-  hashPassword,
-  comparePassword,
-  isValidEmail,
-  validatePassword,
-  isEmpty,
-  generateUserToken,
-} = require('../utils/validation');
-
-const getListTag = async (tagValues) => {
-  
-}
+const dbUtils = require('../utils/dbutils')
 
 const getOneTag = async (tagId) => {
   const getOneTagQuery = 'SELECT * FROM tag WHERE id=$1'
@@ -24,6 +13,28 @@ const getOneTag = async (tagId) => {
       return null
     }
     return dbResponse
+  } catch (err) {
+    console.log(err)
+    return null
+  }
+}
+
+const getListTag = async (page, limit) => {
+  const skipNum = (page - 1) * limit
+  const getListTagQuery = `SELECT *, count(*) OVER() AS total_count
+    FROM tag
+    ORDER BY id ASC
+    OFFSET $1 LIMIT $2`
+  try {
+    const { rows } = await dbQuery.query(getListTagQuery, [skipNum, limit])
+    if (!rows) {
+      return null
+    }
+    const keys_value = dbUtils.getPropertyValue(rows, ['total_count'])
+    return {
+      data: rows,
+      total_count: keys_value.total_count
+    }
   } catch (err) {
     console.log(err)
     return null
@@ -71,7 +82,6 @@ const deleteTag = async (tagId) => {
   const deleteTagQuery = 'DELETE FROM tag WHERE id=$1 returning *'
   try {
     const { rows } = await dbQuery.query(deleteTagQuery, [tagId])
-    console.log(rows)
     const dbResponse = rows[0]
     if (!dbResponse) {
       return null
@@ -85,6 +95,7 @@ const deleteTag = async (tagId) => {
 
 module.exports = {
   getOneTag,
+  getListTag,
   createTag,
   updateTag,
   deleteTag
