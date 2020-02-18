@@ -12,8 +12,10 @@ const {
   isEmpty,
 } = require('../utils/validation')
 
+const createPost = async (req, res) => {
 
+}
 
 module.exports = {
-
+  createPost
 }

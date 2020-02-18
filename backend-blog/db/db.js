@@ -78,7 +78,7 @@ const createUsersTable = () => {
     avatar TEXT,
     slug TEXT,
     create_at TIMESTAMP NOT NULL,
-    credential_id INT REFERENCES credential(id) ON DELETE RESTRICT,
+    credential_id INT NOT NULL REFERENCES credential(id) ON DELETE RESTRICT,
     date_of_birth TIMESTAMP NOT NULL
   )`;
 
@@ -96,8 +96,8 @@ const createUsersTable = () => {
 const createUserRoleTable = () => {
   const createQuery = `CREATE TABLE IF NOT EXISTS
   userrole(
-    user_id INT REFERENCES users(id) ON DELETE RESTRICT,
-    role_id INT REFERENCES role(id) ON DELETE RESTRICT,
+    user_id INT NOT NULL REFERENCES users(id) ON DELETE RESTRICT,
+    role_id INT NOT NULL REFERENCES role(id) ON DELETE RESTRICT,
 
     PRIMARY KEY (user_id, role_id)
   )`;
@@ -119,7 +119,8 @@ const createCategoryTable = () => {
     id serial PRIMARY KEY NOT NULL,
     parent_id serial,
     name TEXT NOT NULL,
-    slug TEXT NOT NULL
+    slug TEXT NOT NULL,
+    user_id INT NOT NULL REFERENCES users(id) ON DELETE RESTRICT
   )`;
 
   pool.query(createQuery)
@@ -141,8 +142,8 @@ const createPostTable = () => {
     create_at TIMESTAMP NOT NULL,
     update_at TIMESTAMP NOT NULL,
     content TEXT NOT NULL,
-    user_id INT REFERENCES users(id) ON DELETE RESTRICT,
-    category_id INT REFERENCES category(id) ON DELETE RESTRICT,
+    user_id INT NOT NULL REFERENCES users(id) ON DELETE RESTRICT,
+    category_id INT NOT NULL REFERENCES category(id) ON DELETE RESTRICT,
     slug TEXT NOT NULL
   )`;
 
@@ -180,8 +181,8 @@ const createTagTable = () => {
 const createPostTagTable = () => {
   const createQuery =  `CREATE TABLE IF NOT EXISTS
   posttag(
-    post_id INT REFERENCES post(id) ON DELETE RESTRICT,
-    tag_id INT REFERENCES tag(id) ON DELETE RESTRICT,
+    post_id INT NOT NULL REFERENCES post(id) ON DELETE RESTRICT,
+    tag_id INT NOT NULL REFERENCES tag(id) ON DELETE RESTRICT,
     create_at TIMESTAMP NOT NULL,
 
     PRIMARY KEY (post_id, tag_id)
@@ -201,9 +202,9 @@ const createPostTagTable = () => {
 const createUserHistoryTable = () => {
   const createQuery =  `CREATE TABLE IF NOT EXISTS
   userhistory(
-    tag_id INT REFERENCES tag(id) ON DELETE RESTRICT,
-    user_id INT REFERENCES users(id) ON DELETE RESTRICT,
-    post_id INT REFERENCES post(id) ON DELETE RESTRICT,
+    tag_id INT NOT NULL REFERENCES tag(id) ON DELETE RESTRICT,
+    user_id INT NOT NULL REFERENCES users(id) ON DELETE RESTRICT,
+    post_id INT NOT NULL REFERENCES post(id) ON DELETE RESTRICT,
     create_at TIMESTAMP NOT NULL,
 
     PRIMARY KEY (tag_id ,user_id, post_id)
@@ -354,7 +355,7 @@ const createAllTables = () => {
   createPostTable(),
   createTagTable(),
   createPostTagTable(),
-  createUserHistoryTable(),
+  createUserHistoryTable()
   insertRoleTable()
 };
 

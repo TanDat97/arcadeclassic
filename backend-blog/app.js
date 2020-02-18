@@ -36,12 +36,14 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 
 const indexRouter = require('./routes/index')
-const tagRoute = require('./routes/admin/tagRoute')
+const categoryRouteAdmin = require('./routes/admin/categoryRoute')
+const tagRouteAdmin = require('./routes/admin/tagRoute')
 
 const usersRoute = require('./routes/user/usersRoute')
 
 app.use('/', indexRouter)
-app.use('/api', tagRoute)
+app.use('/api/admin', tagRouteAdmin)
+app.use('/api/admin', categoryRouteAdmin)
 
 app.use('/api', usersRoute)
 

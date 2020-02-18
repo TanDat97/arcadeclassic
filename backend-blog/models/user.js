@@ -30,7 +30,7 @@ const getInfoUser = async (email, user_name) => {
     WHERE email = $1 OR user_name = $2`
   try {
     const { rows } = await dbQuery.query(getUserQuery, [email, user_name]);
-    const dbResponse = dbUtils.setDataIntoOne(rows, ['role_name'])
+    const dbResponse = dbUtils.setDataIntoOneString(rows, ['role_name'])
     if (!dbResponse) {
       return null
     }

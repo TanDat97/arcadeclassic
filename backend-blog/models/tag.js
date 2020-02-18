@@ -1,7 +1,7 @@
-const moment = require('moment');
+const moment = require('moment')
 
-const pool = require('../db/pool.js');
-const dbQuery = require('../db/dbQuery');
+const pool = require('../db/pool.js')
+const dbQuery = require('../db/dbQuery')
 const dbUtils = require('../utils/dbutils')
 
 const getOneTag = async (tagId) => {
@@ -59,19 +59,17 @@ const createTag = async (tagValues) => {
   }
 }
 
-const updateTag = async (tagId, tagValues) => {
-  const findTagQuery = 'SELECT * FROM tag WHERE id=$1'
+const updateTag = async (tagValues) => {
+
   const updateTag = `UPDATE tag
         SET name=$1, update_at=$2 WHERE id=$3 returning *`
   try {
-    const { rows } = await dbQuery.query(findTagQuery, [tagId])
+    const { rows } = await dbQuery.query(updateTag, tagValues)
     const dbResponse = rows[0]
     if (!dbResponse) {
       return null
     }
-    const response = await dbQuery.query(updateTag, tagValues)
-    const dbResult = response.rows[0]
-    return dbResult
+    return dbResponse
   } catch (err) {
     console.log(err)
     return null
