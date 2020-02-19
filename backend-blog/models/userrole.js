@@ -11,7 +11,7 @@ const {
   generateUserToken,
 } = require('../utils/validation');
 
-const createUserRole = async (client, userRoleValues) => {
+const createUserRole = async (client, userRoleValues) => { // transaction
   const createUserRoleQuery = `INSERT INTO
     userrole(user_id, role_id)
     VALUES($1, $2)

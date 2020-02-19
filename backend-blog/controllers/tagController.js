@@ -102,7 +102,7 @@ const updateTag = async (req, res) => {
     tagId
   ];
   try {
-    const dbResponse = await tagModel.updateTag(tagId, tagValues)
+    const dbResponse = await tagModel.updateTag(tagValues)
     if (!dbResponse) {
       errorMessage.status = status.notfound
       errorMessage.message = 'Tag cannot be found'

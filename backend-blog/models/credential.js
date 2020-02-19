@@ -26,7 +26,7 @@ const signinRequest = async (email, user_name, password) => {
   }
 }
 
-const createCredential = async (client, credentialValues) => {
+const createCredential = async (client, credentialValues) => { // transaction
   const createCredentialQuery = `INSERT INTO
       credential(email, user_name, password, reset_token, last_reset_password)
       VALUES($1, $2, $3, $4, $5)

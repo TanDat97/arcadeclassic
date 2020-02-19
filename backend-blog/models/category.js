@@ -6,7 +6,7 @@ const dbUtils = require('../utils/dbutils')
 
 const getListRootCategory = async () => {
   const getListRootCategoryQuery = 
-  `SELECT c2.*, c1.id as root_id, c1.name as root_name , c1.slug as root_slug
+  `SELECT c2.*, c1.id as root_id, c1.name as root_name, c1.slug as root_slug
     FROM category as c1
     LEFT JOIN category as c2 ON c1.id = c2.parent_id
     WHERE c1.parent_id=0
@@ -14,7 +14,6 @@ const getListRootCategory = async () => {
   try {
     const { rows } = await dbQuery.query(getListRootCategoryQuery, [])
     const dbResponse = dbUtils.division2Level(rows, ['root_id', 'root_name', 'root_slug'])
-    console.log(dbResponse)
     if (!dbResponse) {
       return null
     }

@@ -141,10 +141,14 @@ const createPostTable = () => {
     title TEXT NOT NULL,
     create_at TIMESTAMP NOT NULL,
     update_at TIMESTAMP NOT NULL,
+    overview TEXT NOT NULL,
     content TEXT NOT NULL,
     user_id INT NOT NULL REFERENCES users(id) ON DELETE RESTRICT,
     category_id INT NOT NULL REFERENCES category(id) ON DELETE RESTRICT,
-    slug TEXT NOT NULL
+    slug TEXT,
+    is_block BOOLEAN NOT NULL,
+    enable_comment BOOLEAN NOT NULL,
+    view INT NOT NULL,
   )`;
 
   pool.query(createQuery)
@@ -347,16 +351,16 @@ const dropUserHistoryTable = () => {
  * Create All Tables
  */
 const createAllTables = () => {
-  createCredentialTable(),
-  createRoleTable(),
-  createUsersTable(),
-  createUserRoleTable(),
-  createCategoryTable(),
-  createPostTable(),
-  createTagTable(),
-  createPostTagTable(),
-  createUserHistoryTable()
-  insertRoleTable()
+  // createCredentialTable(),
+  // createRoleTable(),
+  // createUsersTable(),
+  // createUserRoleTable(),
+  // createCategoryTable(),
+  // createPostTable(),
+  // createTagTable(),
+  // createPostTagTable()
+  // createUserHistoryTable()
+  // insertRoleTable()
 };
 
 /**

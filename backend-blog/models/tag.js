@@ -60,7 +60,6 @@ const createTag = async (tagValues) => {
 }
 
 const updateTag = async (tagValues) => {
-
   const updateTag = `UPDATE tag
         SET name=$1, update_at=$2 WHERE id=$3 returning *`
   try {

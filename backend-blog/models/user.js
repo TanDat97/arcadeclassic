@@ -5,7 +5,7 @@ const dbQuery = require('../db/dbQuery')
 
 const dbUtils = require('../utils/dbutils')
 
-const createUser = async (client, userValues) => {
+const createUser = async (client, userValues) => { // transaction
   const createUserQuery = `INSERT INTO
     users(email, user_name, first_name, last_name, description, avatar, slug, create_at, credential_id, date_of_birth)
     VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)

@@ -60,7 +60,7 @@ const createCategory = async (req, res) => {
     name,
     slug
   } = req.body;
-  if (isEmpty(name) || isEmpty(slug) || parent_id < 0 ) {
+  if (isEmpty(name) || isEmpty(slug) || !parent_id || parent_id < 0) {
     errorMessage.message = 'Name, slug or parent field cannot be empty'
     return res.status(status.bad).json(errorMessage)
   }
@@ -90,7 +90,7 @@ const createCategory = async (req, res) => {
 const updateCategory = async (req, res) => {
   const { categoryId } = req.params
   const { parent_id, name, slug } = req.body
-  if (isEmpty(categoryId) || isEmpty(name) || parent_id < 0 || isEmpty(slug)) {
+  if (isEmpty(categoryId) || isEmpty(name) || !parent_id || parent_id < 0 || isEmpty(slug)) {
     errorMessage.message = 'id, name, parent, slug is invalid'
     return res.status(status.bad).json(errorMessage)
   }
