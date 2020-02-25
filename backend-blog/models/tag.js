@@ -29,11 +29,18 @@ const getListTag = async (page, limit) => {
     const { rows } = await dbQuery.query(getListTagQuery, [skipNum, limit])
     if (!rows) {
       return null
+    } else if(rows.length === 0) {
+      return {
+        data: [],
+        total_count: 0
+      }
     }
     const keys_value = dbUtils.getPropertyValue(rows, ['total_count'])
     return {
       data: rows,
-      total_count: keys_value.total_count
+      total_count: keys_value.total_count,
+      page: page,
+      limit: limit
     }
   } catch (err) {
     console.log(err)

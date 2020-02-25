@@ -42,8 +42,8 @@ const getListChildCategory = async (categoryId) => {
 
 const createCategory = async (categoryValues) => {
   const createCategoryQuery = `INSERT INTO
-      category(parent_id, name, slug, user_id)
-      VALUES($1, $2, $3, $4)
+      category(parent_id, name, slug, user_id, level)
+      VALUES($1, $2, $3, $4, $5)
       returning *`
   try {
     const { rows } = await dbQuery.query(createCategoryQuery, categoryValues)
@@ -60,7 +60,7 @@ const createCategory = async (categoryValues) => {
 
 const updateCategory = async (categoryValues) => {
   const updateCategory = `UPDATE category
-        SET parent_id=$1, name=$2, slug=$3 WHERE id=$4 returning *`
+        SET parent_id=$1, name=$2, slug=$3, level=$4 WHERE id=$5 returning *`
   try {
     const { rows } = await dbQuery.query(updateCategory, categoryValues)
     const dbResponse = rows[0]

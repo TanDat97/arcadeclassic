@@ -22,7 +22,7 @@ const getListRootCategory = async (req, res) => {
       return res.status(status.notfound).json(errorMessage)
     }
     successMessage.status = status.success
-    successMessage.data = dbResponse
+    successMessage.response = dbResponse
     return res.status(status.success).json(successMessage)
   } catch (err) {
     errorMessage.status = status.error
@@ -45,7 +45,7 @@ const getListChildCategory = async (req, res) => {
       return res.status(status.notfound).json(errorMessage)
     }
     successMessage.status = status.success
-    successMessage.data = dbResponse
+    successMessage.response = dbResponse
     return res.status(status.success).json(successMessage)
   } catch (err) {
     errorMessage.status = status.error
@@ -58,9 +58,11 @@ const createCategory = async (req, res) => {
   const {
     parent_id,
     name,
-    slug
+    slug,
+    level
   } = req.body;
-  if (isEmpty(name) || isEmpty(slug) || !parent_id || parent_id < 0) {
+  if (isEmpty(name) || isEmpty(slug) || parent_id === undefined || parent_id < 0) {
+    console.log(!parent_id)
     errorMessage.message = 'Name, slug or parent field cannot be empty'
     return res.status(status.bad).json(errorMessage)
   }
@@ -68,7 +70,8 @@ const createCategory = async (req, res) => {
     parent_id,
     name,
     slug,
-    req.userData.user_id
+    req.userData.user_id,
+    level
   ];
   try {
     const dbResponse = await categoryModel.createCategory(categoryValues)
@@ -77,7 +80,7 @@ const createCategory = async (req, res) => {
       errorMessage.message = 'Category cannot be created'
       return res.status(status.error).json(errorMessage)
     }
-    successMessage.data = dbResponse
+    successMessage.response = dbResponse
     successMessage.status = status.created
     return res.status(status.created).json(successMessage)
   } catch (err) {
@@ -89,8 +92,8 @@ const createCategory = async (req, res) => {
 
 const updateCategory = async (req, res) => {
   const { categoryId } = req.params
-  const { parent_id, name, slug } = req.body
-  if (isEmpty(categoryId) || isEmpty(name) || !parent_id || parent_id < 0 || isEmpty(slug)) {
+  const { parent_id, name, slug, level } = req.body
+  if (isEmpty(categoryId) || isEmpty(name) || parent_id === undefined || parent_id < 0 || isEmpty(slug)) {
     errorMessage.message = 'id, name, parent, slug is invalid'
     return res.status(status.bad).json(errorMessage)
   }
@@ -98,6 +101,7 @@ const updateCategory = async (req, res) => {
     parent_id,
     name,
     slug,
+    level,
     categoryId
   ];
   try {
@@ -108,7 +112,7 @@ const updateCategory = async (req, res) => {
       return res.status(status.notfound).json(errorMessage)
     }
     successMessage.status = status.success
-    successMessage.data = dbResponse
+    successMessage.response = dbResponse
     return res.status(status.success).json(successMessage)
   } catch (err) {
     errorMessage.status = status.error
@@ -131,7 +135,7 @@ const deleteCategory = async (req, res) => {
       return res.status(status.notfound).json(errorMessage)
     }
     successMessage.status = status.success
-    successMessage.data = dbResponse
+    successMessage.response = dbResponse
     return res.status(status.success).json(successMessage)
   } catch (err) {
     errorMessage.status = status.error

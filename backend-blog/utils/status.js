@@ -1,12 +1,12 @@
-const successMessage = {
+const successMessage = new Object ({
   status: 200,
   message: 'success'
-};
-const errorMessage = { 
+});
+const errorMessage = new Object ({
   status: 500,
   error_code: 0,
   message: 'error' 
-};
+});
 const status = {
   success: 200,
   error: 500,

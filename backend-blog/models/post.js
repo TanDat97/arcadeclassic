@@ -2,7 +2,7 @@ const moment = require('moment')
 
 const pool = require('../db/pool.js')
 const dbQuery = require('../db/dbQuery')
-
+const dbUtils = require('../utils/dbutils')
 
 const getOnePost = async (postId) => {
   const getOnePostQuery = `SELECT pt.*, usr.first_name, usr.last_name, usr.avatar
@@ -20,6 +20,78 @@ const getOnePost = async (postId) => {
     console.log(err)
     return null
   }
+}
+
+const getListPostByMonth = async (month, year, page, limit) => {
+  const skipNum = (page - 1) * limit
+  const getListPostQuery = `SELECT *, count(*) OVER() AS total_count
+    FROM post
+    WHERE EXTRACT(MONTH FROM create_at) = $1 AND EXTRACT(YEAR FROM create_at) = $2
+    ORDER BY create_at DESC
+    OFFSET $3 LIMIT $4`
+  try {
+    const { rows } = await dbQuery.query(getListPostQuery, [month, year, skipNum, limit])
+    if (!rows) {
+      return null
+    } else if(rows.length === 0) {
+      return {
+        data: [],
+        total_count: 0
+      }
+    }
+    const keys_value = dbUtils.getPropertyValue(rows, ['total_count'])
+    return {
+      data: rows,
+      total_count: keys_value.total_count,
+      page: page,
+      limit: limit
+    }
+  } catch (err) {
+    console.log(err)
+    return null
+  }
+}
+
+const getListPostByCategory = async (category_id ,page, limit) => {
+  const skipNum = (page - 1) * limit
+  const getListPostQuery = 
+  `SELECT *, count(*) OVER() AS total_count
+  FROM post
+  WHERE category_id = $1 OR category_id IN (
+      SELECT c1.id
+      FROM category AS c1
+      WHERE (c1.parent_id = $1 AND c1.level = 2) OR 
+            c1.parent_id IN (SELECT c2.id
+                            FROM category c2
+                            WHERE c2.parent_id = $1 AND c2.id = c1.parent_id AND c2.level=1)
+  )
+  ORDER BY create_at DESC
+  OFFSET $2 LIMIT $3`
+  try {
+    const { rows } = await dbQuery.query(getListPostQuery, [category_id, skipNum, limit])
+    if (!rows) {
+      return null
+    } else if(rows.length === 0) {
+      return {
+        data: [],
+        total_count: 0
+      }
+    }
+    const keys_value = dbUtils.getPropertyValue(rows, ['total_count'])
+    return {
+      data: rows,
+      total_count: keys_value.total_count,
+      page: page,
+      limit: limit
+    }
+  } catch (err) {
+    console.log(err)
+    return null
+  }
+}
+
+const getListPostByTag = async (tag_id ,page, limit) => {
+
 }
 
 const createPost = async (client, postValues) => { // transaction
@@ -114,6 +186,9 @@ const deletePost = async (postId) => {
 
 module.exports = {
   getOnePost,
+  getListPostByMonth,
+  getListPostByCategory,
+  getListPostByTag,
   createPost,
   changeBlockStatus,
   changeCommentStatus,

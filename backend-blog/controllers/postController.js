@@ -28,13 +28,62 @@ const getOnePost = async (req, res) => {
       return res.status(status.notfound).json(errorMessage)
     }
     successMessage.status = status.success
-    successMessage.data = dbResponse
+    successMessage.response = dbResponse
     return res.status(status.success).json(successMessage)
   } catch (err) {
     errorMessage.status = status.error
     errorMessage.message = 'Operation was not successful'
     return res.status(status.error).json(errorMessage)
   }
+}
+
+const getListPostByMonth = async (req, res) => {
+  const { month, year, page, limit} = req.body
+  try {
+    const dbResponse = await postModel.getListPostByMonth(month, year, page, limit)
+    if (!dbResponse) {
+      errorMessage.status = status.notfound
+      errorMessage.message = 'Something went wrong'
+      return res.status(status.notfound).json(errorMessage)
+    }
+    successMessage.status = status.success
+    successMessage.message = "Get list post success"
+    successMessage.response = dbResponse
+    return res.status(status.success).json(successMessage)
+  } catch (err) {
+    errorMessage.status = status.error
+    errorMessage.message = 'Operation was not successful'
+    return res.status(status.error).json(errorMessage)
+  }
+}
+
+const getListPostByCategory = async (req, res) => {
+  const {
+    category_id,
+    page,
+    limit
+  } = req.body
+  try {
+    const dbResponse = await postModel.getListPostByCategory(category_id, page, limit)
+    if (!dbResponse) {
+      errorMessage.status = status.notfound
+      errorMessage.message = 'Something went wrong'
+      return res.status(status.notfound).json(errorMessage)
+    }
+    successMessage.status = status.success
+    successMessage.message = "Get list post success"
+    successMessage.response = dbResponse
+    return res.status(status.success).json(successMessage)
+  } catch (err) {
+    errorMessage.status = status.error
+    errorMessage.message = 'Operation was not successful'
+    return res.status(status.error).json(errorMessage)
+  }
+
+}
+
+const getListPostByTag = async (req, res) => {
+
 }
 
 const createPost = async (req, res) => {
@@ -50,7 +99,7 @@ const createPost = async (req, res) => {
   const create_at = moment(new Date())
   const update_at = create_at
 
-  if (isEmpty(title) || isEmpty(overview) || isEmpty(content) || !category_id || category_id < 0 || !tag_id || tag_id < 0) {
+  if (isEmpty(title) || isEmpty(overview) || isEmpty(content) || category_id === undefined || category_id < 0 || tag_id === undefined || tag_id < 0) {
     errorMessage.status = status.bad
     errorMessage.message = 'title, overview, content, category, tag field cannot be empty'
     return res.status(status.bad).json(errorMessage);
@@ -75,7 +124,7 @@ const createPost = async (req, res) => {
         client.query("COMMIT")
         successMessage.status = status.created
         successMessage.message = 'Create post success'
-        successMessage.data = postRes
+        successMessage.response = postRes
         return res.status(status.created).json(successMessage)
       }
     }
@@ -106,7 +155,7 @@ const changeBlockStatus = async (req, res) => {
     }
     successMessage.status = status.success
     successMessage.message = 'Change block status success'
-    successMessage.data = dbResponse
+    successMessage.response = dbResponse
     return res.status(status.success).json(successMessage)
   } catch (err) {
     errorMessage.status = status.error
@@ -133,7 +182,7 @@ const changeCommentStatus = async (req, res) => {
     }
     successMessage.status = status.success
     successMessage.message = 'Change comment status success'
-    successMessage.data = dbResponse
+    successMessage.response = dbResponse
     return res.status(status.success).json(successMessage)
   } catch (err) {
     errorMessage.status = status.error
@@ -152,7 +201,7 @@ const updatePost = async (req, res) => {
     slug,
     category_id
   } = req.body
-  if (isEmpty(title) || isEmpty(overview) || isEmpty(content) || !category_id || category_id < 0) {
+  if (isEmpty(title) || isEmpty(overview) || isEmpty(content) || category_id === undefined || category_id < 0) {
     errorMessage.status = status.bad
     errorMessage.message = 'title, overview, content, category field cannot be empty'
     return res.status(status.bad).json(errorMessage);
@@ -175,7 +224,7 @@ const updatePost = async (req, res) => {
       return res.status(status.notfound).json(errorMessage)
     }
     successMessage.status = status.success
-    successMessage.data = dbResponse
+    successMessage.response = dbResponse
     return res.status(status.success).json(successMessage)
   } catch (err) {
     errorMessage.status = status.error
@@ -198,7 +247,7 @@ const deletePost = async (req, res) => {
       return res.status(status.notfound).json(errorMessage)
     }
     successMessage.status = status.success
-    successMessage.data = dbResponse
+    successMessage.response = dbResponse
     return res.status(status.success).json(successMessage)
   } catch (err) {
     errorMessage.status = status.error
@@ -209,6 +258,9 @@ const deletePost = async (req, res) => {
 
 module.exports = {
   getOnePost,
+  getListPostByMonth,
+  getListPostByCategory,
+  getListPostByTag,
   createPost,
   changeBlockStatus,
   changeCommentStatus,

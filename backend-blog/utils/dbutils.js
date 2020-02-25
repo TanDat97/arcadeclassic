@@ -38,7 +38,6 @@ const division2Level = (rows, keys) => {
       result[i].childs = [] // constructor
     }
     result[i].childs.push(e) // add object to child array
-    
   })
   return result
 }

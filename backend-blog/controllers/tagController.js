@@ -25,7 +25,7 @@ const getOneTag = async (req, res) => {
       return res.status(status.notfound).json(errorMessage)
     }
     successMessage.status = status.success
-    successMessage.data = dbResponse
+    successMessage.response = dbResponse
     return res.status(status.success).json(successMessage)
   } catch (err) {
     errorMessage.status = status.error
@@ -44,10 +44,8 @@ const getListTag = async (req, res) => {
       return res.status(status.notfound).json(errorMessage)
     }
     successMessage.status = status.success
-    successMessage.page = page
-    successMessage.limit = limit
-    successMessage.total_count = dbResponse.total_count
-    successMessage.data = dbResponse.data
+    successMessage.message = "Get list tag success"
+    successMessage.response = dbResponse
     return res.status(status.success).json(successMessage)
   } catch (err) {
     errorMessage.status = status.error
@@ -78,7 +76,7 @@ const createTag = async (req, res) => {
       errorMessage.message = 'Tag cannot be created'
       return res.status(status.error).json(errorMessage)
     }
-    successMessage.data = dbResponse
+    successMessage.response = dbResponse
     successMessage.status = status.created
     return res.status(status.created).json(successMessage)
   } catch (err) {
@@ -109,7 +107,7 @@ const updateTag = async (req, res) => {
       return res.status(status.notfound).json(errorMessage)
     }
     successMessage.status = status.success
-    successMessage.data = dbResponse
+    successMessage.response = dbResponse
     return res.status(status.success).json(successMessage)
   } catch (err) {
     errorMessage.status = status.error
@@ -132,7 +130,7 @@ const deleteTag = async (req, res) => {
       return res.status(status.notfound).json(errorMessage)
     }
     successMessage.status = status.success
-    successMessage.data = dbResponse
+    successMessage.response = dbResponse
     return res.status(status.success).json(successMessage)
   } catch (err) {
     errorMessage.status = status.error

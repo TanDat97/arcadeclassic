@@ -136,8 +136,8 @@ const signinUser = async (req, res) => {
       const token = generateUserToken(userInfo.id, userInfo.email, userInfo.user_name, userInfo.first_name, userInfo.last_name, userInfo.role_name)
       delete userInfo.role_name
       successMessage.message = 'Signin success'
-      successMessage.data = userInfo
-      successMessage.data.token = token
+      successMessage.response = userInfo
+      successMessage.response.token = token
       return res.status(status.success).json(successMessage)
     } else {
       throw new Error('cannot find user info')
@@ -159,7 +159,7 @@ const getInfoUser = async (req, res) => {
     if (userInfo != null) {
       delete userInfo.role_name
       successMessage.message = 'Get info user success'
-      successMessage.data = userInfo
+      successMessage.response = userInfo
       return res.status(status.success).json(successMessage)
     } else {
       throw new Error('cannot find user info')
@@ -193,7 +193,7 @@ const updateInfoUser = async (req, res) => {
     const userInfo = await userModel.updateInfoUser(userValues)
     if (userInfo != null) {
       successMessage.message = 'Update info user success'
-      successMessage.data = userInfo
+      successMessage.response = userInfo
       return res.status(status.success).json(successMessage)
     } else {
       throw new Error('some thing went wrong')

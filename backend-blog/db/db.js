@@ -120,7 +120,8 @@ const createCategoryTable = () => {
     parent_id serial,
     name TEXT NOT NULL,
     slug TEXT NOT NULL,
-    user_id INT NOT NULL REFERENCES users(id) ON DELETE RESTRICT
+    user_id INT NOT NULL REFERENCES users(id) ON DELETE RESTRICT,
+    level INT NOL NULL
   )`;
 
   pool.query(createQuery)
