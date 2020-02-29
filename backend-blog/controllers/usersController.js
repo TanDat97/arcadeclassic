@@ -33,12 +33,12 @@ const createUser = async (req, res) => {
     last_name,
     password,
     description,
-    slug,
+    user_slug,
     avatar,
     date_of_birth
   } = req.body;
   description = description ? description : ''
-  slug = slug ? slug : ''
+  user_slug = user_slug ? user_slug : ''
   avatar = avatar ? avatar : ''
   const create_at = moment(new Date())
   if (isEmpty(user_name)) {
@@ -71,15 +71,15 @@ const createUser = async (req, res) => {
         res.status(status.error).json(errorMessage)
         return dbQuery.rollback(client)
       } else {
-        const credential_id = credentialRes.id
-        const userValues = [email, user_name, first_name, last_name, description, avatar, slug, create_at, credential_id, date_of_birth];
+        const credential_id = credentialRes.credential_id
+        const userValues = [email, user_name, first_name, last_name, description, avatar, user_slug, create_at, credential_id, date_of_birth];
         const userRes = await userModel.createUser(client, userValues)
         if(userRes == null) {
           errorMessage.message = 'Operation was not successful'
           res.status(status.error).json(errorMessage)
           return dbQuery.rollback(client)
         } else {
-          const user_id = userRes.id
+          const user_id = userRes.user_id
           const userRoleValues = [user_id, 1]
           const userRoleRes = await userRoleModel.createUserRole(client, userRoleValues)
           if (userRoleRes == null) {
@@ -90,11 +90,13 @@ const createUser = async (req, res) => {
             client.query("COMMIT")
             successMessage.status = status.created
             successMessage.message = 'Sign up success'
+            successMessage.response = {}
             return res.status(status.created).json(successMessage)
           }
         }
       }
     } catch (err) {
+      errorMessage.status = status.error;
       errorMessage.message = 'Operation was not successful'
       return res.status(status.error).json(errorMessage)
     }
@@ -133,7 +135,7 @@ const signinUser = async (req, res) => {
     }
     const userInfo = await userModel.getInfoUser(email, user_name)
     if (userInfo != null) {
-      const token = generateUserToken(userInfo.id, userInfo.email, userInfo.user_name, userInfo.first_name, userInfo.last_name, userInfo.role_name)
+      const token = generateUserToken(userInfo.user_id, userInfo.email, userInfo.user_name, userInfo.first_name, userInfo.last_name, userInfo.role_name)
       delete userInfo.role_name
       successMessage.message = 'Signin success'
       successMessage.response = userInfo
@@ -144,6 +146,7 @@ const signinUser = async (req, res) => {
     }
   } catch (err) {
     console.log(err)
+    errorMessage.status = status.error;
     errorMessage.message = 'Operation was not successful'
     return res.status(status.error).json(errorMessage)
   }
@@ -166,6 +169,7 @@ const getInfoUser = async (req, res) => {
     }
   } catch (err) {
     console.log(err)
+    errorMessage.status = status.error;
     errorMessage.message = 'Operation was not successful'
     return res.status(status.error).json(errorMessage)
   }
@@ -176,12 +180,12 @@ const updateInfoUser = async (req, res) => {
     first_name,
     last_name,
     description,
-    slug,
+    user_slug,
     avatar,
     date_of_birth
   } = req.body;
   description = description ? description : ''
-  slug = slug ? slug : ''
+  user_slug = user_slug ? user_slug : ''
   avatar = avatar ? avatar : ''
   if (isEmpty(first_name) || isEmpty(last_name) || isEmpty(date_of_birth)) {
     errorMessage.status = status.bad
@@ -189,7 +193,7 @@ const updateInfoUser = async (req, res) => {
     return res.status(status.bad).json(errorMessage)
   }
   try {
-    const userValues = [first_name, last_name, description, slug, avatar, date_of_birth, req.userData.user_id]
+    const userValues = [first_name, last_name, description, user_slug, avatar, date_of_birth, req.userData.user_id]
     const userInfo = await userModel.updateInfoUser(userValues)
     if (userInfo != null) {
       successMessage.message = 'Update info user success'
@@ -200,6 +204,7 @@ const updateInfoUser = async (req, res) => {
     }
   } catch (err) {
     console.log(err)
+    errorMessage.status = status.error;
     errorMessage.message = 'Operation was not successful'
     return res.status(status.error).json(errorMessage)
   }

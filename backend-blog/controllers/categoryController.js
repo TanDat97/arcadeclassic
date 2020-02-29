@@ -57,19 +57,19 @@ const getListChildCategory = async (req, res) => {
 const createCategory = async (req, res) => {
   const {
     parent_id,
-    name,
-    slug,
+    category_name,
+    category_slug,
     level
   } = req.body;
-  if (isEmpty(name) || isEmpty(slug) || parent_id === undefined || parent_id < 0) {
+  if (isEmpty(category_name) || isEmpty(category_slug) || parent_id === undefined || parent_id < 0) {
     console.log(!parent_id)
     errorMessage.message = 'Name, slug or parent field cannot be empty'
     return res.status(status.bad).json(errorMessage)
   }
   const categoryValues = [
     parent_id,
-    name,
-    slug,
+    category_name,
+    category_slug,
     req.userData.user_id,
     level
   ];
@@ -92,15 +92,15 @@ const createCategory = async (req, res) => {
 
 const updateCategory = async (req, res) => {
   const { categoryId } = req.params
-  const { parent_id, name, slug, level } = req.body
-  if (isEmpty(categoryId) || isEmpty(name) || parent_id === undefined || parent_id < 0 || isEmpty(slug)) {
-    errorMessage.message = 'id, name, parent, slug is invalid'
+  const { parent_id, category_name, category_slug, level } = req.body
+  if (isEmpty(categoryId) || isEmpty(category_name) || parent_id === undefined || parent_id < 0 || isEmpty(category_slug)) {
+    errorMessage.message = 'id, category_name, parent, category_slug is invalid'
     return res.status(status.bad).json(errorMessage)
   }
   const categoryValues = [
     parent_id,
-    name,
-    slug,
+    category_name,
+    category_slug,
     level,
     categoryId
   ];

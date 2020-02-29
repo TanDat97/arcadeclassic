@@ -6,11 +6,11 @@ const dbUtils = require('../utils/dbutils')
 
 const getListRootCategory = async () => {
   const getListRootCategoryQuery = 
-  `SELECT c2.*, c1.id as root_id, c1.name as root_name, c1.slug as root_slug
+  `SELECT c2.*, c1.category_id as root_id, c1.category_name as root_name, c1.category_slug as root_slug
     FROM category as c1
-    LEFT JOIN category as c2 ON c1.id = c2.parent_id
+    LEFT JOIN category as c2 ON c1.category_id = c2.parent_id
     WHERE c1.parent_id=0
-    ORDER BY c1.id`
+    ORDER BY c1.category_id`
   try {
     const { rows } = await dbQuery.query(getListRootCategoryQuery, [])
     const dbResponse = dbUtils.division2Level(rows, ['root_id', 'root_name', 'root_slug'])
@@ -42,7 +42,7 @@ const getListChildCategory = async (categoryId) => {
 
 const createCategory = async (categoryValues) => {
   const createCategoryQuery = `INSERT INTO
-      category(parent_id, name, slug, user_id, level)
+      category(parent_id, category_name, category_slug, user_id, level)
       VALUES($1, $2, $3, $4, $5)
       returning *`
   try {
@@ -60,7 +60,7 @@ const createCategory = async (categoryValues) => {
 
 const updateCategory = async (categoryValues) => {
   const updateCategory = `UPDATE category
-        SET parent_id=$1, name=$2, slug=$3, level=$4 WHERE id=$5 returning *`
+        SET parent_id=$1, category_name=$2, category_slug=$3, level=$4 WHERE category_id=$5 returning *`
   try {
     const { rows } = await dbQuery.query(updateCategory, categoryValues)
     const dbResponse = rows[0]
@@ -75,7 +75,7 @@ const updateCategory = async (categoryValues) => {
 }
 
 const deleteCategory = async (categoryId) => {
-  const deleteCategoryQuery = 'DELETE FROM category WHERE id=$1 returning *'
+  const deleteCategoryQuery = 'DELETE FROM category WHERE category_id=$1 returning *'
   try {
     const { rows } = await dbQuery.query(deleteCategoryQuery, [categoryId])
     const dbResponse = rows[0]

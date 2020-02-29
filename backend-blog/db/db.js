@@ -15,7 +15,7 @@ pool.on('remove', () => {
 const createCredentialTable = () => {
   const createQuery = `CREATE TABLE IF NOT EXISTS
   credential(
-    id serial PRIMARY KEY NOT NULL,
+    credential_id serial PRIMARY KEY NOT NULL,
     email VARCHAR(128) UNIQUE NOT NULL,
     user_name VARCHAR(128) UNIQUE NOT NULL,
     password TEXT NOT NULL,
@@ -37,8 +37,8 @@ const createCredentialTable = () => {
 const createRoleTable = () => {
   const createQuery = `CREATE TABLE IF NOT EXISTS
   role(
-    id serial PRIMARY KEY NOT NULL,
-    name TEXT NOT NULL
+    role_id serial PRIMARY KEY NOT NULL,
+    role_name TEXT NOT NULL
   )`;
 
   pool.query(createQuery)
@@ -53,7 +53,7 @@ const createRoleTable = () => {
 }
 
 const insertRoleTable = () => {
-  const createQuery = `INSERT INTO role(id, name) VALUES (1,'USER_ROLE'), (2, 'ADMIN_ROLE')`;
+  const createQuery = `INSERT INTO role(role_id, role_name) VALUES (1,'USER_ROLE'), (2, 'ADMIN_ROLE')`;
 
   pool.query(createQuery)
     .then((res) => {
@@ -69,14 +69,14 @@ const insertRoleTable = () => {
 const createUsersTable = () => {
   const createQuery = `CREATE TABLE IF NOT EXISTS
   users(
-    id serial PRIMARY KEY NOT NULL,
+    user_id serial PRIMARY KEY NOT NULL,
     email VARCHAR(128) UNIQUE NOT NULL,
     user_name VARCHAR(128) UNIQUE NOT NULL,
     first_name VARCHAR(128) NOT NULL,
     last_name VARCHAR(128) NOT NULL,
     description TEXT,
     avatar TEXT,
-    slug TEXT,
+    user_slug TEXT,
     create_at TIMESTAMP NOT NULL,
     credential_id INT NOT NULL REFERENCES credential(id) ON DELETE RESTRICT,
     date_of_birth TIMESTAMP NOT NULL
@@ -116,10 +116,10 @@ const createUserRoleTable = () => {
 const createCategoryTable = () => {
   const createQuery = `CREATE TABLE IF NOT EXISTS
   category(
-    id serial PRIMARY KEY NOT NULL,
+    category_id serial PRIMARY KEY NOT NULL,
     parent_id serial,
-    name TEXT NOT NULL,
-    slug TEXT NOT NULL,
+    category_name TEXT NOT NULL,
+    cateogry_slug TEXT NOT NULL,
     user_id INT NOT NULL REFERENCES users(id) ON DELETE RESTRICT,
     level INT NOL NULL
   )`;
@@ -138,7 +138,7 @@ const createCategoryTable = () => {
 const createPostTable = () => {
   const createQuery = `CREATE TABLE IF NOT EXISTS
   post(
-    id serial PRIMARY KEY NOT NULL,
+    post_id serial PRIMARY KEY NOT NULL,
     title TEXT NOT NULL,
     create_at TIMESTAMP NOT NULL,
     update_at TIMESTAMP NOT NULL,
@@ -146,7 +146,9 @@ const createPostTable = () => {
     content TEXT NOT NULL,
     user_id INT NOT NULL REFERENCES users(id) ON DELETE RESTRICT,
     category_id INT NOT NULL REFERENCES category(id) ON DELETE RESTRICT,
-    slug TEXT,
+    post_slug TEXT,
+    admin_id INT REFERENCES users(id) ON DELETE RESTRICT,
+    verify INT NOT NULL,
     is_block BOOLEAN NOT NULL,
     enable_comment BOOLEAN NOT NULL,
     view INT NOT NULL,
@@ -166,8 +168,8 @@ const createPostTable = () => {
 const createTagTable = () => {
   const createQuery = `CREATE TABLE IF NOT EXISTS
   tag(
-    id serial PRIMARY KEY NOT NULL,
-    name TEXT NOT NULL,
+    tag_id serial PRIMARY KEY NOT NULL,
+    tag_name TEXT NOT NULL,
     create_at TIMESTAMP NOT NULL,
     update_at TIMESTAMP NOT NULL
   )`;

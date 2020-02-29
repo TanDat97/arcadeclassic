@@ -10,12 +10,13 @@ const {
   status
 } = require('../utils/status');
 const {
-  isValidEmail,
   isEmpty,
 } = require('../utils/validation')
 
 const getOnePost = async (req, res) => {
-  const { postId } = req.params
+  const {
+    postId
+  } = req.params
   if (isEmpty(postId)) {
     errorMessage.message = 'id is invalid'
     return res.status(status.bad).json(errorMessage)
@@ -38,9 +39,43 @@ const getOnePost = async (req, res) => {
 }
 
 const getListPostByMonth = async (req, res) => {
-  const { month, year, page, limit} = req.body
+  const {
+    order,
+    sort,
+    month,
+    year,
+    page,
+    limit
+  } = req.body
+  let order_by
+  switch (order) {
+    case 'title':
+      order_by = 'title';
+      break;
+    case 'create':
+      order_by = 'create_at';
+      break;
+    case 'update':
+      order_by = 'update_at';
+      break;
+    default:
+      order_by = 'title';
+      break;
+  }
+  let sort_by
+  switch (sort) {
+    case 'ascending':
+      sort_by = 'ASC';
+      break;
+    case 'decrease':
+      sort_by = 'DESC';
+      break;
+    default:
+      sort_by = 'ASC';
+      break;
+  }
   try {
-    const dbResponse = await postModel.getListPostByMonth(month, year, page, limit)
+    const dbResponse = await postModel.getListPostByMonth(order_by, sort_by, month, year, page, limit)
     if (!dbResponse) {
       errorMessage.status = status.notfound
       errorMessage.message = 'Something went wrong'
@@ -61,10 +96,39 @@ const getListPostByCategory = async (req, res) => {
   const {
     category_id,
     page,
-    limit
+    limit,
+    order,
+    sort
   } = req.body
+  let order_by
+  switch (order) {
+    case 'title':
+      order_by = 'title';
+      break;
+    case 'create':
+      order_by = 'create_at';
+      break;
+    case 'update':
+      order_by = 'update_at';
+      break;
+    default:
+      order_by = 'title';
+      break;
+  }
+  let sort_by
+  switch (sort) {
+    case 'ascending':
+      sort_by = 'ASC';
+      break;
+    case 'decrease':
+      sort_by = 'DESC';
+      break;
+    default:
+      sort_by = 'ASC';
+      break;
+  }
   try {
-    const dbResponse = await postModel.getListPostByCategory(category_id, page, limit)
+    const dbResponse = await postModel.getListPostByCategory(order_by, sort_by, category_id, page, limit)
     if (!dbResponse) {
       errorMessage.status = status.notfound
       errorMessage.message = 'Something went wrong'
@@ -86,16 +150,76 @@ const getListPostByTag = async (req, res) => {
 
 }
 
+const getListPostFilter = async (req, res) => {
+  const {
+    order,
+    sort,
+    category_id,
+    create_date_start,
+    create_date_end,
+    update_date_start,
+    update_date_end,
+    block_status,
+    comment_status,
+    verify_status,
+    page,
+    limit
+  } = req.body
+  let order_by
+  switch (order) {
+    case 'title':
+      order_by = 'title';
+      break;
+    case 'create':
+      order_by = 'create_at';
+      break;
+    case 'update':
+      order_by = 'update_at';
+      break;
+    default:
+      order_by = 'title';
+      break;
+  }
+  let sort_by
+  switch (sort) {
+    case 'ascending':
+      sort_by = 'ASC';
+      break;
+    case 'decrease':
+      sort_by = 'DESC';
+      break;
+    default:
+      sort_by = 'ASC';
+      break;
+  }
+  try {
+    const dbResponse = await postModel.getListPostFilter(order_by, sort_by, category_id, page, limit)
+    if (!dbResponse) {
+      errorMessage.status = status.notfound
+      errorMessage.message = 'Something went wrong'
+      return res.status(status.notfound).json(errorMessage)
+    }
+    successMessage.status = status.success
+    successMessage.message = "Get list post with filter success"
+    successMessage.response = dbResponse
+    return res.status(status.success).json(successMessage)
+  } catch (err) {
+    errorMessage.status = status.error
+    errorMessage.message = 'Operation was not successful'
+    return res.status(status.error).json(errorMessage)
+  }
+}
+
 const createPost = async (req, res) => {
   let {
     title,
     overview,
     content,
-    slug,
+    post_slug,
     category_id,
     tag_id
   } = req.body;
-  slug = slug ? slug : ''
+  post_slug = post_slug ? post_slug : ''
   const create_at = moment(new Date())
   const update_at = create_at
 
@@ -106,14 +230,14 @@ const createPost = async (req, res) => {
   }
   const client = await dbQuery.clientConnect(pool)
   try {
-    const postValues = [title, create_at, update_at, overview, content, req.userData.user_id, category_id, slug, false, true, 0]
+    const postValues = [title, create_at, update_at, overview, content, req.userData.user_id, category_id, post_slug, 0, false, false, true, 0]
     const postRes = await postModel.createPost(client, postValues)
     if (postRes == null) {
       errorMessage.message = 'Operation was not successful'
       res.status(status.error).json(errorMessage)
       return dbQuery.rollback(client)
     } else {
-      const post_id = postRes.id
+      const post_id = postRes.post_id
       const postTagValues = [post_id, tag_id, create_at]
       const postTagRes = await postTagModel.createPostTag(client, postTagValues)
       if (postTagRes == null) {
@@ -138,14 +262,21 @@ const createPost = async (req, res) => {
 }
 
 const changeBlockStatus = async (req, res) => {
-  const { postId } = req.params
-  const { is_block } = req.body
+  const {
+    postId
+  } = req.params
+  const {
+    user_id
+  } = req.userData
+  const {
+    is_block
+  } = req.body
   if (isEmpty(postId) || is_block === null || is_block === undefined) {
     errorMessage.message = 'id is invalid'
     return res.status(status.bad).json(errorMessage)
   }
   const update_at = moment(new Date())
-  const postValues = [is_block, update_at, postId];
+  const postValues = [is_block, update_at, user_id, postId];
   try {
     const dbResponse = await postModel.changeBlockStatus(postValues)
     if (!dbResponse) {
@@ -165,14 +296,21 @@ const changeBlockStatus = async (req, res) => {
 }
 
 const changeCommentStatus = async (req, res) => {
-  const { postId } = req.params
-  const { enable_comment } = req.body
+  const {
+    postId
+  } = req.params
+  const {
+    user_id
+  } = req.userData
+  const {
+    enable_comment
+  } = req.body
   if (isEmpty(postId) || enable_comment === null || enable_comment === undefined) {
     errorMessage.message = 'id is invalid'
     return res.status(status.bad).json(errorMessage)
   }
   const update_at = moment(new Date())
-  const postValues = [enable_comment, update_at, postId];
+  const postValues = [enable_comment, update_at, user_id, postId];
   try {
     const dbResponse = await postModel.changeCommentStatus(postValues)
     if (!dbResponse) {
@@ -191,14 +329,49 @@ const changeCommentStatus = async (req, res) => {
   }
 }
 
+const changeVerify = async (req, res) => {
+  const {
+    postId
+  } = req.params
+  const {
+    user_id
+  } = req.userData
+  const {
+    verify
+  } = req.body
+  if (isEmpty(postId) || verify === null || verify === undefined) {
+    errorMessage.message = 'variable is invalid'
+    return res.status(status.bad).json(errorMessage)
+  }
+  const update_at = moment(new Date())
+  const postValues = [verify, update_at, user_id, postId];
+  try {
+    const dbResponse = await postModel.changeVerify(postValues)
+    if (!dbResponse) {
+      errorMessage.status = status.notfound
+      errorMessage.message = 'Post cannot be found'
+      return res.status(status.notfound).json(errorMessage)
+    }
+    successMessage.status = status.success
+    successMessage.message = 'Change verify status success'
+    successMessage.response = dbResponse
+    return res.status(status.success).json(successMessage)
+  } catch (err) {
+    errorMessage.status = status.error
+    errorMessage.message = 'Operation was not successful'
+    return res.status(status.error).json(errorMessage)
+  }
+}
 
 const updatePost = async (req, res) => {
-  const { postId } = req.params
-  const { 
+  const {
+    postId
+  } = req.params
+  const {
     title,
     overview,
     content,
-    slug,
+    post_slug,
     category_id
   } = req.body
   if (isEmpty(title) || isEmpty(overview) || isEmpty(content) || category_id === undefined || category_id < 0) {
@@ -213,7 +386,7 @@ const updatePost = async (req, res) => {
     overview,
     content,
     category_id,
-    slug,
+    post_slug,
     postId
   ];
   try {
@@ -234,7 +407,9 @@ const updatePost = async (req, res) => {
 }
 
 const deletePost = async (req, res) => {
-  const { postId } = req.params
+  const {
+    postId
+  } = req.params
   if (isEmpty(postId)) {
     errorMessage.message = 'id is invalid'
     return res.status(status.bad).json(errorMessage)
@@ -261,9 +436,11 @@ module.exports = {
   getListPostByMonth,
   getListPostByCategory,
   getListPostByTag,
+  getListPostFilter,
   createPost,
   changeBlockStatus,
   changeCommentStatus,
+  changeVerify,
   updatePost,
   deletePost
 }

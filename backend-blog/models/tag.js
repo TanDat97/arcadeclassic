@@ -5,7 +5,7 @@ const dbQuery = require('../db/dbQuery')
 const dbUtils = require('../utils/dbutils')
 
 const getOneTag = async (tagId) => {
-  const getOneTagQuery = 'SELECT * FROM tag WHERE id=$1'
+  const getOneTagQuery = 'SELECT * FROM tag WHERE tag_id=$1'
   try {
     const { rows } = await dbQuery.query(getOneTagQuery, [tagId])
     const dbResponse = rows[0]
@@ -19,11 +19,11 @@ const getOneTag = async (tagId) => {
   }
 }
 
-const getListTag = async (page, limit) => {
+const getListTag = async (order_by, sort_by, page, limit) => {
   const skipNum = (page - 1) * limit
   const getListTagQuery = `SELECT *, count(*) OVER() AS total_count
     FROM tag
-    ORDER BY id ASC
+    ORDER BY ` + order_by + ` ${sort_by}
     OFFSET $1 LIMIT $2`
   try {
     const { rows } = await dbQuery.query(getListTagQuery, [skipNum, limit])
@@ -32,7 +32,9 @@ const getListTag = async (page, limit) => {
     } else if(rows.length === 0) {
       return {
         data: [],
-        total_count: 0
+        message: 'no data',
+        page: page,
+        limit: limit
       }
     }
     const keys_value = dbUtils.getPropertyValue(rows, ['total_count'])
@@ -68,7 +70,7 @@ const createTag = async (tagValues) => {
 
 const updateTag = async (tagValues) => {
   const updateTag = `UPDATE tag
-        SET name=$1, update_at=$2 WHERE id=$3 returning *`
+        SET tag_name=$1, update_at=$2 WHERE tag_id=$3 returning *`
   try {
     const { rows } = await dbQuery.query(updateTag, tagValues)
     const dbResponse = rows[0]
@@ -83,7 +85,7 @@ const updateTag = async (tagValues) => {
 }
 
 const deleteTag = async (tagId) => {
-  const deleteTagQuery = 'DELETE FROM tag WHERE id=$1 returning *'
+  const deleteTagQuery = 'DELETE FROM tag WHERE tag_id=$1 returning *'
   try {
     const { rows } = await dbQuery.query(deleteTagQuery, [tagId])
     const dbResponse = rows[0]

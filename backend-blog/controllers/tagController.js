@@ -35,9 +35,36 @@ const getOneTag = async (req, res) => {
 }
 
 const getListTag = async (req, res) => {
-  const { page, limit } = req.query
+  const { order, sort, page, limit } = req.query
+  let order_by
+  switch (order) {
+    case 'name':
+      order_by = 'name';
+      break;
+    case 'create':
+      order_by = 'create_at';
+      break;
+    case 'update':
+      order_by = 'update_at';
+      break;
+    default:
+      order_by = 'name';
+      break;
+  }
+  let sort_by
+  switch (sort) {
+    case 'ascending':
+      sort_by = 'ASC';
+      break;
+    case 'decrease':
+      sort_by = 'DESC';
+      break;
+    default:
+      sort_by = 'ASC';
+      break;
+  }
   try {
-    const dbResponse = await tagModel.getListTag(page, limit)
+    const dbResponse = await tagModel.getListTag(order_by, sort_by, page, limit)
     if (!dbResponse) {
       errorMessage.status = status.notfound
       errorMessage.message = 'Something went wrong'
@@ -88,14 +115,14 @@ const createTag = async (req, res) => {
 
 const updateTag = async (req, res) => {
   const { tagId } = req.params
-  const { name } = req.body
-  if (isEmpty(tagId) || isEmpty(name)) {
+  const { tag_name } = req.body
+  if (isEmpty(tagId) || isEmpty(tag_name)) {
     errorMessage.message = 'id or name is invalid'
     return res.status(status.bad).json(errorMessage)
   }
   const update_at = moment(new Date())
   const tagValues = [
-    name,
+    tag_name,
     update_at,
     tagId
   ];
