@@ -105,8 +105,17 @@ const getListPostByTag = async (order_by, sort_by, tag_id, page, limit) => {
 
 }
 
-const getListPostFilter = async (order_by, sort_by, category_id, page, limit) => {
+const getListPostFilter = async (order_by, sort_by, category_id, create_at, update_at, is_block, enable_comment, verify, page, limit) => {
   const skipNum = (page - 1) * limit
+  const variables_list = {
+    category_id,
+    create_at,
+    update_at,
+    is_block,
+    enable_comment,
+    verify
+  }
+  const queryWhere = dbUtils.makeQueryFilter(variables_list)
   const getListPostQuery =
     `SELECT *, count(*) OVER() AS total_count
     FROM post

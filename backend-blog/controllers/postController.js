@@ -155,13 +155,11 @@ const getListPostFilter = async (req, res) => {
     order,
     sort,
     category_id,
-    create_date_start,
-    create_date_end,
-    update_date_start,
-    update_date_end,
-    block_status,
-    comment_status,
-    verify_status,
+    create_at,
+    update_at,
+    is_block,
+    enable_comment,
+    verify,
     page,
     limit
   } = req.body
@@ -193,7 +191,7 @@ const getListPostFilter = async (req, res) => {
       break;
   }
   try {
-    const dbResponse = await postModel.getListPostFilter(order_by, sort_by, category_id, page, limit)
+    const dbResponse = await postModel.getListPostFilter(order_by, sort_by, category_id, create_at, update_at, is_block, enable_comment, verify, page, limit)
     if (!dbResponse) {
       errorMessage.status = status.notfound
       errorMessage.message = 'Something went wrong'

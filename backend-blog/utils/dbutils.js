@@ -1,3 +1,6 @@
+const utils = require('./utils')
+const dateUtils = require('./dateUtils')
+
 const setDataIntoOneString = (rows, keys) => {
   var result = rows[0]
   for(let i = 1; i < rows.length; i++) {
@@ -42,9 +45,34 @@ const division2Level = (rows, keys) => {
   return result
 }
 
+const makeQueryFilter = (variables) => {
+  let result = {
+    query: 'WHERE ',
+    values: []
+  }
+  let count = 1
+  try{
+    for(key in variables) {
+      if(variables[key] !== null && variables !== undefined) {
+        if(utils.isObject(variables[key]) && variables[key]['start'] && variables[key]['end']) {
+          const start = dateUtils.changeDate(variables[key].start, dateUtils.DDMMYYY, dateUtils.YYYYMMDD)
+          const end = dateUtils.changeDate(variables[key].end, dateUtils.DDMMYYY, dateUtils.YYYYMMDD)
+          result.query += key + ` BETWEEN $${count++} AND $${count++} AND`
+          result.values[count - 3] = start ? start : variables[key]['start']
+          result.values[count - 2] = end ? end : variables[key]['end']
+        }
+      }
+      console.log(result)
+    }
+  } catch (err) {
+    console.log(err)
+  }
+  
+}
 
 module.exports = {
   setDataIntoOneString,
   getPropertyValue,
-  division2Level
+  division2Level,
+  makeQueryFilter
 }
