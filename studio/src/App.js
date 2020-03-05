@@ -1,19 +1,22 @@
 import React from 'react'
-import { Switch, Route, withRouter } from 'react-router-dom'
-
-import './styles/App.css'
-import './styles/fontawesomefree5.11.2/css/all.css'
+import { Router, Switch, Route, withRouter } from 'react-router-dom'
+import { createBrowserHistory } from "history"
 
 import Dashboard from './components/Dashboard'
-import MyPage from './components/account/MyPage'
+import AdminDashboard from './layout/admin/AdminDashboard'
+import './styles/App.css'
+
+const hist = createBrowserHistory();
 
 function App() {
   return (
     <div className="App">
-      <Switch>
-        <Route exact path="/" component={Dashboard} />
-        <Route exact path="/mypage" component={MyPage} />
-      </Switch>
+      <Router history={hist}>
+        <Switch>
+          <Route exact path="/" component={Dashboard} />
+          <Route exact path="/admin" component={AdminDashboard} />
+        </Switch>
+      </Router>
     </div>
   )
 }

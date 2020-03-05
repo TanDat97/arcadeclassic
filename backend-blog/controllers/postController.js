@@ -71,7 +71,7 @@ const getListPostByMonth = async (req, res) => {
       sort_by = 'DESC';
       break;
     default:
-      sort_by = 'ASC';
+      sort_by = 'DESC';
       break;
   }
   try {
@@ -124,7 +124,7 @@ const getListPostByCategory = async (req, res) => {
       sort_by = 'DESC';
       break;
     default:
-      sort_by = 'ASC';
+      sort_by = 'DESC';
       break;
   }
   try {
@@ -187,7 +187,7 @@ const getListPostFilter = async (req, res) => {
       sort_by = 'DESC';
       break;
     default:
-      sort_by = 'ASC';
+      sort_by = 'DESC';
       break;
   }
   try {

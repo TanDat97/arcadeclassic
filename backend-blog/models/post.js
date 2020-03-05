@@ -115,17 +115,19 @@ const getListPostFilter = async (order_by, sort_by, category_id, create_at, upda
     enable_comment,
     verify
   }
-  const queryWhere = dbUtils.makeQueryFilter(variables_list)
+  const resultQuery = dbUtils.makeQueryFilter(variables_list)
+  resultQuery.values.push(skipNum)
+  resultQuery.values.push(limit)
   const getListPostQuery =
     `SELECT *, count(*) OVER() AS total_count
-    FROM post
-    WHERE ${category_id !== 0 ? ' category_id = $1 ' : ' '}
+    FROM post 
+    ${resultQuery.query}
     ORDER BY ` + order_by + ` ${sort_by}
-    OFFSET $2 LIMIT $3`
+    OFFSET $${resultQuery.count++} LIMIT $${resultQuery.count++}`
   try {
     const {
       rows
-    } = await dbQuery.query(getListPostQuery, [category_id, skipNum, limit])
+    } = await dbQuery.query(getListPostQuery, resultQuery.values)
     if (!rows) {
       return null
     } else if (rows.length === 0) {
