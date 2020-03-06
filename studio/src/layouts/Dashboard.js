@@ -2,7 +2,6 @@ import React from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 
-import Header from './Header'
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -14,9 +13,7 @@ class Dashboard extends React.Component {
   render() {
     return (
       <div>
-        <div className="main_content_wrapper">
-          <Header/>
-        </div>
+        Dashboard      
       </div>
     )
   }
