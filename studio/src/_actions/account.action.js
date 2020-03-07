@@ -4,7 +4,7 @@
  *
  */
 
-import { accountConstants } from '../constants'
+import { accountConstants } from '../_constants'
 
 export const accountAction = {
   defaultAction,
@@ -39,6 +39,7 @@ function userLoginSuccess() {
 
 function userLoginFail() {
   window.localStorage.removeItem('studio/token');
+  window.localStorage.removeItem('studio/scope');
   return {
     type: accountConstants.LOGIN_FAILURE,
   }
@@ -46,6 +47,7 @@ function userLoginFail() {
 
 function userLogout() {
   window.localStorage.removeItem('studio/token');
+  window.localStorage.removeItem('studio/scope');
   return {
     type: accountConstants.LOGOUT,
   }

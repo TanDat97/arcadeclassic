@@ -1,5 +1,6 @@
 import React from "react";
 import classNames from "classnames";
+import { useHistory } from "react-router-dom";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -16,14 +17,15 @@ import Notifications from "@material-ui/icons/Notifications";
 import Dashboard from "@material-ui/icons/Dashboard";
 import Search from "@material-ui/icons/Search";
 // core components
-import CustomInput from "components/common/CustomInput/CustomInput.js";
-import Button from "components/common/CustomButtons/Button.js";
+import CustomInput from "components/common/CustomInput/CustomInput";
+import Button from "components/common/CustomButtons/Button";
 
-import styles from "assets/jss/material-dashboard-react/components/headerLinksStyle.js";
+import styles from "assets/jss/material-dashboard-react/components/headerLinksStyle";
 
 const useStyles = makeStyles(styles);
 
 export default function AdminNavbarLinks() {
+  const history = useHistory();
   const classes = useStyles();
   const [openNotification, setOpenNotification] = React.useState(null);
   const [openProfile, setOpenProfile] = React.useState(null);
@@ -47,6 +49,9 @@ export default function AdminNavbarLinks() {
   const handleCloseProfile = () => {
     setOpenProfile(null);
   };
+  const gotoLogin = () => {
+    history.push('/signin/admin')
+  }
   return (
     <div>
       <div className={classes.searchWrapper}>
@@ -207,7 +212,7 @@ export default function AdminNavbarLinks() {
                     </MenuItem>
                     <Divider light />
                     <MenuItem
-                      onClick={handleCloseProfile}
+                      onClick={gotoLogin}
                       className={classes.dropdownItem}
                     >
                       Logout

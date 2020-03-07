@@ -6,14 +6,15 @@ import "perfect-scrollbar/css/perfect-scrollbar.css"
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles"
 // core components
-import Navbar from "components/common/Navbars/Navbar.js"
-import Sidebar from "components/common/Sidebar/Sidebar.js"
-import Footer from "components/common/Footer/Footer.js"
-import FixedPlugin from "components/common/FixedPlugin/FixedPlugin.js"
+import Navbar from "components/common/Navbars/Navbar"
+import Sidebar from "components/common/Sidebar/Sidebar"
+import Footer from "components/common/Footer/Footer"
+import FixedPlugin from "components/common/FixedPlugin/FixedPlugin"
+import Admin404 from "views/admin/Admin404";
 
-import routes from "./routes.js";
+import routes from "./routes";
 
-import styles from "assets/jss/material-dashboard-react/layouts/adminStyle.js"
+import styles from "assets/jss/material-dashboard-react/layouts/adminStyle"
 import bgImage from "assets/img/sidebar-2.jpg"
 import logo from "assets/img/reactlogo.png"
 
@@ -33,6 +34,7 @@ const switchRoutes = (
       }
       return null;
     })}
+    <Route path="/admin/*" component={Admin404} />
     <Redirect from="/admin" to="/admin/dashboard" />
   </Switch>
 );
@@ -47,7 +49,7 @@ export default function Admin({ ...rest }) {
   // states and functions
   const [image, setImage] = React.useState(bgImage);
   const [color, setColor] = React.useState("blue");
-  const [fixedClasses, setFixedClasses] = React.useState("dropdown show");
+  const [fixedClasses, setFixedClasses] = React.useState("dropdown");
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const handleImageClick = image => {
     setImage(image);

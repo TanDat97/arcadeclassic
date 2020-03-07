@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export default {
-  API_REQUEST (url, headers, data, method) {
+  API_REQUEST (url, headers, data, method = 'get') {
     return new Promise((resolve, reject) => {
       const config = {
         method: method,

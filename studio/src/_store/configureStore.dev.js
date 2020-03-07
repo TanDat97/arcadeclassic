@@ -1,7 +1,7 @@
 import { createStore, compose, applyMiddleware } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import rootReducer from '../reducers';
-import rootSaga from '../sagas';
+import rootReducer from '_reducers';
+import rootSaga from '_sagas';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -18,8 +18,8 @@ export default function configureStore(initialState) {
 
   if (module.hot) {
     // Enable Webpack hot module replacement for reducers
-    module.hot.accept('../reducers', () => {
-      const nextReducer = require('../reducers').default; // eslint-disable-line global-require
+    module.hot.accept('../_reducers', () => {
+      const nextReducer = require('../_reducers').default; // eslint-disable-line global-require
       store.replaceReducer(nextReducer);
     });
   }

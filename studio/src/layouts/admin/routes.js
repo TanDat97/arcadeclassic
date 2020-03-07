@@ -2,7 +2,7 @@
 import Dashboard from "@material-ui/icons/Dashboard";
 
 // core components//admin for Admin layout
-import AdminDashboard from "views/admin/AdminDashboard.js";
+import AdminDashboard from "views/admin/AdminDashboard";
 
 const adminDashboardRoutes = [
   {
