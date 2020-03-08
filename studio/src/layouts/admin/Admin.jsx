@@ -1,5 +1,7 @@
 import React from 'react'
 import { Switch, Route, Redirect } from "react-router-dom"
+import { connect } from 'react-redux'
+import { compose } from 'redux'
 // creates a beautiful scrollbar
 import PerfectScrollbar from "perfect-scrollbar"
 import "perfect-scrollbar/css/perfect-scrollbar.css"
@@ -10,9 +12,11 @@ import Navbar from "components/common/Navbars/Navbar"
 import Sidebar from "components/common/Sidebar/Sidebar"
 import Footer from "components/common/Footer/Footer"
 import FixedPlugin from "components/common/FixedPlugin/FixedPlugin"
-import Admin404 from "views/admin/Admin404";
+import Admin404 from "views/admin/Admin404"
 
-import routes from "./routes";
+import { accountAction } from '_actions'
+
+import routes from "./routes"
 
 import styles from "assets/jss/material-dashboard-react/layouts/adminStyle"
 import bgImage from "assets/img/sidebar-2.jpg"
@@ -41,7 +45,7 @@ const switchRoutes = (
 
 const useStyles = makeStyles(styles);
 
-export default function Admin({ ...rest }) {
+function Admin( props, { ...rest }) {
   // styles
   const classes = useStyles();
   // ref to help us initialize PerfectScrollbar on windows devices
@@ -109,6 +113,7 @@ export default function Admin({ ...rest }) {
         <Navbar
           routes={routes}
           handleDrawerToggle={handleDrawerToggle}
+          color={color}
           {...rest}
         />
         {/* On the /maps route we want the map to be on full screen - this is not possible if the content and conatiner classes are present because they have some paddings which would make the map smaller */}
@@ -132,3 +137,22 @@ export default function Admin({ ...rest }) {
     </div>
   );
 }
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    account: state.account,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getInfo: () => dispatch(accountAction.getInfoUserRequest()),
+  }
+}
+
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)
+
+export default compose(withConnect)(Admin)

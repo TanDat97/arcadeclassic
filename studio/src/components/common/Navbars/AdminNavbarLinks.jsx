@@ -24,7 +24,7 @@ import styles from "assets/jss/material-dashboard-react/components/headerLinksSt
 
 const useStyles = makeStyles(styles);
 
-export default function AdminNavbarLinks() {
+export default function AdminNavbarLinks(props) {
   const history = useHistory();
   const classes = useStyles();
   const [openNotification, setOpenNotification] = React.useState(null);
@@ -52,6 +52,10 @@ export default function AdminNavbarLinks() {
   const gotoLogin = () => {
     history.push('/signin/admin')
   }
+  const { color } = props
+  const itemClasses = classNames({
+    [" " + classes[color]]: true
+  });
   return (
     <div>
       <div className={classes.searchWrapper}>
@@ -125,31 +129,31 @@ export default function AdminNavbarLinks() {
                   <MenuList role="menu">
                     <MenuItem
                       onClick={handleCloseNotification}
-                      className={classes.dropdownItem}
+                      className={classes.dropdownItem + itemClasses}
                     >
                       Mike John responded to your email
                     </MenuItem>
                     <MenuItem
                       onClick={handleCloseNotification}
-                      className={classes.dropdownItem}
+                      className={classes.dropdownItem + itemClasses}
                     >
                       You have 5 new tasks
                     </MenuItem>
                     <MenuItem
                       onClick={handleCloseNotification}
-                      className={classes.dropdownItem}
+                      className={classes.dropdownItem + itemClasses}
                     >
                       You{"'"}re now friend with Andrew
                     </MenuItem>
                     <MenuItem
                       onClick={handleCloseNotification}
-                      className={classes.dropdownItem}
+                      className={classes.dropdownItem + itemClasses}
                     >
                       Another Notification
                     </MenuItem>
                     <MenuItem
                       onClick={handleCloseNotification}
-                      className={classes.dropdownItem}
+                      className={classes.dropdownItem + itemClasses}
                     >
                       Another One
                     </MenuItem>
@@ -200,20 +204,20 @@ export default function AdminNavbarLinks() {
                   <MenuList role="menu">
                     <MenuItem
                       onClick={handleCloseProfile}
-                      className={classes.dropdownItem}
+                      className={classes.dropdownItem + itemClasses}
                     >
                       Profile
                     </MenuItem>
                     <MenuItem
                       onClick={handleCloseProfile}
-                      className={classes.dropdownItem}
+                      className={classes.dropdownItem + itemClasses}
                     >
                       Settings
                     </MenuItem>
                     <Divider light />
                     <MenuItem
                       onClick={gotoLogin}
-                      className={classes.dropdownItem}
+                      className={classes.dropdownItem + itemClasses}
                     >
                       Logout
                     </MenuItem>

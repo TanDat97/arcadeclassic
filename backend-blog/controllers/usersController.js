@@ -136,7 +136,6 @@ const signinUser = async (req, res) => {
     const userInfo = await userModel.getInfoUser(email, user_name)
     if (userInfo != null) {
       const token = generateUserToken(userInfo.user_id, userInfo.email, userInfo.user_name, userInfo.first_name, userInfo.last_name, userInfo.role_name)
-      delete userInfo.role_name
       successMessage.message = 'Signin success'
       successMessage.response = userInfo
       successMessage.response.token = token

@@ -1,5 +1,6 @@
 export default {
   api: {
-    userSignin: 'https://localhost:5000/api/user/signin'
+    userSignin: 'http://localhost:5000/api/user/signin',
+    userInfo: 'http://localhost:5000/api/user'
   }
 }

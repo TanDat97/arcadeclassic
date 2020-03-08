@@ -1,38 +1,42 @@
-import { call, put } from 'redux-saga/effects'
-import { accountAction } from '_actions'
+import {
+  call,
+  put
+} from 'redux-saga/effects'
+import {
+  accountAction
+} from '_actions'
 import APIService from 'utils/APIService'
 import UrlUtils from 'utils/UrlUtils'
+import AuthHeader from 'utils/AuthHeader'
 
 export function* loginUser(action) {
   try {
     const data = {
       email: action.email,
+      user_name: action.user_name,
       password: action.password
     }
-    const res = yield call(APIService.API_REQUEST(UrlUtils.api.userSignin, {}, data, 'post'))
-    if (res) {
-      console.log(res)
-      window.localStorage.setItem('studio/token', 'token')
-      yield put(accountAction.userLoginSuccess())
-      yield put(accountAction.getInfoUserRequest())
+    const result = yield call(APIService.API_REQUEST, UrlUtils.api.userSignin, {}, data, 'post')
+    if (result.response.role_name.toLowerCase().includes(action.scope)) {
+      window.localStorage.setItem('studio/token', result.response.token)
+      window.localStorage.setItem('studio/scope', result.response.role_name)
+      yield put(accountAction.userLoginSuccess(result.response, result.response.role_name, result.response.token))
+      // if (action.scope === 'admin_role') {
+      //   yield put(navigateToPage('/admin'))
+      // }
     } else {
       yield put(accountAction.userLoginFail())
     }
   } catch (err) {
-    console.log(err)
     yield put(accountAction.userLoginFail())
   }
 }
 
-export function* getInfoUser() {
-  // try {
-  //   const res = yield call(accountService.getInfoUser)
-  //   if (res) {
-  //     yield put(accountAction.getInfoUserSuccess(res.user))
-  //   } else {
-  //     yield put(accountAction.getInfoUserFail())
-  //   }
-  // } catch (err) {
-  //   yield put(accountAction.getInfoUserFail())
-  // }
+export function* getInfoUser(action) {
+  try {
+    const result = yield call(APIService.API_REQUEST, UrlUtils.api.userInfo, AuthHeader.loadAuthHeader(), {}, 'get')
+    yield put(accountAction.getInfoUserSuccess(result.response))
+  } catch (err) {
+    yield put(accountAction.getInfoUserFail())
+  }
 }

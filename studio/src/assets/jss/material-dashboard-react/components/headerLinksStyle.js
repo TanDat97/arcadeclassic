@@ -1,7 +1,14 @@
 import {
   defaultFont,
+  primaryColor,
+  primaryBoxShadow,
+  infoColor,
+  successColor,
+  warningColor,
   dangerColor,
-  whiteColor
+  whiteColor,
+  blackColor,
+  hexToRgb
 } from "assets/jss/material-dashboard-react.js";
 
 import dropdownStyle from "assets/jss/material-dashboard-react/dropdownStyle.js";
@@ -107,7 +114,65 @@ const headerLinksStyle = theme => ({
       margin: "10px 15px 0"
     },
     display: "inline-block"
-  }
+  },
+  purple: {
+    "&:hover,&:focus": {
+      backgroundColor: primaryColor[0],
+      ...primaryBoxShadow
+    }
+  },
+  blue: {
+    "&:hover,&:focus": {
+      backgroundColor: infoColor[0],
+      boxShadow:
+        "0 12px 20px -10px rgba(" +
+        hexToRgb(infoColor[0]) +
+        ",.28), 0 4px 20px 0 rgba(" +
+        hexToRgb(blackColor) +
+        ",.12), 0 7px 8px -5px rgba(" +
+        hexToRgb(infoColor[0]) +
+        ",.2)"
+    }
+  },
+  green: {
+    "&:hover,&:focus": {
+      backgroundColor: successColor[0],
+      boxShadow:
+        "0 12px 20px -10px rgba(" +
+        hexToRgb(successColor[0]) +
+        ",.28), 0 4px 20px 0 rgba(" +
+        hexToRgb(blackColor) +
+        ",.12), 0 7px 8px -5px rgba(" +
+        hexToRgb(successColor[0]) +
+        ",.2)"
+    }
+  },
+  orange: {
+    "&:hover,&:focus": {
+      backgroundColor: warningColor[0],
+      boxShadow:
+        "0 12px 20px -10px rgba(" +
+        hexToRgb(warningColor[0]) +
+        ",.28), 0 4px 20px 0 rgba(" +
+        hexToRgb(blackColor) +
+        ",.12), 0 7px 8px -5px rgba(" +
+        hexToRgb(warningColor[0]) +
+        ",.2)"
+    }
+  },
+  red: {
+    "&:hover,&:focus": {
+      backgroundColor: dangerColor[0],
+      boxShadow:
+        "0 12px 20px -10px rgba(" +
+        hexToRgb(dangerColor[0]) +
+        ",.28), 0 4px 20px 0 rgba(" +
+        hexToRgb(blackColor) +
+        ",.12), 0 7px 8px -5px rgba(" +
+        hexToRgb(dangerColor[0]) +
+        ",.2)"
+    }
+  },
 });
 
 export default headerLinksStyle;

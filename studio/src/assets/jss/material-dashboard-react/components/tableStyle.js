@@ -6,7 +6,9 @@ import {
   infoColor,
   roseColor,
   grayColor,
-  defaultFont
+  blackColor,
+  defaultFont,
+  hexToRgb
 } from "assets/jss/material-dashboard-react.js";
 
 const tableStyle = theme => ({
@@ -32,7 +34,7 @@ const tableStyle = theme => ({
     color: grayColor[0]
   },
   table: {
-    marginBottom: "0",
+    marginBottom: "10px",
     width: "100%",
     maxWidth: "100%",
     backgroundColor: "transparent",
@@ -70,7 +72,19 @@ const tableStyle = theme => ({
     color: "inherit",
     display: "table-row",
     outline: "none",
-    verticalAlign: "middle"
+    verticalAlign: "middle",
+    cursor: "pointer",
+    "&:hover,&:focus": {
+      backgroundColor: grayColor[10],
+      boxShadow:
+        "0 12px 20px -10px rgba(" +
+        hexToRgb(infoColor[0]) +
+        ",.28), 0 4px 20px 0 rgba(" +
+        hexToRgb(blackColor) +
+        ",.12), 0 7px 8px -5px rgba(" +
+        hexToRgb(infoColor[0]) +
+        ",.2)"
+    }
   }
 });
 

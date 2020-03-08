@@ -17,23 +17,31 @@ export const accountAction = {
   getInfoUserFail
 }
 
-function defaultAction() {
+function defaultAction(user, user_scope, user_token) {
   return {
     type: accountConstants.DEFAULT_ACTION,
+    user,
+    user_scope,
+    user_token
   }
 }
 
-function userLoginRequest(email, password) {
+function userLoginRequest(email, user_name, password, scope) {
   return {
     type: accountConstants.LOGIN_REQUEST,
     email,
-    password
+    user_name,
+    password,
+    scope
   }
 }
 
-function userLoginSuccess() {
+function userLoginSuccess(user, user_scope, user_token) {
   return {
     type: accountConstants.LOGIN_SUCCESS,
+    user,
+    user_scope,
+    user_token
   }
 }
 

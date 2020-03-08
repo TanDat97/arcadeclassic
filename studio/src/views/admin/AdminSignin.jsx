@@ -1,22 +1,32 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import { Link } from 'react-router-dom'
 
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import TextField from '@material-ui/core/TextField'
+import InputAdornment from '@material-ui/core/InputAdornment'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
+import Snackbar from '@material-ui/core/Snackbar'
+import MuiAlert from '@material-ui/lab/Alert'
 // import Link from '@material-ui/core/Link'
 import Grid from '@material-ui/core/Grid'
 import Box from '@material-ui/core/Box'
+import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
-import { accountAction } from '../../_actions/account.action'
+
+import { accountAction } from '_actions'
+import Validate from 'utils/ValidateInput'
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 function Copyright() {
   return (
@@ -53,19 +63,64 @@ const useStyles = makeStyles(theme => ({
 
 function SignIn(props) {
   const classes = useStyles();
-  const [email, setEmail] = React.useState('')
-  const [password, setPassword] = React.useState('')
+
+  React.useEffect(() => {
+    props.logout()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  React.useEffect(() => {
+    if (props.account.success === -1) {
+      setOpen(true)
+    } else if (props.account.success === 1) {
+      props.history.push('/admin')
+    }
+  }, [props.account.success, props.history])
+  const [email, setEmail] = React.useState({
+    value: '',
+    error: false,
+    message: '',
+  })
+  const [password, setPassword] = React.useState({
+    value: '',
+    error: false,
+    message: '',
+  })
+  const [open, setOpen] = React.useState(false)
   const changeEmail = (event) => {
-    setEmail(event.target.value)
+    const check = Validate.ValidateEmail(event.target.value)
+    setEmail({
+      value: event.target.value,
+      error: !check.validate,
+      message: check.message
+    })
   }
   const changePassword = (event) => {
-    setPassword(event.target.value)
+    const check = Validate.ValidatePassword(event.target.value)
+    setPassword({
+      value: event.target.value,
+      error: !check.validate,
+      message: check.message
+    })
   }
   const submitLogin = () => {
-    props.login(email, password)
+    if (!email.error) {
+      props.login(email.value, email.value, password.value, 'admin_role')
+    }
   }
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+  };
   return (
     <Container component="main" maxWidth="xs">
+      <Snackbar open={open} autoHideDuration={5000} onClose={handleClose} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
+        <Alert onClose={handleClose} severity="error">
+          Wrong email/username or password!
+        </Alert>
+      </Snackbar>
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
@@ -84,9 +139,18 @@ function SignIn(props) {
             label="Email Address"
             name="email"
             autoComplete="email"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <AccountCircleOutlinedIcon />
+                </InputAdornment>
+              ),
+            }}
             autoFocus
-            value={email}
+            value={email.value}
             onChange={changeEmail}
+            error={email.error}
+            helperText={email.message}
           />
           <TextField
             variant="outlined"
@@ -98,8 +162,17 @@ function SignIn(props) {
             type="password"
             id="password"
             autoComplete="current-password"
-            value={password}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <LockOutlinedIcon />
+                </InputAdornment>
+              ),
+            }}
+            value={password.value}
             onChange={changePassword}
+            error={password.error}
+            helperText={password.message}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
@@ -139,7 +212,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    login: (email, password) => dispatch(accountAction.userLoginRequest(email, password)),
+    login: (email, user_name, password, scope) => dispatch(accountAction.userLoginRequest(email, user_name, password, scope)),
     logout: () => dispatch(accountAction.userLogout()),
   }
 }

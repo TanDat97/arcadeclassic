@@ -30,9 +30,9 @@ export default function Header(props) {
     });
     return name;
   }
-  const { color } = props;
+  const { color, appBarColor } = props;
   const appBarClasses = classNames({
-    [" " + classes[color]]: color
+    [" " + classes[appBarColor]]: appBarColor
   });
   return (
     <AppBar className={classes.appBar + appBarClasses}>
@@ -44,7 +44,7 @@ export default function Header(props) {
           </Button>
         </div>
         <Hidden smDown implementation="css">
-          {props.rtlActive ? <AdminNavbarLinks /> : <AdminNavbarLinks />}
+          {props.rtlActive ? <AdminNavbarLinks color={color} /> : <AdminNavbarLinks color={color} />}
         </Hidden>
         <Hidden mdUp implementation="css">
           <IconButton
@@ -61,7 +61,7 @@ export default function Header(props) {
 }
 
 Header.propTypes = {
-  color: PropTypes.oneOf(["primary", "info", "success", "warning", "danger"]),
+  appBarColor: PropTypes.oneOf(["primary", "info", "success", "warning", "danger"]),
   rtlActive: PropTypes.bool,
   handleDrawerToggle: PropTypes.func,
   routes: PropTypes.arrayOf(PropTypes.object)
