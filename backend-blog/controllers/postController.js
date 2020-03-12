@@ -59,7 +59,7 @@ const getListPostByMonth = async (req, res) => {
       order_by = 'update_at';
       break;
     default:
-      order_by = 'title';
+      order_by = 'create_at';
       break;
   }
   let sort_by
@@ -94,7 +94,7 @@ const getListPostByMonth = async (req, res) => {
 
 const getListPostByCategory = async (req, res) => {
   const {
-    category_id,
+    category,
     page,
     limit,
     order,
@@ -128,7 +128,7 @@ const getListPostByCategory = async (req, res) => {
       break;
   }
   try {
-    const dbResponse = await postModel.getListPostByCategory(order_by, sort_by, category_id, page, limit)
+    const dbResponse = await postModel.getListPostByCategory(order_by, sort_by, category, page, limit)
     if (!dbResponse) {
       errorMessage.status = status.notfound
       errorMessage.message = 'Something went wrong'
@@ -154,11 +154,11 @@ const getListPostFilter = async (req, res) => {
   const {
     order,
     sort,
-    category_id,
-    create_at,
-    update_at,
-    is_block,
-    enable_comment,
+    category,
+    create,
+    update,
+    block,
+    comment,
     verify,
     page,
     limit
@@ -191,7 +191,7 @@ const getListPostFilter = async (req, res) => {
       break;
   }
   try {
-    const dbResponse = await postModel.getListPostFilter(order_by, sort_by, category_id, create_at, update_at, is_block, enable_comment, verify, page, limit)
+    const dbResponse = await postModel.getListPostFilter(order_by, sort_by, category, create, update, block, comment, verify, page, limit)
     if (!dbResponse) {
       errorMessage.status = status.notfound
       errorMessage.message = 'Something went wrong'

@@ -84,6 +84,17 @@ const tableStyle = theme => ({
         ",.12), 0 7px 8px -5px rgba(" +
         hexToRgb(infoColor[0]) +
         ",.2)"
+    },
+    "&:active": {
+      backgroundColor: grayColor[10],
+      boxShadow:
+        "0 7px 12px -10px rgba(" +
+        hexToRgb(infoColor[0]) +
+        ",.28), 0 4px 20px 0 rgba(" +
+        hexToRgb(blackColor) +
+        ",.12), 0 7px 8px -5px rgba(" +
+        hexToRgb(infoColor[0]) +
+        ",.2)"
     }
   }
 });

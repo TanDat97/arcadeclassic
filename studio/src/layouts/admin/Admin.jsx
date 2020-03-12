@@ -47,36 +47,36 @@ const useStyles = makeStyles(styles);
 
 function Admin( props, { ...rest }) {
   // styles
-  const classes = useStyles();
+  const classes = useStyles()
   // ref to help us initialize PerfectScrollbar on windows devices
-  const mainPanel = React.createRef();
+  const mainPanel = React.createRef()
   // states and functions
-  const [image, setImage] = React.useState(bgImage);
-  const [color, setColor] = React.useState("blue");
-  const [fixedClasses, setFixedClasses] = React.useState("dropdown");
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [image, setImage] = React.useState(bgImage)
+  const [color, setColor] = React.useState("blue")
+  const [fixedClasses, setFixedClasses] = React.useState("dropdown")
+  const [mobileOpen, setMobileOpen] = React.useState(false)
   const handleImageClick = image => {
-    setImage(image);
+    setImage(image)
   };
   const handleColorClick = color => {
-    setColor(color);
+    setColor(color)
   };
   const handleFixedClick = () => {
     if (fixedClasses === "dropdown") {
       setFixedClasses("dropdown show");
     } else {
-      setFixedClasses("dropdown");
+      setFixedClasses("dropdown")
     }
   };
   const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
+    setMobileOpen(!mobileOpen)
   };
   const getRoute = () => {
     return window.location.pathname !== "/admin/maps";
   };
   const resizeFunction = () => {
     if (window.innerWidth >= 960) {
-      setMobileOpen(false);
+      setMobileOpen(false)
     }
   };
   // initialize and destroy the PerfectScrollbar plugin

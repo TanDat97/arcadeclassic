@@ -1,5 +1,6 @@
 const utils = require('./utils')
 const dateUtils = require('./dateUtils')
+const { isEmpty } = require('./validation')
 
 const setDataIntoOneString = (rows, keys) => {
   var result = rows[0]
@@ -58,11 +59,14 @@ const makeQueryFilter = (variables) => {
       let e = variables[key]
       if (e !== null && e !== undefined) {
         if (utils.isObject(variables[key])) {
-          if (e.start && e.end) {
-            const start = dateUtils.changeDate(e.start, dateUtils.DDMMYYY, dateUtils.YYYYMMDD)
-            const end = dateUtils.changeDate(e.end, dateUtils.DDMMYYY, dateUtils.YYYYMMDD)
-            result.query += key + ` BETWEEN $${count++} AND $${count++} AND `
-            result.values[count - 3] = start ? start : e.start
+          if (!isEmpty(e.start)) {
+            const start = dateUtils.changeDate(e.start, dateUtils.MMDDYYYY, dateUtils.YYYYMMDD)
+            result.query += key + ` >= $${count++} AND `
+            result.values[count - 2] = start ? start : e.start
+          }
+          if (!isEmpty(e.end)) {
+            const end = dateUtils.changeDate(e.end, dateUtils.MMDDYYYY, dateUtils.YYYYMMDD)
+            result.query += key + ` <= $${count++} AND `
             result.values[count - 2] = end ? end : e.end
           }
         } else if ((utils.isNumber(e) && e !== 0) || utils.isString(e) && e !== '') {
@@ -80,7 +84,6 @@ const makeQueryFilter = (variables) => {
   } catch (err) {
     console.log(err)
   }
-
 }
 
 module.exports = {

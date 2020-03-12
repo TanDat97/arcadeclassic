@@ -1,6 +1,6 @@
 /*
  *
- * Account reducer
+ * account reducer
  *
  */
 

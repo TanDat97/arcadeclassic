@@ -50,7 +50,7 @@ const validatePassword = (password) => {
  * @returns {Boolean} True or False
  */
 const isEmpty = (input) => {
-  if (input === undefined || input === '') {
+  if (input === undefined || input === '' || input === null) {
     return true;
   }
   if (input.replace(/\s/g, '').length) {

@@ -1,6 +1,8 @@
 const moment = require('moment')
 
-const DDMMYYY = 'DD/MM/YYYY'
+const DDMMYYYY = 'DD/MM/YYYY'
+const DDMMYYYYhhmm = 'DD/MM/YYYY hh:mm'
+const MMDDYYYY = 'MM/DD/YYYY'
 const YYYYMMDD = 'YYYY/MM/DD'
 
 const changeDate = (arg, fmInput, fmOutput) => {
@@ -9,7 +11,9 @@ const changeDate = (arg, fmInput, fmOutput) => {
 }
 
 module.exports = {
-  DDMMYYY,
+  DDMMYYYY,
+  DDMMYYYYhhmm,
+  MMDDYYYY,
   YYYYMMDD,
   changeDate,
 }

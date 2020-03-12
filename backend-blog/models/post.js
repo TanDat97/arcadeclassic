@@ -25,7 +25,6 @@ const getOnePost = async (postId) => {
 }
 
 const getListPostByMonth = async (order_by, sort_by, month, year, page, limit) => {
-  console.log(order_by)
   const skipNum = (page - 1) * limit
   const getListPostQuery = `SELECT *, count(*) OVER() AS total_count
     FROM post
@@ -59,25 +58,25 @@ const getListPostByMonth = async (order_by, sort_by, month, year, page, limit) =
   }
 }
 
-const getListPostByCategory = async (order_by, sort_by, category_id, page, limit) => {
+const getListPostByCategory = async (order_by, sort_by, category, page, limit) => {
   const skipNum = (page - 1) * limit
   const getListPostQuery =
     `SELECT *, count(*) OVER() AS total_count
-  FROM post
-  WHERE category_id = $1 OR category_id IN (
-      SELECT c1.category_id
-      FROM category AS c1
-      WHERE (c1.parent_id = $1 AND c1.level = 2) OR 
-            c1.parent_id IN (SELECT c2.category_id
-                            FROM category c2
-                            WHERE c2.parent_id = $1 AND c2.category_id = c1.parent_id AND c2.level=1)
-  )
-  ORDER BY ` + order_by + ` ${sort_by}
-  OFFSET $2 LIMIT $3`
+    FROM post
+    WHERE category_id = $1 OR category_id IN (
+        SELECT c1.category_id
+        FROM category AS c1
+        WHERE (c1.parent_id = $1 AND c1.level = 2) OR 
+              c1.parent_id IN (SELECT c2.category_id
+                              FROM category c2
+                              WHERE c2.parent_id = $1 AND c2.category_id = c1.parent_id AND c2.level=1)
+    )
+    ORDER BY ` + order_by + ` ${sort_by}
+    OFFSET $2 LIMIT $3`
   try {
     const {
       rows
-    } = await dbQuery.query(getListPostQuery, [category_id, skipNum, limit])
+    } = await dbQuery.query(getListPostQuery, [category, skipNum, limit])
     if (!rows) {
       return null
     } else if (rows.length === 0) {
@@ -105,10 +104,10 @@ const getListPostByTag = async (order_by, sort_by, tag_id, page, limit) => {
 
 }
 
-const getListPostFilter = async (order_by, sort_by, category_id, create_at, update_at, is_block, enable_comment, verify, page, limit) => {
+const getListPostFilter = async (order_by, sort_by, category, create_at, update_at, is_block, enable_comment, verify, page, limit) => {
   const skipNum = (page - 1) * limit
   const variables_list = {
-    category_id,
+    category_id: category,
     create_at,
     update_at,
     is_block,
@@ -119,8 +118,8 @@ const getListPostFilter = async (order_by, sort_by, category_id, create_at, upda
   resultQuery.values.push(skipNum)
   resultQuery.values.push(limit)
   const getListPostQuery =
-    `SELECT *, count(*) OVER() AS total_count
-    FROM post 
+    `SELECT post_id, title, overview, create_at, update_at, category_id, verify, enable_comment, count(*) OVER() AS total_count
+    FROM post
     ${resultQuery.query}
     ORDER BY ` + order_by + ` ${sort_by}
     OFFSET $${resultQuery.count++} LIMIT $${resultQuery.count++}`
