@@ -17,6 +17,7 @@ import Grid from '@material-ui/core/Grid'
 import Box from '@material-ui/core/Box'
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
+import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
@@ -66,16 +67,14 @@ function SignIn(props) {
 
   React.useEffect(() => {
     props.logout()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   React.useEffect(() => {
-    if (props.account.success === -1) {
+    if (props.account.authenticated === 'failed') {
       setOpen(true)
-    } else if (props.account.success === 1) {
-      props.history.push('/admin')
     }
-  }, [props.account.success, props.history])
+  }, [props.account.authenticated, props.history])
   const [email, setEmail] = React.useState({
     value: '',
     error: false,
@@ -124,7 +123,7 @@ function SignIn(props) {
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
+          <SupervisorAccountIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
           Sign in as Admin

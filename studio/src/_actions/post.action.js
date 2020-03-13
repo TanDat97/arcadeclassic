@@ -10,7 +10,11 @@ export const postAction = {
   defaultAction,
   adminGetPostsRequest,
   adminGetPostsSuccess,
-  adminGetPostsFail
+  adminGetPostsFail,
+  getCategoryRootRequest,
+  getCategoryRootSuccess,
+  getCategoryRootFail,
+  saveCache
 }
 
 function defaultAction() {
@@ -38,3 +42,32 @@ function adminGetPostsFail() {
     type: postConstants.ADMIN_GET_POSTS_FAILURE,
   }
 }
+
+function getCategoryRootRequest(data) {
+  return {
+    type: postConstants.GET_CATEGORY_ROOT_REQUEST,
+    data
+  }
+}
+
+function getCategoryRootSuccess(res) {
+  return {
+    type: postConstants.GET_CATEGORY_ROOT_SUCCESS,
+    res
+  }
+}
+
+function getCategoryRootFail() {
+  return {
+    type: postConstants.GET_CATEGORY_ROOT_FAILURE,
+  }
+}
+
+function saveCache(key, value) {
+  return {
+    type: postConstants.SAVE_CACHE,
+    key,
+    value,
+  }
+}
+

@@ -1,4 +1,5 @@
 import axios from 'axios'
+import History from './BrowserHistory'
 
 export default {
   API_REQUEST(url, headers, data, method = 'get') {
@@ -20,6 +21,9 @@ export default {
           }
         })
         .catch(err => {
+          if (err.response.status === 401 && window.location.pathname.includes('admin')) {
+            History.push('/signin/admin')
+          }
           reject(err.response)
         })
     })

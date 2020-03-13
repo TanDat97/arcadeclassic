@@ -118,8 +118,9 @@ const getListPostFilter = async (order_by, sort_by, category, create_at, update_
   resultQuery.values.push(skipNum)
   resultQuery.values.push(limit)
   const getListPostQuery =
-    `SELECT post_id, title, overview, create_at, update_at, category_id, verify, enable_comment, count(*) OVER() AS total_count
-    FROM post
+    `SELECT p.post_id, p.title, p.overview, p.create_at, p.update_at, p.category_id, c.category_name, p.verify, p.enable_comment, count(*) OVER() AS total_count
+    FROM post as p
+    LEFT JOIN category as c ON p.category_id = c.category_id
     ${resultQuery.query}
     ORDER BY ` + order_by + ` ${sort_by}
     OFFSET $${resultQuery.count++} LIMIT $${resultQuery.count++}`

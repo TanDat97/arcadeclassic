@@ -84,11 +84,18 @@ const getDataWithKey = (keys, data) => {
   return result
 }
 
+const mapKeyForState = (data) => {
+  return Object.values(data).map((e) => {
+    return JSON.stringify(e)
+  }).join(',')
+}
+
 export default {
   navigateToPage,
   setAccount,
   isLogin,
   isEmpty,
   makeQuery,
-  getDataWithKey
+  getDataWithKey,
+  mapKeyForState
 }

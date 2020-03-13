@@ -1,6 +1,8 @@
 const utils = require('./utils')
 const dateUtils = require('./dateUtils')
-const { isEmpty } = require('./validation')
+const {
+  isEmpty
+} = require('./validation')
 
 const setDataIntoOneString = (rows, keys) => {
   var result = rows[0]
@@ -69,6 +71,16 @@ const makeQueryFilter = (variables) => {
             result.query += key + ` <= $${count++} AND `
             result.values[count - 2] = end ? end : e.end
           }
+        } else if (key === 'category_id' && utils.isNumber(e) && e !== 0) {
+          result.query += `p.category_id = $${count} OR p.category_id IN (
+            SELECT c1.category_id
+            FROM category AS c1
+            WHERE (c1.parent_id = $${count} AND c1.level = 2) OR 
+                  c1.parent_id IN (SELECT c2.category_id
+                                  FROM category c2
+                                  WHERE c2.parent_id = $${count++} AND c2.category_id = c1.parent_id AND c2.level=1)
+            ) AND `
+          result.values[count - 2] = e
         } else if ((utils.isNumber(e) && e !== 0) || utils.isString(e) && e !== '') {
           result.query += key + ` = $${count++} AND `
           result.values[count - 2] = e

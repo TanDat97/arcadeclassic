@@ -11,23 +11,9 @@ export const initialState = {
   success: 0,
   posts: [],
   postDetail: {},
-  order: 'create',
-  sort: 'decrease',
-  category: 0,
-  create: {
-    start: '',
-    end: '',
-  },
-  update: {
-    start: '',
-    end: '',
-  },
-  block: null,
-  comment: null,
-  verify: null,
-  page: 1,
-  limit: 20,
   total: 0,
+  rootCateogry: [],
+  cache: {}
 };
 
 function account(state = initialState, action) {
@@ -54,6 +40,32 @@ function account(state = initialState, action) {
         loading: true,
         success: -1
       };
+    case postConstants.GET_CATEGORY_ROOT_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        success: 0
+      }
+    case postConstants.GET_CATEGORY_ROOT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        success: 1,
+        rootCateogry: action.res,
+      };
+    case postConstants.GET_CATEGORY_ROOT_FAILURE:
+      return {
+        ...state,
+        loading: true,
+        success: -1
+      };
+    case postConstants.SAVE_CACHE:
+      const data = state.cache
+      data[action.key] = action.value
+      return {
+        ...state,
+        cache: data
+      }
     default:
       return state;
   }

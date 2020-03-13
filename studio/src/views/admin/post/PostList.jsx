@@ -151,7 +151,18 @@ function PostList(props, { ...rest }) {
     } else {
       callAdminGetPosts({ order: 'create', sort: 'decrease', page: 1, limit: 20 })
     }
+    props.getCategoryRoot({useCache: true})
   }, [props.location.path])
+
+  React.useEffect(() => {
+    let count = parseInt(props.post.total / limit)
+    props.post.total === limit ? count += 0 : count += 1
+    setCount(count)
+    if (props.post.success === 1) {
+      const stringFilter = JSON.stringify({ order, sort, category, block, comment, verify, createStart, createEnd, updateStart, updateEnd, page, limit })
+      setLastFilter(stringFilter)
+    }
+  }, [props.post])
 
   React.useEffect(() => {
     let count = parseInt(props.post.total / limit)
@@ -206,7 +217,7 @@ function PostList(props, { ...rest }) {
     let data = []
     // eslint-disable-next-line array-callback-return
     props.post.posts.map(e => {
-      const result = Utils.getDataWithKey(['post_id', 'title', 'overview', 'create_at', 'category_id', 'verify'], e)
+      const result = Utils.getDataWithKey(['post_id', 'title', 'overview', 'create_at', 'category_name', 'verify'], e)
       data.push(result)
     })
     return data
@@ -278,7 +289,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    adminGetPosts: (data) => dispatch(postAction.adminGetPostsRequest(data))
+    adminGetPosts: (data) => dispatch(postAction.adminGetPostsRequest(data)),
+    getCategoryRoot: (data) => dispatch(postAction.getCategoryRootRequest(data)),
   }
 }
 

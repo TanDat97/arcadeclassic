@@ -17,7 +17,6 @@
 */
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { createBrowserHistory } from 'history'
 import { Router, Route, Switch } from 'react-router-dom'
 import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
@@ -32,16 +31,15 @@ import PrivateRoute from 'utils/PrivateRoute'
 
 import 'assets/css/material-dashboard-react.css?v=1.8.0';
 
+import History from 'utils/BrowserHistory'
 import * as serviceWorker from 'serviceWorker'
 import configureStore from '_store/configureStore'
 const store = configureStore()
 
-const hist = createBrowserHistory();
-
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
-      <Router history={hist}>
+      <Router history={History}>
         <Switch>
           <PrivateRoute.PrivateRoute2 path='/admin' component={Admin} />
           <Route path='/signin/admin' component={AdminSignin} />
