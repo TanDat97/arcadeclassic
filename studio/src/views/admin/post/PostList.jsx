@@ -56,27 +56,39 @@ function PostList(props, { ...rest }) {
   const classes = useStyles()
   const [order, setOrder] = React.useState('create')
   const handleChangeOrder = (event) => {
-    setOrder(event.target.value);
+    setOrder(event.target.value)
   }
   const [sort, setSort] = React.useState('decrease')
   const handleChangeSort = event => {
-    setSort(event.target.value);
+    setSort(event.target.value)
   }
   const [category, setCategory] = React.useState('')
-  const handleChangeCategory = event => {
-    setCategory(event.target.value);
+  const handleChangeCategory = value => {
+    setCategory(value)
+  }
+  const [category1, setCategory1] = React.useState({ value: '', justQuery: true })
+  const handleChangeCategory1 = value => {
+    setCategory1({ value, justQuery: true })
+  }
+  const [category2, setCategory2] = React.useState({ value: '', justQuery: true })
+  const handleChangeCategory2 = value => {
+    setCategory2({ value, justQuery: true })
+  }
+  const [category3, setCategory3] = React.useState({ value: '', justQuery: true })
+  const handleChangeCategory3 = value => {
+    setCategory3({ value, justQuery: true })
   }
   const [block, setBlock] = React.useState('')
   const handleChangeBlock = event => {
-    setBlock(event.target.value);
+    setBlock(event.target.value)
   }
   const [comment, setComment] = React.useState('')
   const handleChangeComment = event => {
-    setComment(event.target.value);
+    setComment(event.target.value)
   }
   const [verify, setVerify] = React.useState('')
   const handleChangeVerify = event => {
-    setVerify(event.target.value);
+    setVerify(event.target.value)
   }
   const [createStart, setCreateStart] = React.useState(null)
   const handleCreateStartChange = date => {
@@ -117,7 +129,6 @@ function PostList(props, { ...rest }) {
     setDefaultState()
     setUnFilter(true)
   }
-
   const [lastFilter, setLastFilter] = React.useState('')
 
   React.useEffect(() => {
@@ -127,8 +138,14 @@ function PostList(props, { ...rest }) {
       if (order) setOrder(order)
       const sort = params.get('sort')
       if (sort) setSort(sort)
-      const category = params.get('category')
+      const category = parseInt(params.get('category'))
       if (category) setCategory(category)
+      const category1 = parseInt(params.get('category1'))
+      if (category1) setCategory1({ value: category1, justQuery: true })
+      const category2 = parseInt(params.get('category2'))
+      if (category2) setCategory2({ value: category2, justQuery: true })
+      const category3 = parseInt(params.get('category3'))
+      if (category3) setCategory3({ value: category3, justQuery: true })
       const block = params.get('block')
       if (block) setBlock(block)
       const comment = params.get('comment')
@@ -151,31 +168,21 @@ function PostList(props, { ...rest }) {
     } else {
       callAdminGetPosts({ order: 'create', sort: 'decrease', page: 1, limit: 20 })
     }
-    props.getCategoryRoot({useCache: true})
+    props.getCategoryRoot({ useCache: true })
   }, [props.location.path])
 
   React.useEffect(() => {
     let count = parseInt(props.post.total / limit)
     props.post.total === limit ? count += 0 : count += 1
     setCount(count)
-    if (props.post.success === 1) {
-      const stringFilter = JSON.stringify({ order, sort, category, block, comment, verify, createStart, createEnd, updateStart, updateEnd, page, limit })
+    if (props.post.success === 1 && props.post.type === 'post') {
+      const stringFilter = JSON.stringify({ order, sort, category, category1, category2, category3, block, comment, verify, createStart, createEnd, updateStart, updateEnd, page, limit })
       setLastFilter(stringFilter)
     }
   }, [props.post])
 
   React.useEffect(() => {
-    let count = parseInt(props.post.total / limit)
-    props.post.total === limit ? count += 0 : count += 1
-    setCount(count)
-    if (props.post.success === 1) {
-      const stringFilter = JSON.stringify({ order, sort, category, block, comment, verify, createStart, createEnd, updateStart, updateEnd, page, limit })
-      setLastFilter(stringFilter)
-    }
-  }, [props.post])
-
-  React.useEffect(() => {
-    const params = { order, sort, category, block, comment, verify, createStart, createEnd, updateStart, updateEnd, page, limit }
+    const params = { order, sort, category, category1, category2, category3, block, comment, verify, createStart, createEnd, updateStart, updateEnd, page, limit }
     if (filter && (lastFilter !== JSON.stringify(params))) {
       const result = Utils.makeQuery(params)
       props.history.push(window.location.pathname + result.query)
@@ -223,6 +230,10 @@ function PostList(props, { ...rest }) {
     return data
   }
 
+  const gotoPostDetail = (post_id) => {
+    props.history.push(`/admin/postdetail?post_id=${post_id}`)
+  }
+
   return (
     <GridContainer>
       <GridItem xs={12} sm={12} md={12}>
@@ -242,6 +253,12 @@ function PostList(props, { ...rest }) {
             handleChangeSort={handleChangeSort}
             category={category}
             handleChangeCategory={handleChangeCategory}
+            category1={category1}
+            handleChangeCategory1={handleChangeCategory1}
+            category2={category2}
+            handleChangeCategory2={handleChangeCategory2}
+            category3={category3}
+            handleChangeCategory3={handleChangeCategory3}
             block={block}
             handleChangeBlock={handleChangeBlock}
             comment={comment}
@@ -266,6 +283,7 @@ function PostList(props, { ...rest }) {
               tableHeaderColor="primary"
               tableHead={["ID", "Name", "Overview", "Create at", "Category", "Verify"]}
               tableData={getDataForTable()}
+              onClickRow={gotoPostDetail}
             />
           </CardBody>
           <Paging

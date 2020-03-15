@@ -11,10 +11,15 @@ export const postAction = {
   adminGetPostsRequest,
   adminGetPostsSuccess,
   adminGetPostsFail,
+  adminGetOnePostRequest,
+  adminGetOnePostSuccess,
+  adminGetOnePostsFail,
   getCategoryRootRequest,
   getCategoryRootSuccess,
   getCategoryRootFail,
-  saveCache
+  getCategoryChildRequest,
+  getCategoryChildSuccess,
+  getCategoryChildFail,
 }
 
 function defaultAction() {
@@ -37,9 +42,31 @@ function adminGetPostsSuccess(res) {
   }
 }
 
-function adminGetPostsFail() {
+function adminGetPostsFail(err) {
   return {
     type: postConstants.ADMIN_GET_POSTS_FAILURE,
+    err,
+  }
+}
+
+function adminGetOnePostRequest(data) {
+  return {
+    type: postConstants.ADMIN_GET_ONE_POST_REQUEST,
+    data
+  }
+}
+
+function adminGetOnePostSuccess(res) {
+  return {
+    type: postConstants.ADMIN_GET_ONE_POST_SUCCESS,
+    res
+  }
+}
+
+function adminGetOnePostsFail(err) {
+  return {
+    type: postConstants.ADMIN_GET_ONE_POST_FAILURE,
+    err,
   }
 }
 
@@ -57,17 +84,31 @@ function getCategoryRootSuccess(res) {
   }
 }
 
-function getCategoryRootFail() {
+function getCategoryRootFail(err) {
   return {
     type: postConstants.GET_CATEGORY_ROOT_FAILURE,
+    err
   }
 }
 
-function saveCache(key, value) {
+
+function getCategoryChildRequest(data) {
   return {
-    type: postConstants.SAVE_CACHE,
-    key,
-    value,
+    type: postConstants.GET_CATEGORY_CHILD_REQUEST,
+    data
   }
 }
 
+function getCategoryChildSuccess(res) {
+  return {
+    type: postConstants.GET_CATEGORY_CHILD_SUCCESS,
+    res
+  }
+}
+
+function getCategoryChildFail(err) {
+  return {
+    type: postConstants.GET_CATEGORY_CHILD_FAILURE,
+    err
+  }
+}

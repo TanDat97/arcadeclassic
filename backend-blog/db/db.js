@@ -119,7 +119,7 @@ const createCategoryTable = () => {
     category_id serial PRIMARY KEY NOT NULL,
     parent_id serial,
     category_name TEXT NOT NULL,
-    cateogry_slug TEXT NOT NULL,
+    cateogry_slug TEXT UNIQUE NOT NULL,
     user_id INT NOT NULL REFERENCES users(id) ON DELETE RESTRICT,
     level INT NOL NULL
   )`;
@@ -146,7 +146,7 @@ const createPostTable = () => {
     content TEXT NOT NULL,
     user_id INT NOT NULL REFERENCES users(id) ON DELETE RESTRICT,
     category_id INT NOT NULL REFERENCES category(id) ON DELETE RESTRICT,
-    post_slug TEXT,
+    post_slug TEXT UNIQUE NOT NULL,
     admin_id INT REFERENCES users(id) ON DELETE RESTRICT,
     verify INT NOT NULL,
     is_block BOOLEAN NOT NULL,

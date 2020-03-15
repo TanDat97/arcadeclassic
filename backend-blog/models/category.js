@@ -13,7 +13,7 @@ const getListRootCategory = async () => {
     ORDER BY c1.category_id`
   try {
     const { rows } = await dbQuery.query(getListRootCategoryQuery, [])
-    const dbResponse = dbUtils.division2Level(rows, ['root_id', 'root_name', 'root_slug'])
+    const dbResponse = dbUtils.division2Level(rows, ['root_id', 'root_name', 'root_slug'], 'category_id')
     if (!dbResponse) {
       return null
     }

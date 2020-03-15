@@ -270,7 +270,7 @@ const changeBlockStatus = async (req, res) => {
     is_block
   } = req.body
   if (isEmpty(postId) || is_block === null || is_block === undefined) {
-    errorMessage.message = 'id is invalid'
+    errorMessage.message = 'Some field is invalid'
     return res.status(status.bad).json(errorMessage)
   }
   const update_at = moment(new Date())
@@ -304,7 +304,7 @@ const changeCommentStatus = async (req, res) => {
     enable_comment
   } = req.body
   if (isEmpty(postId) || enable_comment === null || enable_comment === undefined) {
-    errorMessage.message = 'id is invalid'
+    errorMessage.message = 'Some field is invalid'
     return res.status(status.bad).json(errorMessage)
   }
   const update_at = moment(new Date())
@@ -338,7 +338,7 @@ const changeVerify = async (req, res) => {
     verify
   } = req.body
   if (isEmpty(postId) || verify === null || verify === undefined) {
-    errorMessage.message = 'variable is invalid'
+    errorMessage.message = 'Some field is invalid'
     return res.status(status.bad).json(errorMessage)
   }
   const update_at = moment(new Date())
@@ -369,12 +369,12 @@ const updatePost = async (req, res) => {
     title,
     overview,
     content,
-    post_slug,
-    category_id
+    category_id,
+    post_slug
   } = req.body
-  if (isEmpty(title) || isEmpty(overview) || isEmpty(content) || category_id === undefined || category_id < 0) {
+  if (isEmpty(title) || isEmpty(overview) || isEmpty(content) || isEmpty(post_slug) || category_id === undefined || category_id < 0) {
     errorMessage.status = status.bad
-    errorMessage.message = 'title, overview, content, category field cannot be empty'
+    errorMessage.message = 'title, overview, content, post_slug, category field cannot be empty'
     return res.status(status.bad).json(errorMessage);
   }
   const update_at = moment(new Date())

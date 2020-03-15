@@ -23,7 +23,7 @@ const getPropertyValue = (rows, keys) => {
   return result
 }
 
-const division2Level = (rows, keys) => {
+const division2Level = (rows, keys, check) => {
   const result = []
   let i = -1,
     temp_id = -1 // root_id
@@ -44,7 +44,9 @@ const division2Level = (rows, keys) => {
     if (!result[i].childs) {
       result[i].childs = [] // constructor
     }
-    result[i].childs.push(e) // add object to child array
+    if(e[check] !== null) {
+      result[i].childs.push(e) // add object to child array
+    }
   })
   return result
 }

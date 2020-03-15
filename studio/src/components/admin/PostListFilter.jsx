@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
@@ -18,6 +19,8 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 
+import { postAction } from '_actions'
+// import Utils from '../../utils/Utils'
 // import Validate from 'utils/ValidateInput'
 
 const useStyles = makeStyles(theme => ({
@@ -52,11 +55,78 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function PostList(props) {
+function PostListFilter(props) {
   const classes = useStyles()
-  // React.useEffect(() => {
-  //   console.log(props)
-  // }, [])
+
+  const [category1, setCategory1] = React.useState('')
+  const handleChangeCategory1 = event => {
+    setCategory1(event.target.value)
+    setCategory2('')
+    setCategory3('')
+    props.handleChangeCategory2('')
+    props.handleChangeCategory3('')
+    if (event.target.value === '') {
+      setCategoryList2([])
+      setCategoryList3([])
+    } else {
+      getCategoryList2(event.target.value)
+    }
+    props.handleChangeCategory1(event.target.value)
+    props.handleChangeCategory(event.target.value)
+  }
+  const [category2, setCategory2] = React.useState('')
+  const handleChangeCategory2 = event => {
+    setCategory2(event.target.value)
+    setCategory3('')
+    props.handleChangeCategory3('')
+    if (event.target.value === '') {
+      setCategoryList3([])
+      props.handleChangeCategory(category1)
+    } else {
+      props.getCategoryChild({ id: event.target.value, useCache: true })
+      props.handleChangeCategory(event.target.value)
+    }
+    props.handleChangeCategory2(event.target.value)
+  }
+  const [category3, setCategory3] = React.useState('')
+  const handleChangeCategory3 = event => {
+    setCategory3(event.target.value)
+    if (event.target.value === '') {
+      props.handleChangeCategory(category2)
+    } else {
+      props.handleChangeCategory(event.target.value)
+    }
+    props.handleChangeCategory3(event.target.value)
+  }
+  const [categoryList1, setCategoryList1] = React.useState([])
+  const [categoryList2, setCategoryList2] = React.useState([])
+  const [categoryList3, setCategoryList3] = React.useState([])
+
+  React.useEffect(() => {
+    setCategoryList1(props.post.rootCategory)
+    setCategory1(props.category1.value)
+    if (props.category1.value !== '') {
+      getCategoryList2(props.category1.value)
+    }
+    setCategory2(props.category2.value)
+    if (props.category2.value !== '') {
+      props.getCategoryChild({ id: props.category2.value, useCache: true })
+    }
+  }, [props.post.rootCategory])
+
+  React.useEffect(() => {
+    setCategoryList3(props.post.childCategory)
+  }, [props.post.childCategory])
+
+  const getCategoryList2 = (root_id) => {
+    for (let i = 0; i < props.post.rootCategory.length; i++) {
+      if (props.post.rootCategory[i].root_id === root_id) {
+        setCategoryList2(props.post.rootCategory[i].childs)
+        break;
+      }
+    }
+  }
+
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <div className={classes.root}>
@@ -104,15 +174,18 @@ function PostList(props) {
               <Select
                 labelId="demo-simple-select-helper-label"
                 id="demo-simple-select-helper"
-                value={props.category}
-                onChange={props.handleChangeCategory}
+                value={category1}
+                onChange={handleChangeCategory1}
                 autoWidth
               >
                 <MenuItem value="">
                   <em>None</em>
                 </MenuItem>
-                <MenuItem value={10}>True</MenuItem>
-                <MenuItem value={20}>False</MenuItem>
+                {categoryList1.length > 0 ? categoryList1.map((e, index) => {
+                  return (
+                    <MenuItem value={e.root_id} key={index}>{e.root_name}</MenuItem>
+                  )
+                }) : ''}
               </Select>
             </FormControl>
             <FormControl className={classes.formControl}>
@@ -120,15 +193,18 @@ function PostList(props) {
               <Select
                 labelId="demo-simple-select-helper-label"
                 id="demo-simple-select-helper"
-                value={props.category}
-                onChange={props.handleChangeCategory}
+                value={category2}
+                onChange={handleChangeCategory2}
                 autoWidth
               >
                 <MenuItem value="">
                   <em>None</em>
                 </MenuItem>
-                <MenuItem value={10}>True</MenuItem>
-                <MenuItem value={20}>False</MenuItem>
+                {categoryList2.length > 0 ? categoryList2.map((e, index) => {
+                  return (
+                    <MenuItem value={e.category_id} key={index}>{e.category_name}</MenuItem>
+                  )
+                }) : ''}
               </Select>
               <FormHelperText></FormHelperText>
             </FormControl>
@@ -137,15 +213,18 @@ function PostList(props) {
               <Select
                 labelId="demo-simple-select-helper-label"
                 id="demo-simple-select-helper"
-                value={props.category}
-                onChange={props.handleChangeCategory}
+                value={category3}
+                onChange={handleChangeCategory3}
                 autoWidth
               >
                 <MenuItem value="">
                   <em>None</em>
                 </MenuItem>
-                <MenuItem value={10}>True</MenuItem>
-                <MenuItem value={20}>False</MenuItem>
+                {categoryList3.length > 0 ? categoryList3.map((e, index) => {
+                  return (
+                    <MenuItem value={e.category_id} key={index}>{e.category_name}</MenuItem>
+                  )
+                }) : ''}
               </Select>
             </FormControl>
           </Paper>
@@ -297,11 +376,13 @@ function PostList(props) {
 
 const mapStateToProps = (state, ownProps) => {
   return {
+    post: state.post
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    getCategoryChild: data => dispatch(postAction.getCategoryChildRequest(data))
   }
 }
 
@@ -310,4 +391,4 @@ const withConnect = connect(
   mapDispatchToProps,
 )
 
-export default compose(withConnect)(PostList)
+export default compose(withConnect)(PostListFilter)

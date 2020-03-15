@@ -9,11 +9,12 @@ import { postConstants } from '../_constants'
 export const initialState = {
   loading: false,
   success: 0,
+  type: '',
   posts: [],
   postDetail: {},
   total: 0,
-  rootCateogry: [],
-  cache: {}
+  rootCategory: [],
+  childCategory: [],
 };
 
 function account(state = initialState, action) {
@@ -24,7 +25,8 @@ function account(state = initialState, action) {
       return {
         ...state,
         loading: true,
-        success: 0
+        success: 0,
+        type: 'post',
       }
     case postConstants.ADMIN_GET_POSTS_SUCCESS:
       return {
@@ -37,35 +39,69 @@ function account(state = initialState, action) {
     case postConstants.ADMIN_GET_POSTS_FAILURE:
       return {
         ...state,
+        loading: false,
+        success: -1
+      };
+    case postConstants.ADMIN_GET_ONE_POST_REQUEST:
+      return {
+        ...state,
         loading: true,
+        success: 0,
+        type: 'post',
+      }
+    case postConstants.ADMIN_GET_ONE_POST_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        success: 1,
+        postDetail: action.res
+      };
+    case postConstants.ADMIN_GET_ONE_POST_FAILURE:
+      return {
+        ...state,
+        loading: false,
         success: -1
       };
     case postConstants.GET_CATEGORY_ROOT_REQUEST:
       return {
         ...state,
         loading: true,
-        success: 0
+        success: 0,
+        type: 'category',
       }
     case postConstants.GET_CATEGORY_ROOT_SUCCESS:
       return {
         ...state,
         loading: false,
         success: 1,
-        rootCateogry: action.res,
+        rootCategory: action.res,
       };
     case postConstants.GET_CATEGORY_ROOT_FAILURE:
       return {
         ...state,
-        loading: true,
+        loading: false,
         success: -1
       };
-    case postConstants.SAVE_CACHE:
-      const data = state.cache
-      data[action.key] = action.value
+    case postConstants.GET_CATEGORY_CHILD_REQUEST:
       return {
         ...state,
-        cache: data
+        loading: true,
+        success: 0,
+        type: 'category',
       }
+    case postConstants.GET_CATEGORY_CHILD_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        success: 1,
+        childCategory: action.res,
+      };
+    case postConstants.GET_CATEGORY_CHILD_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        success: -1
+      };
     default:
       return state;
   }

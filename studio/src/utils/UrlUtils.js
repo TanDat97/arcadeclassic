@@ -6,6 +6,8 @@ export default {
   },
   admin: {
     getListPostFilter: 'http://localhost:5000/api/admin/post/get_list/filter',
-    getCategoryRoot: 'http://localhost:5000/api/admin/category/get_list_root'
+    getOnePost: 'http://localhost:5000/api/admin/post/get_one',
+    getCategoryRoot: 'http://localhost:5000/api/admin/category/get_list_root',
+    getCategoryChild: 'http://localhost:5000/api/admin/category/get_list_child'
   }
 }

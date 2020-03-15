@@ -47,12 +47,12 @@ const makeQuery = (variables) => {
   let data = {}
   for (let key in variables) {
     let e = variables[key]
-    if (!isEmpty(e)) {
+    if (!isEmpty(e) && !e.justQuery) {
       queryString += `${key}=${e}&`
       if (key.includes('Start') || key.includes('End')) {
         const index = key.indexOf('Start') !== -1 ? key.indexOf('Start') : key.indexOf('End')
         const temp = key.substring(0, index)
-        data[temp] = data[temp] || data[temp] ? data[temp] : {
+        data[temp] = data[temp] ? data[temp] : {
           start: '',
           end: ''
         }
@@ -61,6 +61,8 @@ const makeQuery = (variables) => {
       } else {
         data[key] = e
       }
+    } else if (!isEmpty(e) && e.justQuery) {
+      queryString += `${key}=${e.value}&`
     } else {
       data[key] = e
     }
@@ -75,9 +77,9 @@ const makeQuery = (variables) => {
 const getDataWithKey = (keys, data) => {
   let result = []
   keys.forEach(key => {
-    if(key.includes('_at')){
+    if (key.includes('_at')) {
       result.push(DateUtils.changeDateFormat(data[key], DateUtils.DDMMYYYYhhmm))
-    } else{
+    } else {
       result.push(data[key].toString())
     }
   })
@@ -90,6 +92,30 @@ const mapKeyForState = (data) => {
   }).join(',')
 }
 
+const countNumberOccur = (mainStr = '', subStr) => {
+  return (mainStr.match(/-/g) || []).length
+}
+
+const isBoolean = (arg) => {
+  return typeof arg === 'boolean';
+}
+
+const isNumber = (arg) => {
+  return typeof arg === 'number';
+}
+
+const isString = (arg) => {
+  return typeof arg === 'string';
+}
+
+const isFunction = (arg) => {
+  return typeof arg === 'function';
+}
+
+const isObject = (arg) => {
+  return arg !== null && typeof arg === 'object';
+}
+
 export default {
   navigateToPage,
   setAccount,
@@ -97,5 +123,11 @@ export default {
   isEmpty,
   makeQuery,
   getDataWithKey,
-  mapKeyForState
+  mapKeyForState,
+  countNumberOccur,
+  isBoolean,
+  isNumber,
+  isString,
+  isFunction,
+  isObject
 }

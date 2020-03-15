@@ -6,7 +6,7 @@ import { compose } from 'redux'
 import { makeStyles } from "@material-ui/core/styles"
 // import { Grid, Button } from "@material-ui/core"
 
-// import { postAction } from '_actions'
+import { postAction } from '_actions'
 // import Validate from 'utils/ValidateInput'
 
 const useStyles = makeStyles(theme => ({
@@ -15,19 +15,20 @@ const useStyles = makeStyles(theme => ({
 
 function PostDetail(props) {
   const classes = useStyles();
-  const [id, setId] = React.useState(0)
+  const [postId, setPostId] = React.useState(0)
   React.useEffect(() => {
     const params = new URLSearchParams(props.location.search);
     if (params.toString() !== '') {
-      const id = params.get('id')
+      const id = params.get('post_id')
       if (id) {
-        setId(id)
+        setPostId(id)
+        props.getOnePost({post_id: id})
       }
     }
   }, [props.location.path])
   return (
     <div className={classes.root}>
-      detail post {id}
+      detail post {postId}
     </div>
   );
 }
@@ -40,6 +41,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    getOnePost: post_id => dispatch(postAction.adminGetOnePostRequest(post_id))
   }
 }
 

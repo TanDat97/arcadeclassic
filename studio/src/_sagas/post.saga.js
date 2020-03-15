@@ -4,7 +4,8 @@ import {
   select
 } from 'redux-saga/effects'
 import {
-  postAction
+  postAction,
+  cacheAction
 } from '_actions'
 import Utils from 'utils/Utils'
 
@@ -21,22 +22,55 @@ export function* adminGetListPost(action) {
   }
 }
 
+export function* adminGetOnePost(action) {
+  try {
+    const result = yield call(APIService.API_REQUEST, `${UrlUtils.admin.getOnePost}/${action.data.post_id}`, AuthHeader.loadAuthHeader(), {}, 'get')
+    yield put(postAction.adminGetOnePostSuccess(result.response))
+  } catch (err) {
+    yield put(postAction.adminGetOnePostsFail(err))
+  }
+}
+
+
 export function* getCategoryRoot(action) {
   try {
     const state = yield select()
-    const key = Utils.mapKeyForState({url: UrlUtils.admin.getCategoryRoot, method: 'get'})
-    
-    if(action.data.useCache && state.post.cache[key]) {
-      // console.log(state.post.cache[key])
-      yield put(postAction.getCategoryRootSuccess(state.post.cache[key]))
+    const key = Utils.mapKeyForState({
+      url: UrlUtils.admin.getCategoryRoot,
+      method: 'get'
+    })
+    if (action.data.useCache && state.cache.category[key]) {
+      yield put(postAction.getCategoryRootSuccess(state.cache.category[key]))
     } else {
       const result = yield call(APIService.API_REQUEST, UrlUtils.admin.getCategoryRoot, AuthHeader.loadAuthHeader(), {}, 'get')
       yield put(postAction.getCategoryRootSuccess(result.response))
       if (action.data.useCache) {
-        yield put (postAction.saveCache(key, result.response))
+        yield put(cacheAction.saveCacheCategory(key, result.response))
       }
     }
   } catch (err) {
     yield put(postAction.getCategoryRootFail(err))
+  }
+}
+
+export function* getCategoryChild(action) {
+  try {
+    const state = yield select()
+    const key = Utils.mapKeyForState({
+      url: UrlUtils.admin.getCategoryChild,
+      method: 'get',
+      data: action.data.id
+    })
+    if (action.data.useCache && state.cache.category[key]) {
+      yield put(postAction.getCategoryChildSuccess(state.cache.category[key]))
+    } else {
+      const result = yield call(APIService.API_REQUEST, `${UrlUtils.admin.getCategoryChild}/${action.data.id}`, AuthHeader.loadAuthHeader(), {}, 'get')
+      yield put(postAction.getCategoryChildSuccess(result.response))
+      if (action.data.useCache) {
+        yield put(cacheAction.saveCacheCategory(key, result.response))
+      }
+    }
+  } catch (err) {
+    yield put(postAction.getCategoryChildFail(err))
   }
 }
