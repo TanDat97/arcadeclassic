@@ -28,7 +28,8 @@ function account(state = initialState, action) {
       return {
         ...state,
         loading: true,
-        success: 0
+        success: 0,
+        authenticated: 'unauthorized',
       };
     case accountConstants.LOGIN_SUCCESS:
       return {

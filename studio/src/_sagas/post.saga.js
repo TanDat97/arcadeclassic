@@ -31,7 +31,6 @@ export function* adminGetOnePost(action) {
   }
 }
 
-
 export function* getCategoryRoot(action) {
   try {
     const state = yield select()
