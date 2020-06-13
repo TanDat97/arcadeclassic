@@ -1,29 +1,29 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { connect } from 'react-redux'
-import { compose } from 'redux'
+import React from "react";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { compose } from "redux";
 
-import Avatar from '@material-ui/core/Avatar'
-import Button from '@material-ui/core/Button'
-import CssBaseline from '@material-ui/core/CssBaseline'
-import TextField from '@material-ui/core/TextField'
-import InputAdornment from '@material-ui/core/InputAdornment'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Checkbox from '@material-ui/core/Checkbox'
-import Snackbar from '@material-ui/core/Snackbar'
-import MuiAlert from '@material-ui/lab/Alert'
+import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import TextField from "@material-ui/core/TextField";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
 // import Link from '@material-ui/core/Link'
-import Grid from '@material-ui/core/Grid'
-import Box from '@material-ui/core/Box'
-import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined'
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
-import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
-import Typography from '@material-ui/core/Typography'
-import { makeStyles } from '@material-ui/core/styles'
-import Container from '@material-ui/core/Container'
+import Grid from "@material-ui/core/Grid";
+import Box from "@material-ui/core/Box";
+import AccountCircleOutlinedIcon from "@material-ui/icons/AccountCircleOutlined";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
 
-import { accountAction } from '_actions'
-import Validate from 'utils/ValidateInput'
+import { accountAction } from "_actions";
+import Validate from "utils/ValidateInput";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -32,29 +32,29 @@ function Alert(props) {
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
+      {"Copyright © "}
       <Link color="inherit" href="https://material-ui.com/" to="">
         Your Website
-      </Link>{' '}
+      </Link>{" "}
       {new Date().getFullYear()}
-      {'.'}
+      {"."}
     </Typography>
   );
 }
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   },
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(1),
   },
   submit: {
@@ -66,56 +66,73 @@ function SignIn(props) {
   const classes = useStyles();
 
   React.useEffect(() => {
-    props.logout()
+    props.logout();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
 
   React.useEffect(() => {
-    if (props.account.authenticated === 'failed') {
-      setOpen(true)
+    if (props.account.authenticated === "failed") {
+      setOpen(true);
     }
-  }, [props.account.authenticated, props.history])
+  }, [props.account.authenticated, props.history]);
   const [email, setEmail] = React.useState({
-    value: '',
+    value: "",
     error: false,
-    message: '',
-  })
+    message: "",
+  });
   const [password, setPassword] = React.useState({
-    value: '',
+    value: "",
     error: false,
-    message: '',
-  })
-  const [open, setOpen] = React.useState(false)
+    message: "",
+  });
+  const [open, setOpen] = React.useState(false);
   const changeEmail = (event) => {
-    const check = Validate.ValidateEmail(event.target.value)
+    const check = Validate.ValidateEmail(event.target.value);
     setEmail({
       value: event.target.value,
       error: !check.validate,
-      message: check.message
-    })
-  }
+      message: check.message,
+    });
+  };
   const changePassword = (event) => {
-    const check = Validate.ValidatePassword(event.target.value)
+    const check = Validate.ValidatePassword(event.target.value);
     setPassword({
       value: event.target.value,
       error: !check.validate,
-      message: check.message
-    })
-  }
+      message: check.message,
+    });
+  };
   const submitLogin = () => {
-    if (!email.error) {
-      props.login(email.value, email.value, password.value, 'admin_role')
+    if(email.value === "") {
+      setEmail({
+        error: true,
+        message: "Email is required",
+      });
     }
-  }
+    if(password.value === "") {
+      setPassword({
+        error: true,
+        message: "Password is required",
+      });
+    }
+    if (!email.error && email.value !== "" && password !== "") {
+      props.login(email.value, email.value, password.value, "admin_role");
+    }
+  };
   const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
     setOpen(false);
   };
   return (
     <Container component="main" maxWidth="xs">
-      <Snackbar open={open} autoHideDuration={5000} onClose={handleClose} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
+      <Snackbar
+        open={open}
+        autoHideDuration={5000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      >
         <Alert onClose={handleClose} severity="error">
           Wrong email/username or password!
         </Alert>
@@ -206,19 +223,19 @@ function SignIn(props) {
 const mapStateToProps = (state, ownProps) => {
   return {
     account: state.account,
-  }
-}
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    login: (email, user_name, password, scope) => dispatch(accountAction.userLoginRequest(email, user_name, password, scope)),
+    login: (email, user_name, password, scope) =>
+      dispatch(
+        accountAction.userLoginRequest(email, user_name, password, scope)
+      ),
     logout: () => dispatch(accountAction.userLogout()),
-  }
-}
+  };
+};
 
-const withConnect = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-export default compose(withConnect)(SignIn)
+export default compose(withConnect)(SignIn);

@@ -41,7 +41,7 @@ ReactDOM.render(
     <BrowserRouter>
       <Router history={History}>
         <Switch>
-          <PrivateRoute.PrivateRoute2 path='/admin' component={Admin} />
+          <PrivateRoute.RoleAdmin path='/admin' component={Admin} />
           <Route path='/signin/admin' component={AdminSignin} />
           {/* <Route path='/' component={Dashboard} /> */}
           <Route path='/signin' component={Signin} />
