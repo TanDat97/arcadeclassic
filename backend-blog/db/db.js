@@ -1,4 +1,7 @@
 const pool = require('./pool');
+const {
+  resolve
+} = require('path');
 
 pool.on('connect', () => {
   console.log('connected to the db');
@@ -12,7 +15,7 @@ pool.on('remove', () => {
 /**
  * Create Table
  */
-const createCredentialTable = () => {
+const createCredentialsTable = () => {
   const createQuery = `CREATE TABLE IF NOT EXISTS
   credentials(
     credential_id serial PRIMARY KEY NOT NULL,
@@ -22,6 +25,7 @@ const createCredentialTable = () => {
     reset_token TEXT NOT NULL,
     last_reset_password TIMESTAMP NOT NULL
   )`;
+
 
   pool.query(createQuery)
     .then((res) => {
@@ -34,7 +38,7 @@ const createCredentialTable = () => {
     });
 }
 
-const createRoleTable = () => {
+const createRolesTable = () => {
   const createQuery = `CREATE TABLE IF NOT EXISTS
   roles(
     role_id serial PRIMARY KEY NOT NULL,
@@ -113,7 +117,7 @@ const createUserRoleTable = () => {
     });
 }
 
-const createCategoryTable = () => {
+const createCategoriesTable = () => {
   const createQuery = `CREATE TABLE IF NOT EXISTS
   categories(
     category_id serial PRIMARY KEY NOT NULL,
@@ -135,7 +139,7 @@ const createCategoryTable = () => {
     });
 }
 
-const createPostTable = () => {
+const createPostsTable = () => {
   const createQuery = `CREATE TABLE IF NOT EXISTS
   posts(
     post_id serial PRIMARY KEY NOT NULL,
@@ -165,7 +169,7 @@ const createPostTable = () => {
     });
 }
 
-const createTagTable = () => {
+const createTagsTable = () => {
   const createQuery = `CREATE TABLE IF NOT EXISTS
   tags(
     tag_id serial PRIMARY KEY NOT NULL,
@@ -185,8 +189,8 @@ const createTagTable = () => {
     });
 }
 
-const createPostTagTable = () => {
-  const createQuery =  `CREATE TABLE IF NOT EXISTS
+const createPostsTagTable = () => {
+  const createQuery = `CREATE TABLE IF NOT EXISTS
   posttag(
     post_id INT NOT NULL REFERENCES posts(post_id) ON DELETE RESTRICT,
     tag_id INT NOT NULL REFERENCES tags(tag_id) ON DELETE RESTRICT,
@@ -207,7 +211,7 @@ const createPostTagTable = () => {
 }
 
 const createUserHistoryTable = () => {
-  const createQuery =  `CREATE TABLE IF NOT EXISTS
+  const createQuery = `CREATE TABLE IF NOT EXISTS
   userhistory(
     tag_id INT NOT NULL REFERENCES tags(tag_id) ON DELETE RESTRICT,
     user_id INT NOT NULL REFERENCES users(user_id) ON DELETE RESTRICT,
@@ -371,14 +375,14 @@ const createAllTables = () => {
  */
 const dropAllTables = () => {
   dropCredentialTable(),
-  dropRoleTable(),
-  dropUsersTable(),
-  dropUserRoleTable(),
-  dropCategoryTable(),
-  dropPostTable(),
-  dropTagTable(),
-  dropPostTagTable(),
-  dropUserHistoryTable()
+    dropRoleTable(),
+    dropUsersTable(),
+    dropUserRoleTable(),
+    dropCategoryTable(),
+    dropPostTable(),
+    dropTagTable(),
+    dropPostTagTable(),
+    dropUserHistoryTable()
 };
 
 module.exports = {
