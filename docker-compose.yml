@@ -1,13 +1,42 @@
 version: "3.7"
 
 services:
-  studio-react: 
-    container_name: studio
+
+  backend-studio:
+    container_name: backend-studio
+    build: ./backend-blog
+    working_dir: /app/backend
+    volumes: 
+      - ./backend-blog:/app/backend
+    environment: 
+      POSTGRES_USER: tandat
+      POSTGRES_PASSWORD: root_123456
+      POSTGRES_DB: blog_db
+      POSTGRES_HOST: postgres
+    links:
+      - postgres
+    command: npm run dev
+    ports:
+      - 8080:5000
+
+  frontend-studio:
+    container_name: frontend-studio
     build: ./studio
+    working_dir: /app/frontend
     volumes:
-      - "./studio:/app"
-      - "./studio/app/node_modules"
+      - ./studio:/app/frontend
     ports:
       - 8000:3000
     environment:
       - CHOKIDAR_USEPOLLING=true
+
+  postgres:
+    environment: 
+      POSTGRES_USER: tandat
+      POSTGRES_PASSWORD: root_123456
+      POSTGRES_DB: blog_db
+      POSTGRES_HOST: postgres
+    container_name: postgres
+    image: postgres
+    ports:
+      - 5433:5432
