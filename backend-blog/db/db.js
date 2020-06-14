@@ -56,8 +56,8 @@ const createRolesTable = () => {
     });
 }
 
-const insertRoleTable = () => {
-  const createQuery = `INSERT INTO role(role_id, role_name) VALUES (1,'USER_ROLE'), (2, 'ADMIN_ROLE')`;
+const insertRolesTable = () => {
+  const createQuery = `INSERT INTO roles(role_id, role_name) VALUES (1,'USER_ROLE'), (2, 'ADMIN_ROLE')`;
 
   pool.query(createQuery)
     .then((res) => {
@@ -80,7 +80,7 @@ const createUsersTable = () => {
     last_name VARCHAR(128) NOT NULL,
     description TEXT,
     avatar TEXT,
-    user_slug TEXT,
+    user_slug TEXT, 
     create_at TIMESTAMP NOT NULL,
     credential_id INT NOT NULL REFERENCES credentials(credential_id) ON DELETE RESTRICT,
     date_of_birth TIMESTAMP NOT NULL
@@ -358,16 +358,16 @@ const dropUserHistoryTable = () => {
  * Create All Tables
  */
 const createAllTables = () => {
-  // createCredentialTable()
-  // createRoleTable()
+  createCredentialsTable()
+  // createRolesTable()
   // createUsersTable()
   // createUserRoleTable()
-  // createCategoryTable()
-  // createPostTable()
-  // createTagTable()
+  // createCategoriesTable()
+  // createPostsTable()
+  // createTagsTable()
   // createPostTagTable()
   // createUserHistoryTable()
-  // insertRoleTable()
+  // insertRolesTable()
 };
 
 /**
