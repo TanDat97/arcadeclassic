@@ -6,7 +6,7 @@ const dbUtils = require('../utils/dbutils')
 
 const getOnePost = async (postId) => {
   const getOnePostQuery = `SELECT pt.*, usr.first_name, usr.last_name, usr.avatar
-    FROM post as pt
+    FROM posts as pt
     LEFT JOIN users as usr ON pt.user_id = usr.user_id
     WHERE pt.post_id=$1`
   try {
@@ -27,7 +27,7 @@ const getOnePost = async (postId) => {
 const getListPostByMonth = async (order_by, sort_by, month, year, page, limit) => {
   const skipNum = (page - 1) * limit
   const getListPostQuery = `SELECT *, count(*) OVER() AS total_count
-    FROM post
+    FROM posts
     WHERE EXTRACT(MONTH FROM create_at) = $1 AND EXTRACT(YEAR FROM create_at) = $2
     ORDER BY ` + order_by + ` ${sort_by}
     OFFSET $3 LIMIT $4`
@@ -62,13 +62,13 @@ const getListPostByCategory = async (order_by, sort_by, category, page, limit) =
   const skipNum = (page - 1) * limit
   const getListPostQuery =
     `SELECT *, count(*) OVER() AS total_count
-    FROM post
+    FROM posts
     WHERE category_id = $1 OR category_id IN (
         SELECT c1.category_id
-        FROM category AS c1
+        FROM categories AS c1
         WHERE (c1.parent_id = $1 AND c1.level = 2) OR 
               c1.parent_id IN (SELECT c2.category_id
-                              FROM category c2
+                              FROM categories c2
                               WHERE c2.parent_id = $1 AND c2.category_id = c1.parent_id AND c2.level=1)
     )
     ORDER BY ` + order_by + ` ${sort_by}
@@ -119,8 +119,8 @@ const getListPostFilter = async (order_by, sort_by, category, create_at, update_
   resultQuery.values.push(limit)
   const getListPostQuery =
     `SELECT p.post_id, p.title, p.overview, p.create_at, p.update_at, p.category_id, c.category_name, p.verify, p.enable_comment, count(*) OVER() AS total_count
-    FROM post as p
-    LEFT JOIN category as c ON p.category_id = c.category_id
+    FROM posts as p
+    LEFT JOIN categories as c ON p.category_id = c.category_id
     ${resultQuery.query}
     ORDER BY ` + order_by + ` ${sort_by}
     OFFSET $${resultQuery.count++} LIMIT $${resultQuery.count++}`
@@ -153,7 +153,7 @@ const getListPostFilter = async (order_by, sort_by, category, create_at, update_
 
 const createPost = async (client, postValues) => { // transaction
   const createPostQuery = `INSERT INTO
-    post(title, create_at, update_at, overview, content, user_id, category_id, post_slug, admin_id, verify, is_block, enable_comment, view)
+    posts(title, create_at, update_at, overview, content, user_id, category_id, post_slug, admin_id, verify, is_block, enable_comment, view)
     VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
     returning *`
   try {
@@ -179,7 +179,7 @@ const createPost = async (client, postValues) => { // transaction
 
 const changeBlockStatus = async (postValues) => {
   console.log(postValues)
-  const updatePostQuery = `UPDATE post
+  const updatePostQuery = `UPDATE posts
       SET is_block=$1, update_at=$2, admin_id = $3
       WHERE post_id=$4 returning *`
   try {
@@ -198,7 +198,7 @@ const changeBlockStatus = async (postValues) => {
 }
 
 const changeCommentStatus = async (postValues) => {
-  const updatePostQuery = `UPDATE post
+  const updatePostQuery = `UPDATE posts
       SET enable_comment=$1, update_at=$2, admin_id = $3
       WHERE post_id=$4 returning *`
   try {
@@ -217,7 +217,7 @@ const changeCommentStatus = async (postValues) => {
 }
 
 const changeVerify = async (postValues) => {
-  const updatePostQuery = `UPDATE post
+  const updatePostQuery = `UPDATE posts
       SET verify=$1, update_at=$2, admin_id = $3
       WHERE post_id=$4 returning *`
   try {
@@ -236,7 +236,7 @@ const changeVerify = async (postValues) => {
 }
 
 const updatePost = async (postValues) => {
-  const updatePostQuery = `UPDATE post
+  const updatePostQuery = `UPDATE posts
       SET title=$1, update_at=$2, overview=$3, content=$4, category_id=$5, post_slug=$6
       WHERE post_id=$7 returning *`
   try {
@@ -255,7 +255,7 @@ const updatePost = async (postValues) => {
 }
 
 const deletePost = async (postId) => {
-  const deletePostQuery = 'DELETE FROM post WHERE post_id=$1 returning *'
+  const deletePostQuery = 'DELETE FROM posts WHERE post_id=$1 returning *'
   try {
     const {
       rows

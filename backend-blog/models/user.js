@@ -24,9 +24,9 @@ const createUser = async (client, userValues) => { // transaction
 }
 
 const getInfoUser = async (email, user_name) => {
-  const getUserQuery = `SELECT distinct users.*, role.role_name as role_name FROM users
+  const getUserQuery = `SELECT distinct users.*, roles.role_name as role_name FROM users
     INNER JOIN userrole on users.user_id = userrole.user_id
-    INNER JOIN role on userrole.role_id = role.role_id
+    INNER JOIN roles on userrole.role_id = roles.role_id
     WHERE email = $1 OR user_name = $2`
   try {
     const { rows } = await dbQuery.query(getUserQuery, [email, user_name]);

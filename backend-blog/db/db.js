@@ -14,7 +14,7 @@ pool.on('remove', () => {
  */
 const createCredentialTable = () => {
   const createQuery = `CREATE TABLE IF NOT EXISTS
-  credential(
+  credentials(
     credential_id serial PRIMARY KEY NOT NULL,
     email VARCHAR(128) UNIQUE NOT NULL,
     user_name VARCHAR(128) UNIQUE NOT NULL,
@@ -36,7 +36,7 @@ const createCredentialTable = () => {
 
 const createRoleTable = () => {
   const createQuery = `CREATE TABLE IF NOT EXISTS
-  role(
+  roles(
     role_id serial PRIMARY KEY NOT NULL,
     role_name TEXT NOT NULL
   )`;
@@ -78,7 +78,7 @@ const createUsersTable = () => {
     avatar TEXT,
     user_slug TEXT,
     create_at TIMESTAMP NOT NULL,
-    credential_id INT NOT NULL REFERENCES credential(id) ON DELETE RESTRICT,
+    credential_id INT NOT NULL REFERENCES credentials(credential_id) ON DELETE RESTRICT,
     date_of_birth TIMESTAMP NOT NULL
   )`;
 
@@ -96,8 +96,8 @@ const createUsersTable = () => {
 const createUserRoleTable = () => {
   const createQuery = `CREATE TABLE IF NOT EXISTS
   userrole(
-    user_id INT NOT NULL REFERENCES users(id) ON DELETE RESTRICT,
-    role_id INT NOT NULL REFERENCES role(id) ON DELETE RESTRICT,
+    user_id INT NOT NULL REFERENCES users(user_id) ON DELETE RESTRICT,
+    role_id INT NOT NULL REFERENCES roles(role_id) ON DELETE RESTRICT,
 
     PRIMARY KEY (user_id, role_id)
   )`;
@@ -115,12 +115,12 @@ const createUserRoleTable = () => {
 
 const createCategoryTable = () => {
   const createQuery = `CREATE TABLE IF NOT EXISTS
-  category(
+  categories(
     category_id serial PRIMARY KEY NOT NULL,
     parent_id serial,
     category_name TEXT NOT NULL,
     cateogry_slug TEXT UNIQUE NOT NULL,
-    user_id INT NOT NULL REFERENCES users(id) ON DELETE RESTRICT,
+    user_id INT NOT NULL REFERENCES users(user_id) ON DELETE RESTRICT,
     level INT NOL NULL
   )`;
 
@@ -137,17 +137,17 @@ const createCategoryTable = () => {
 
 const createPostTable = () => {
   const createQuery = `CREATE TABLE IF NOT EXISTS
-  post(
+  posts(
     post_id serial PRIMARY KEY NOT NULL,
     title TEXT NOT NULL,
     create_at TIMESTAMP NOT NULL,
     update_at TIMESTAMP NOT NULL,
     overview TEXT NOT NULL,
     content TEXT NOT NULL,
-    user_id INT NOT NULL REFERENCES users(id) ON DELETE RESTRICT,
-    category_id INT NOT NULL REFERENCES category(id) ON DELETE RESTRICT,
+    user_id INT NOT NULL REFERENCES users(user_id) ON DELETE RESTRICT,
+    category_id INT NOT NULL REFERENCES categories(category_id) ON DELETE RESTRICT,
     post_slug TEXT UNIQUE NOT NULL,
-    admin_id INT REFERENCES users(id) ON DELETE RESTRICT,
+    admin_id INT REFERENCES users(user_id) ON DELETE RESTRICT,
     verify INT NOT NULL,
     is_block BOOLEAN NOT NULL,
     enable_comment BOOLEAN NOT NULL,
@@ -167,7 +167,7 @@ const createPostTable = () => {
 
 const createTagTable = () => {
   const createQuery = `CREATE TABLE IF NOT EXISTS
-  tag(
+  tags(
     tag_id serial PRIMARY KEY NOT NULL,
     tag_name TEXT NOT NULL,
     create_at TIMESTAMP NOT NULL,
@@ -188,8 +188,8 @@ const createTagTable = () => {
 const createPostTagTable = () => {
   const createQuery =  `CREATE TABLE IF NOT EXISTS
   posttag(
-    post_id INT NOT NULL REFERENCES post(id) ON DELETE RESTRICT,
-    tag_id INT NOT NULL REFERENCES tag(id) ON DELETE RESTRICT,
+    post_id INT NOT NULL REFERENCES posts(post_id) ON DELETE RESTRICT,
+    tag_id INT NOT NULL REFERENCES tags(tag_id) ON DELETE RESTRICT,
     create_at TIMESTAMP NOT NULL,
 
     PRIMARY KEY (post_id, tag_id)
@@ -209,9 +209,9 @@ const createPostTagTable = () => {
 const createUserHistoryTable = () => {
   const createQuery =  `CREATE TABLE IF NOT EXISTS
   userhistory(
-    tag_id INT NOT NULL REFERENCES tag(id) ON DELETE RESTRICT,
-    user_id INT NOT NULL REFERENCES users(id) ON DELETE RESTRICT,
-    post_id INT NOT NULL REFERENCES post(id) ON DELETE RESTRICT,
+    tag_id INT NOT NULL REFERENCES tags(tag_id) ON DELETE RESTRICT,
+    user_id INT NOT NULL REFERENCES users(user_id) ON DELETE RESTRICT,
+    post_id INT NOT NULL REFERENCES posts(post_id) ON DELETE RESTRICT,
     create_at TIMESTAMP NOT NULL,
 
     PRIMARY KEY (tag_id ,user_id, post_id)
@@ -354,13 +354,13 @@ const dropUserHistoryTable = () => {
  * Create All Tables
  */
 const createAllTables = () => {
-  // createCredentialTable(),
-  // createRoleTable(),
-  // createUsersTable(),
-  // createUserRoleTable(),
-  // createCategoryTable(),
-  // createPostTable(),
-  // createTagTable(),
+  // createCredentialTable()
+  // createRoleTable()
+  // createUsersTable()
+  // createUserRoleTable()
+  // createCategoryTable()
+  // createPostTable()
+  // createTagTable()
   // createPostTagTable()
   // createUserHistoryTable()
   // insertRoleTable()
