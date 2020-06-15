@@ -116,19 +116,19 @@ const createUserHistoryTable =
 /**
  * Drop Table
  */
-const dropCredentialTable = 'DROP TABLE IF EXISTS credential';
+const dropCredentialsTable = 'DROP TABLE IF EXISTS credentials';
 
-const dropRoleTable = 'DROP TABLE IF EXISTS role';
+const dropRolesTable = 'DROP TABLE IF EXISTS roles';
 
 const dropUsersTable = 'DROP TABLE IF EXISTS users';
 
 const dropUserRoleTable = 'DROP TABLE IF EXISTS userrole';
  
-const dropCategoryTable = 'DROP TABLE IF EXISTS category';
+const dropCategoriesTable = 'DROP TABLE IF EXISTS categories';
 
-const dropPostTable = 'DROP TABLE IF EXISTS post';
+const dropPostsTable = 'DROP TABLE IF EXISTS posts';
 
-const dropTagTable = 'DROP TABLE IF EXISTS tag';
+const dropTagsTable = 'DROP TABLE IF EXISTS tags';
 
 const dropPostTagTable = 'DROP TABLE IF EXISTS posttag';
 
@@ -163,14 +163,34 @@ const createAllTables = async () => {
   } catch (err) {
     console.log(err)
   }
-
 };
 
 /**
  * Drop All Tables
  */
-const dropAllTables = () => {
-
+const dropAllTables = async () => {
+  try {
+    const userhistory = await dbQuery.query(dropUserHistoryTable, []);
+    console.log('userhistory', userhistory);
+    const posttag = await dbQuery.query(dropPostTagTable, []);
+    console.log('posttag', posttag);
+    const tags = await dbQuery.query(dropTagsTable, []);
+    console.log('tags', tags);
+    const posts = await dbQuery.query(dropPostsTable, []);
+    console.log('posts', posts);
+    const categories = await dbQuery.query(dropCategoriesTable, []);
+    console.log('categories', categories);
+    const userrole = await dbQuery.query(dropUserRoleTable, []);
+    console.log('userrole', userrole);
+    const users = await dbQuery.query(dropUsersTable, []);
+    console.log('users', users);
+    const roles = await dbQuery.query(dropRolesTable, []);
+    console.log('roles', roles);
+    const credentials = await dbQuery.query(dropCredentialsTable, []);
+    console.log('credentials', credentials);
+  } catch (err) {
+    console.log(err)
+  }
 };
 
 module.exports = {
