@@ -1,22 +1,15 @@
 const pool = require('./pool');
+const dbQuery = require('../db/dbQuery');
 const {
   resolve
 } = require('path');
 
-pool.on('connect', () => {
-  console.log('connected to the db');
-});
-
-pool.on('remove', () => {
-  console.log('client removed');
-  process.exit(0);
-});
 
 /**
  * Create Table
  */
-const createCredentialsTable = () => {
-  const createQuery = `CREATE TABLE IF NOT EXISTS
+const createCredentialsTable = 
+  `CREATE TABLE IF NOT EXISTS
   credentials(
     credential_id serial PRIMARY KEY NOT NULL,
     email VARCHAR(128) UNIQUE NOT NULL,
@@ -26,52 +19,17 @@ const createCredentialsTable = () => {
     last_reset_password TIMESTAMP NOT NULL
   )`;
 
-
-  pool.query(createQuery)
-    .then((res) => {
-      console.log(res);
-      pool.end();
-    })
-    .catch((err) => {
-      console.log(err);
-      pool.end();
-    });
-}
-
-const createRolesTable = () => {
-  const createQuery = `CREATE TABLE IF NOT EXISTS
+const createRolesTable = 
+  `CREATE TABLE IF NOT EXISTS
   roles(
     role_id serial PRIMARY KEY NOT NULL,
     role_name TEXT NOT NULL
   )`;
 
-  pool.query(createQuery)
-    .then((res) => {
-      console.log(res);
-      pool.end();
-    })
-    .catch((err) => {
-      console.log(err);
-      pool.end();
-    });
-}
+const insertRolesTable = `INSERT INTO roles(role_id, role_name) VALUES (1, 'USER_ROLE'), (2, 'ADMIN_ROLE')`;
 
-const insertRolesTable = () => {
-  const createQuery = `INSERT INTO roles(role_id, role_name) VALUES (1,'USER_ROLE'), (2, 'ADMIN_ROLE')`;
-
-  pool.query(createQuery)
-    .then((res) => {
-      console.log(res);
-      pool.end();
-    })
-    .catch((err) => {
-      console.log(err);
-      pool.end();
-    });
-}
-
-const createUsersTable = () => {
-  const createQuery = `CREATE TABLE IF NOT EXISTS
+const createUsersTable = 
+  `CREATE TABLE IF NOT EXISTS
   users(
     user_id serial PRIMARY KEY NOT NULL,
     email VARCHAR(128) UNIQUE NOT NULL,
@@ -86,19 +44,8 @@ const createUsersTable = () => {
     date_of_birth TIMESTAMP NOT NULL
   )`;
 
-  pool.query(createQuery)
-    .then((res) => {
-      console.log(res);
-      pool.end();
-    })
-    .catch((err) => {
-      console.log(err);
-      pool.end();
-    });
-}
-
-const createUserRoleTable = () => {
-  const createQuery = `CREATE TABLE IF NOT EXISTS
+const createUserRoleTable =
+ `CREATE TABLE IF NOT EXISTS
   userrole(
     user_id INT NOT NULL REFERENCES users(user_id) ON DELETE RESTRICT,
     role_id INT NOT NULL REFERENCES roles(role_id) ON DELETE RESTRICT,
@@ -106,41 +53,19 @@ const createUserRoleTable = () => {
     PRIMARY KEY (user_id, role_id)
   )`;
 
-  pool.query(createQuery)
-    .then((res) => {
-      console.log(res);
-      pool.end();
-    })
-    .catch((err) => {
-      console.log(err);
-      pool.end();
-    });
-}
-
-const createCategoriesTable = () => {
-  const createQuery = `CREATE TABLE IF NOT EXISTS
+const createCategoriesTable = 
+  `CREATE TABLE IF NOT EXISTS
   categories(
     category_id serial PRIMARY KEY NOT NULL,
     parent_id serial,
     category_name TEXT NOT NULL,
-    cateogry_slug TEXT UNIQUE NOT NULL,
+    category_slug TEXT UNIQUE NOT NULL,
     user_id INT NOT NULL REFERENCES users(user_id) ON DELETE RESTRICT,
-    level INT NOL NULL
+    level INT NOT NULL
   )`;
 
-  pool.query(createQuery)
-    .then((res) => {
-      console.log(res);
-      pool.end();
-    })
-    .catch((err) => {
-      console.log(err);
-      pool.end();
-    });
-}
-
-const createPostsTable = () => {
-  const createQuery = `CREATE TABLE IF NOT EXISTS
+const createPostsTable =
+ `CREATE TABLE IF NOT EXISTS
   posts(
     post_id serial PRIMARY KEY NOT NULL,
     title TEXT NOT NULL,
@@ -155,22 +80,11 @@ const createPostsTable = () => {
     verify INT NOT NULL,
     is_block BOOLEAN NOT NULL,
     enable_comment BOOLEAN NOT NULL,
-    view INT NOT NULL,
+    view INT NOT NULL
   )`;
 
-  pool.query(createQuery)
-    .then((res) => {
-      console.log(res);
-      pool.end();
-    })
-    .catch((err) => {
-      console.log(err);
-      pool.end();
-    });
-}
-
-const createTagsTable = () => {
-  const createQuery = `CREATE TABLE IF NOT EXISTS
+const createTagsTable =
+ `CREATE TABLE IF NOT EXISTS
   tags(
     tag_id serial PRIMARY KEY NOT NULL,
     tag_name TEXT NOT NULL,
@@ -178,19 +92,8 @@ const createTagsTable = () => {
     update_at TIMESTAMP NOT NULL
   )`;
 
-  pool.query(createQuery)
-    .then((res) => {
-      console.log(res);
-      pool.end();
-    })
-    .catch((err) => {
-      console.log(err);
-      pool.end();
-    });
-}
-
-const createPostsTagTable = () => {
-  const createQuery = `CREATE TABLE IF NOT EXISTS
+const createPostTagTable = 
+  `CREATE TABLE IF NOT EXISTS
   posttag(
     post_id INT NOT NULL REFERENCES posts(post_id) ON DELETE RESTRICT,
     tag_id INT NOT NULL REFERENCES tags(tag_id) ON DELETE RESTRICT,
@@ -199,19 +102,8 @@ const createPostsTagTable = () => {
     PRIMARY KEY (post_id, tag_id)
   )`;
 
-  pool.query(createQuery)
-    .then((res) => {
-      console.log(res);
-      pool.end();
-    })
-    .catch((err) => {
-      console.log(err);
-      pool.end();
-    });
-}
-
-const createUserHistoryTable = () => {
-  const createQuery = `CREATE TABLE IF NOT EXISTS
+const createUserHistoryTable =
+ `CREATE TABLE IF NOT EXISTS
   userhistory(
     tag_id INT NOT NULL REFERENCES tags(tag_id) ON DELETE RESTRICT,
     user_id INT NOT NULL REFERENCES users(user_id) ON DELETE RESTRICT,
@@ -221,168 +113,64 @@ const createUserHistoryTable = () => {
     PRIMARY KEY (tag_id ,user_id, post_id)
   )`;
 
-  pool.query(createQuery)
-    .then((res) => {
-      console.log(res);
-      pool.end();
-    })
-    .catch((err) => {
-      console.log(err);
-      pool.end();
-    });
-}
-
-
 /**
  * Drop Table
  */
-const dropCredentialTable = () => {
-  const busDropQuery = 'DROP TABLE IF EXISTS credential';
-  pool.query(busDropQuery)
-    .then((res) => {
-      console.log(res);
-      pool.end();
-    })
-    .catch((err) => {
-      console.log(err);
-      pool.end();
-    });
-};
+const dropCredentialTable = 'DROP TABLE IF EXISTS credential';
 
-const dropRoleTable = () => {
-  const busDropQuery = 'DROP TABLE IF EXISTS role';
-  pool.query(busDropQuery)
-    .then((res) => {
-      console.log(res);
-      pool.end();
-    })
-    .catch((err) => {
-      console.log(err);
-      pool.end();
-    });
-};
+const dropRoleTable = 'DROP TABLE IF EXISTS role';
 
-const dropUsersTable = () => {
-  const busDropQuery = 'DROP TABLE IF EXISTS users';
-  pool.query(busDropQuery)
-    .then((res) => {
-      console.log(res);
-      pool.end();
-    })
-    .catch((err) => {
-      console.log(err);
-      pool.end();
-    });
-};
+const dropUsersTable = 'DROP TABLE IF EXISTS users';
 
-const dropUserRoleTable = () => {
-  const busDropQuery = 'DROP TABLE IF EXISTS userrole';
-  pool.query(busDropQuery)
-    .then((res) => {
-      console.log(res);
-      pool.end();
-    })
-    .catch((err) => {
-      console.log(err);
-      pool.end();
-    });
-};
+const dropUserRoleTable = 'DROP TABLE IF EXISTS userrole';
+ 
+const dropCategoryTable = 'DROP TABLE IF EXISTS category';
 
-const dropCategoryTable = () => {
-  const busDropQuery = 'DROP TABLE IF EXISTS category';
-  pool.query(busDropQuery)
-    .then((res) => {
-      console.log(res);
-      pool.end();
-    })
-    .catch((err) => {
-      console.log(err);
-      pool.end();
-    });
-};
+const dropPostTable = 'DROP TABLE IF EXISTS post';
 
-const dropPostTable = () => {
-  const busDropQuery = 'DROP TABLE IF EXISTS post';
-  pool.query(busDropQuery)
-    .then((res) => {
-      console.log(res);
-      pool.end();
-    })
-    .catch((err) => {
-      console.log(err);
-      pool.end();
-    });
-};
+const dropTagTable = 'DROP TABLE IF EXISTS tag';
 
-const dropTagTable = () => {
-  const busDropQuery = 'DROP TABLE IF EXISTS tag';
-  pool.query(busDropQuery)
-    .then((res) => {
-      console.log(res);
-      pool.end();
-    })
-    .catch((err) => {
-      console.log(err);
-      pool.end();
-    });
-};
+const dropPostTagTable = 'DROP TABLE IF EXISTS posttag';
 
-const dropPostTagTable = () => {
-  const busDropQuery = 'DROP TABLE IF EXISTS posttag';
-  pool.query(busDropQuery)
-    .then((res) => {
-      console.log(res);
-      pool.end();
-    })
-    .catch((err) => {
-      console.log(err);
-      pool.end();
-    });
-};
-
-const dropUserHistoryTable = () => {
-  const busDropQuery = 'DROP TABLE IF EXISTS userhistory';
-  pool.query(busDropQuery)
-    .then((res) => {
-      console.log(res);
-      pool.end();
-    })
-    .catch((err) => {
-      console.log(err);
-      pool.end();
-    });
-};
+const dropUserHistoryTable = 'DROP TABLE IF EXISTS userhistory';
 
 
 /**
  * Create All Tables
  */
-const createAllTables = () => {
-  createCredentialsTable()
-  // createRolesTable()
-  // createUsersTable()
-  // createUserRoleTable()
-  // createCategoriesTable()
-  // createPostsTable()
-  // createTagsTable()
-  // createPostTagTable()
-  // createUserHistoryTable()
-  // insertRolesTable()
+const createAllTables = async () => {
+  try {
+    const credentials = await dbQuery.query(createCredentialsTable, []);
+    console.log('credentials', credentials);
+    const roles = await dbQuery.query(createRolesTable, []);
+    console.log('roles', roles);
+    const rolesinsert = await dbQuery.query(insertRolesTable, []);
+    console.log('rolesinsert', rolesinsert);
+    const users = await dbQuery.query(createUsersTable, []);
+    console.log('users', users);
+    const userrole = await dbQuery.query(createUserRoleTable, []);
+    console.log('userrole', userrole);
+    const categories = await dbQuery.query(createCategoriesTable, []);
+    console.log('categories', categories);
+    const posts = await dbQuery.query(createPostsTable, []);
+    console.log('posts', posts);
+    const tags = await dbQuery.query(createTagsTable, []);
+    console.log('tags', tags);
+    const posttag = await dbQuery.query(createPostTagTable, []);
+    console.log('posttag', posttag);
+    const userhistory = await dbQuery.query(createUserHistoryTable, []);
+    console.log('userhistory', userhistory);
+  } catch (err) {
+    console.log(err)
+  }
+
 };
 
 /**
  * Drop All Tables
  */
 const dropAllTables = () => {
-  dropCredentialTable(),
-    dropRoleTable(),
-    dropUsersTable(),
-    dropUserRoleTable(),
-    dropCategoryTable(),
-    dropPostTable(),
-    dropTagTable(),
-    dropPostTagTable(),
-    dropUserHistoryTable()
+
 };
 
 module.exports = {
