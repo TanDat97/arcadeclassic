@@ -31,7 +31,8 @@ services:
       - CHOKIDAR_USEPOLLING=true
 
   postgres:
-    environment: 
+    restart: always
+    environment:
       POSTGRES_USER: tandat
       POSTGRES_PASSWORD: root_123456
       POSTGRES_DB: blog_db
