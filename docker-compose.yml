@@ -13,8 +13,6 @@ services:
       POSTGRES_PASSWORD: root_123456
       POSTGRES_DB: blog_db
       POSTGRES_HOST: postgres
-    links:
-      - postgres
     command: npm run dev
     ports:
       - 8080:5000
