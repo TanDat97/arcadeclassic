@@ -3,7 +3,7 @@ import Dashboard from "@material-ui/icons/Dashboard"
 import ListIcon from '@material-ui/icons/List'
 import DetailsIcon from '@material-ui/icons/Details'
 
-// core components//admin for Admin layout
+// core components for Admin layout
 import AdminDashboard from 'views/admin/AdminDashboard'
 import PostList from 'views/admin/post/PostList'
 import PostDetail from 'views/admin/post/PostDetail'
