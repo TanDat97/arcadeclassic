@@ -7,7 +7,7 @@
     "start": "node ./bin/backend.js",
     "dev": "nodemon ./bin/backend.js",
     "test": "mocha --require babel-core/register ./test/**/*.js --timeout 10000",
-    "create-dev-tables": "babel-node ./db/db createAllTables",
+    "create-dev-tables": "babel-node ./database/database createAllTables",
     "seed-user-table": "babel-node ./app/helpers/seed seedUser",
     "start-dev": "nodemon --watch . --exec babel-node -- server",
     "setup": "npm-run-all -p start create-dev-tables"

@@ -22,7 +22,7 @@ app.use(sessions({
   secret: '(!)*#(!JE)WJEqw09ej12',
   resave: false,
   saveUninitialized: true
-}));
+}))
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
@@ -43,7 +43,7 @@ app.use('/', indexRouter)
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404))
-});
+})
 
 // error handler
 app.use(function(err, req, res, next) {
