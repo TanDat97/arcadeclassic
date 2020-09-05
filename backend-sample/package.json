@@ -7,10 +7,10 @@
     "start": "node ./bin/backend.js",
     "dev": "nodemon ./bin/backend.js",
     "test": "mocha --require babel-core/register ./test/**/*.js --timeout 10000",
-    "create-dev-tables": "babel-node ./database/database createAllTables",
+    "create-postgres-tables": "babel-node ./database/postgres/init createAllTables",
     "seed-user-table": "babel-node ./app/helpers/seed seedUser",
     "start-dev": "nodemon --watch . --exec babel-node -- server",
-    "setup": "npm-run-all -p start create-dev-tables"
+    "setup": "npm-run-all -p start create-postgres-tables"
   },
   "author": "tan dat",
   "license": "ISC",

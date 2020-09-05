@@ -1,5 +1,5 @@
 const pool = require('./pool');
-const dbQuery = require('./dbQuery');
+const utils = require('./utils');
 const {
   resolve
 } = require('path');
@@ -69,15 +69,15 @@ const dropUserRoleTable = 'DROP TABLE IF EXISTS userrole';
  */
 const createAllTables = async () => {
   try {
-    const credentials = await dbQuery.query(createCredentialsTable, []);
+    const credentials = await utils.query(createCredentialsTable, []);
     console.log('credentials', credentials);
-    const roles = await dbQuery.query(createRolesTable, []);
+    const roles = await utils.query(createRolesTable, []);
     console.log('roles', roles);
-    const rolesinsert = await dbQuery.query(insertRolesTable, []);
+    const rolesinsert = await utils.query(insertRolesTable, []);
     console.log('rolesinsert', rolesinsert);
-    const users = await dbQuery.query(createUsersTable, []);
+    const users = await utils.query(createUsersTable, []);
     console.log('users', users);
-    const userrole = await dbQuery.query(createUserRoleTable, []);
+    const userrole = await utils.query(createUserRoleTable, []);
     console.log('userrole', userrole);
   } catch (err) {
     console.log(err)
@@ -89,13 +89,13 @@ const createAllTables = async () => {
  */
 const dropAllTables = async () => {
   try {
-    const userrole = await dbQuery.query(dropUserRoleTable, []);
+    const userrole = await utils.query(dropUserRoleTable, []);
     console.log('userrole', userrole);
-    const users = await dbQuery.query(dropUsersTable, []);
+    const users = await utils.query(dropUsersTable, []);
     console.log('users', users);
-    const roles = await dbQuery.query(dropRolesTable, []);
+    const roles = await utilsutils.query(dropRolesTable, []);
     console.log('roles', roles);
-    const credentials = await dbQuery.query(dropCredentialsTable, []);
+    const credentials = await utils.query(dropCredentialsTable, []);
     console.log('credentials', credentials);
   } catch (err) {
     console.log(err)
