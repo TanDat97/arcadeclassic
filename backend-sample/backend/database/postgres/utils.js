@@ -1,4 +1,4 @@
-const pool = require('./pool.js');
+import  pool from './pool.js';
 
 /**
  * DB Query
@@ -48,7 +48,7 @@ const rollback = (client) => {
   });
 }
 
-module.exports = {
+export default {
   query,
   clientConnect,
   rollback

@@ -4,24 +4,54 @@
   "description": "back end for symphony",
   "main": "index.js",
   "scripts": {
-    "start": "node ./bin/backend.js",
-    "dev": "nodemon ./bin/backend.js",
+    "start": "env NODE_ENV=development nodemon --exec babel-node ./bin/backend.js",
+    "startwin": "nodemon --exec babel-node ./bin/backend.js",
+    "dev": "env NODE_ENV=development nodemon --inspect --exec babel-node ./bin/backend.js",
+    "devwin": "set NODE_ENV=development nodemon --inspect --exec babel-node ./bin/backend.js",
+    "build": "babel ./ -d build --copy-files",
+    "run": "node bin/backend.js",
     "test": "mocha --require babel-core/register ./test/**/*.js --timeout 10000",
     "create-postgres-tables": "babel-node ./database/postgres/init createAllTables",
     "seed-user-table": "babel-node ./app/helpers/seed seedUser",
-    "start-dev": "nodemon --watch . --exec babel-node -- server",
     "setup": "npm-run-all -p start create-postgres-tables"
+  },
+  "nodemonConfig": {
+    "exec": "yarn dev",
+    "watch": [
+      "*",
+      "public/*"
+    ],
+    "ignore": [
+      "**/__tests__/**",
+      "*.test.js",
+      "*.spec.js"
+    ]
+  },
+  "type": "module",
+  "generatorOpts": {
+    "retainFunctionParens": true
+  },
+  "presets": [
+    ["@babel/preset-env", {
+      "targets": {
+        "node": "4.8"
+      },
+      "forceAllTransforms": true
+    }]
+  ],
+  "plugins": [
+    "@babel/transform-runtime"
+  ],
+  "jest": {
+    "testEnvironment": "node"
   },
   "author": "tan dat",
   "license": "ISC",
   "devDependencies": {
-    "@babel/cli": "^7.11.5",
+    "@babel/cli": "^7.11.6",
+    "@babel/core": "^7.11.6",
+    "@babel/node": "^7.10.5",
     "@babel/preset-env": "^7.11.5",
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.3",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-watch": "^7.0.0",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
     "coveralls": "^3.1.0",
@@ -29,6 +59,7 @@
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-import": "^2.22.0",
     "istanbul": "^0.4.5",
+    "jest": "^26.5.3",
     "make-runnable": "^1.3.6",
     "mocha": "^8.1.3",
     "mocha-lcov-reporter": "^1.3.0",
@@ -38,8 +69,11 @@
     "supertest": "^4.0.2"
   },
   "dependencies": {
-    "@babel/polyfill": "^7.11.5",
-    "babel-polyfill": "^6.26.0",
+    "babel-cli": "^7.0.0-1",
+    "babel-core": "^7.0.0-1",
+    "babel-plugin-transform-object-rest-spread": "^7.0.0-1",
+    "babel-plugin-transform-runtime": "^7.0.0-1",
+    "babel-preset-env": "^1.7.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
@@ -50,9 +84,11 @@
     "http-errors": "^1.8.0",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.27.0",
+    "mongoose": "^5.10.9",
     "morgan": "^1.10.0",
     "npm-run-all": "^4.1.5",
     "path": "^0.12.7",
-    "pg": "^8.3.3"
+    "pg": "^8.3.3",
+    "rimraf": "^3.0.2"
   }
 }

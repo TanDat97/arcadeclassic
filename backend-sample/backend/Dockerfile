@@ -6,8 +6,10 @@ RUN mkdir -p /app/backend/node_modules && chown -R node:node /app/backend
 WORKDIR /app/backend
 
 COPY package*.json ./
+COPY yarn.lock ./
+
 USER node
-RUN npm install
+RUN yarn install
 COPY --chown=node:node . .
 
 # add app
@@ -15,4 +17,4 @@ COPY ./ ./
 
 EXPOSE 5000
 
-CMD [ "npm", "start" ]
+CMD [ "yarn", "start" ]

@@ -1,4 +1,4 @@
-const moment = require('moment')
+import moment from 'moment'
 
 const DDMMYYYY = 'DD/MM/YYYY'
 const DDMMYYYYhhmm = 'DD/MM/YYYY hh:mm'
@@ -10,7 +10,7 @@ const changeDate = (arg, fmInput, fmOutput) => {
   return result.toLocaleLowerCase().includes('invalid') ? null : result
 }
 
-module.exports = {
+export default {
   DDMMYYYY,
   DDMMYYYYhhmm,
   MMDDYYYY,

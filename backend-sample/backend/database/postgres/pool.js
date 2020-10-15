@@ -1,5 +1,5 @@
-const { Pool } = require('pg');
-const dotenv = require('dotenv');
+import { Pool } from 'pg';
+import dotenv from 'dotenv';
 
 dotenv.config();
 
@@ -11,6 +11,6 @@ const pool = new Pool({
   database: process.env.POSTGRES_DB,
 });
 
-module.exports = pool
+export default pool
 
 // https://itnext.io/building-restful-api-with-node-js-express-js-and-postgresql-the-right-way-b2e718ad1c66

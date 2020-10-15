@@ -1,9 +1,6 @@
-const pool = require('./pool');
-const utils = require('./utils');
-const {
-  resolve
-} = require('path');
-
+import pool from './pool.js';
+import utils from './utils.js';
+import { resolve } from 'path';
 
 /**
  * Create Table
