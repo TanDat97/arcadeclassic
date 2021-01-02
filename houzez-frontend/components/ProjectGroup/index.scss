@@ -1,0 +1,39 @@
+@import "@styles/theme/_theme.scss";
+
+.list-project {
+  margin-top: 25px;
+
+  .project-section {
+    position: relative;
+
+    @media (max-width: 1200px) {
+      padding-bottom: 60px;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    margin-top: 35px;
+  }
+
+  @media (min-width: 1200px) {
+    margin-top: 45px;
+  }
+
+  .btn-see-all {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 11;
+    min-width: 115px;
+    min-height: 35px;
+
+    @media (max-width: 1200px) {
+      top: auto;
+      right: auto;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      min-width: 250px;
+    }
+  }
+}

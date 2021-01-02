@@ -1,0 +1,20 @@
+@import "@styles/theme/_theme.scss";
+
+.image-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
+  max-width: 50%;
+
+  @media (max-width: 992px) {
+    width: 60%;
+    max-width: 60%;
+  }
+
+  @media (max-width: 768px) {
+    width: 70%;
+    max-width: 70%;
+  }
+}

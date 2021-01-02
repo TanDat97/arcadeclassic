@@ -1,0 +1,37 @@
+{
+  "presets": [
+    "next/babel",
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "node": "current"
+        }
+      }
+    ],
+    "@babel/preset-react"
+  ],
+  "plugins": [
+    ["module-resolver", {
+      "alias": {
+        "~": "./",
+        "src": "./src",
+        "@actions": "./redux/actions",
+        "@services": "./services",
+        "@components": "./components",
+        "@pages": "./pages",
+        "@layout": "./layout",
+        "@assets": "./assets",
+        "@styles": "./styles",
+        "@config": "./config",
+        "@utils": "./utils",
+        "@public": "./public",
+        "@HOC": "./HOC",
+        "@constant": "./constant"
+      }
+    }],
+    "@babel/plugin-syntax-dynamic-import",
+    "@babel/plugin-proposal-class-properties",
+    "@babel/plugin-proposal-export-default-from"
+  ]
+}

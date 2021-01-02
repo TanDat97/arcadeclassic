@@ -1,0 +1,30 @@
+version: "3.7"
+
+services:
+  mongo:
+    image: mongo
+    volumes:
+      - ./database/mongo:/docker-entrypoint-initdb.d
+    ports:
+      - "27018:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: tandat
+      MONGO_INITDB_ROOT_PASSWORD: root_123456
+      MONGO_INITDB_DATABASE: houzez
+
+  backend:
+    container_name: houzez-backend
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile-dev
+    environment:
+      MONGO_URI: mongodb://tandat:root_123456@mongo:27017
+      MONGO_USER: tandat
+      MONGO_PASSWORD: root_123456
+      MONGO_DB: houzez
+    volumes:
+      - ./server:/usr/src/app/server
+      - ./package.json:/usr/src/app/package.json
+    command: yarn dev
+    ports:
+      - 5000:5000

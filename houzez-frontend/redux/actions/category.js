@@ -1,0 +1,10 @@
+/**
+ * ACTIONS Types
+ */
+export const GET_CATEGORY_DETAILS = "GET_CATEGORY_DETAILS"
+export const GET_CONDITIONS = "GET_CONDITIONS"
+export const GET_SOLUTIONS = "GET_SOLUTIONS"
+
+/**
+ * ACTIONs
+ */

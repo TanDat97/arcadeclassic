@@ -1,0 +1,29 @@
+@import "@styles/theme/_theme.scss";
+
+.NavBar {
+    div[class^="Tile__MobileWrapper"] {
+        display: block !important;
+        > div {
+            margin: auto;
+        }
+    }
+
+    // .menu-item {
+    //     margin-top: 10px;
+
+    //     svg {
+    //         margin: auto;
+    //         margin-bottom: 4px;
+    //     }
+
+    //     &.active {
+    //         color: $dark-orange;
+
+    //         svg {
+    //             path {
+    //                 fill: $dark-orange;
+    //             }
+    //         }
+    //     }
+    // }
+}

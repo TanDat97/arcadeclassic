@@ -1,0 +1,5 @@
+node_modules
+.deployment
+.circleci
+.next
+assets

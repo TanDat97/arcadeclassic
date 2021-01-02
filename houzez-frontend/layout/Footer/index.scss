@@ -1,0 +1,61 @@
+@import "@styles/theme/_theme.scss";
+
+footer {
+  background-color: $lightest-gray;
+
+  .footer-top {
+    padding: 30px 0;
+
+    .title-footer {
+      color: $black-title;
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .list-sp-footer {
+      margin-top: 10px;
+
+      li {
+        line-height: 1.2;
+
+        &+li {
+          margin-top: 15px;
+        }
+
+        a {
+          color: #0c4b9c;
+          font-size: 14px;
+          font-weight: 500;
+          line-height: 1.2;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+
+    .infor {
+      display: flex;
+      margin-top: 15px;
+
+      .left {
+        border-right: 1px solid $light-gray;
+        padding-right: 15px;
+        width: 250px;
+
+        li {
+          line-height: 1.2;
+
+          & a, & address {
+            color: $black-title;
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.2;
+          }
+        }
+      }
+    }
+  }
+}

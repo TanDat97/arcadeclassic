@@ -1,0 +1,51 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "module": "commonjs",
+        "paths": {
+            "@actions/*": [
+                "redux/actions/*"
+            ],
+            "@assets/*": [
+                "assets/*"
+            ],
+            "@components/*": [
+                "components/*"
+            ],
+            "@config/*": [
+                "config/*"
+            ],
+            "@constant": [
+                "constant"
+            ],
+            "@HOC/*": [
+                "HOC/*"
+            ],
+            "@layout/*": [
+                "layout/*"
+            ],
+            "@pages/*": [
+                "pages/*"
+            ],
+            "@public/*": [
+                "public/*"
+            ],
+            "@services/*": [
+                "services/*"
+            ],
+            "@styles/*": [
+                "styles/*"
+            ],
+            "@utils": [
+                "utils"
+            ],
+            "@utils/*": [
+                "utils/*"
+            ]
+        },
+        "target": "es6"
+    },
+    "exclude": [
+        "node_modules"
+    ]
+}

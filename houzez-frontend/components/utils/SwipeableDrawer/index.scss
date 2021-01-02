@@ -1,0 +1,31 @@
+@import "@styles/theme/_theme.scss";
+
+.w-full {
+  .MuiPaper-root {
+    width: 100%;
+
+    div {
+      width: 100%;
+      color: $black-title;
+    }
+  }
+}
+
+.CustomSwipeableDrawer {
+  .swipe-content {
+    height: calc(100vh - 60px);
+    padding: 16px;
+    overflow: auto;
+
+    &.with-button {
+      height: calc(100vh - 136px);
+    }
+
+    .swipe-list-item {
+      padding: 16px 8px;
+      font-size: 16px;
+      line-height: 19px;
+      color: $black-title;
+    }
+  }
+}

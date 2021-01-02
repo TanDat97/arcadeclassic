@@ -1,0 +1,80 @@
+@import "@styles/theme/_theme.scss";
+
+.list-apartment {
+
+  .apartment-tab {
+    position: relative;
+
+    @media (max-width: 1200px) {
+      padding-bottom: 60px;
+    }
+
+    .btn-see-all {
+      position: absolute;
+      top: 0;
+      right: 0;
+      z-index: 11;
+      min-width: 115px;
+      min-height: 35px;
+
+      @media (max-width: 1200px){
+        top: auto;
+        right: auto;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        min-width: 250px;
+      }
+    }
+
+    .tabs-list {
+      display: flex;
+      align-items: center;
+      list-style-type: none;
+      margin-top: 10px;
+      padding-right: 120px;
+
+      @media (max-width: 1200px){
+        justify-content: flex-start;
+        padding-right: 0;
+        padding-bottom: 15px;
+        max-width: calc(100%);
+        overflow-x: auto;
+        overflow-y: hidden;
+      }
+
+      li {
+        &+li {
+          margin-left: 10px;
+        }
+
+        @media (max-width: 1200px) {
+          padding-right: 10px;
+          width: 100%;
+          min-width: -webkit-max-content;
+          min-width: -moz-max-content;
+          min-width: max-content;
+        }
+
+        &.active .btn-link,
+        &:hover .btn-link{
+          background-color: $blue;
+          color: $white;
+        }
+
+        .btn-link {
+          padding: 5px 10px;
+          font-size: 16px;
+          font-weight: 700;
+          border: none;
+        }
+      }
+    }
+  }
+
+  .apartment-change {
+    margin: 30px 0;
+    display: flex;
+    justify-content: center;
+  }
+}

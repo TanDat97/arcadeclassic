@@ -1,0 +1,11 @@
+@import "@styles/theme/_theme.scss";
+
+.header {
+  .light-menu {
+    .Header-desktop-item {
+      svg path {
+        fill: $gray !important;
+      }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+@import "@styles/theme/_theme.scss";
+
+.empty-section {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+  img {
+    display: block;
+
+    &.small {
+      max-width: 150px;
+    }
+
+    &.medium {
+      max-width: 200px;
+    }
+  }
+}

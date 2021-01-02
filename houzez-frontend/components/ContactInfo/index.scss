@@ -1,0 +1,121 @@
+@import "@styles/theme/_theme.scss";
+
+.home-support {
+  background-size: cover;
+  background-position: center center;
+  background-image: url("/images/bg-contact.png");
+
+  .main-support {
+    padding: 20px 0;
+    display: flex;
+    flex-wrap: wrap;
+    min-height: 220px;
+
+    &::before {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.25);
+      width: 1px;
+      height: 100%;
+      content: "";
+    }
+
+    @media (min-width: 1024px) {
+      display: flex;
+      position: relative;
+      align-items: center;
+      justify-content: space-between;
+      margin: 0 auto;
+      max-width: 1090px;
+      height: 100%;
+    }
+
+    .suppor-item {
+      flex: 0 0 50%;
+      margin-top: 0;
+      width: 100%;
+      max-width: 50%;
+      text-align: center;
+
+      @media (min-width: 1024px) {
+        max-width: 465px;
+        text-align: left;
+      }
+
+      .title {
+        margin-top: 5px;
+
+        h3 {
+          color: $white;
+          font-size: 18px;
+          font-weight: 700;
+
+          @media (min-width: 768px) {
+            font-size: 20px;
+          }
+          @media (min-width: 1024px) {
+            font-size: 22px;
+          }
+          @media (min-width: 1200px) {
+            font-size: 24px;
+          }
+        }
+      }
+
+      .des {
+        margin-top: 10px;
+        display: none;
+
+        @media (min-width: 1024px) {
+          display: block;
+        }
+
+        & > * {
+          color: $white;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 1.2;
+        }
+      }
+
+      .button {
+        display: flex;
+        align-items: center;
+        margin-top: 20px;
+
+        a {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: 0.4s ease-in-out all;
+          border: 1px solid $white;
+          border-radius: 4px;
+          padding: 10px;
+          min-width: 180px;
+          height: 50px;
+          color: $white;
+          font-size: 16px;
+          font-weight: 700;
+          text-align: center;
+
+          &:hover {
+            background-color: $white;
+            color: $blue;
+          }
+
+          @media (max-width: 1024px) {
+            margin-right: auto;
+            margin-left: auto;
+            padding: 2px 15px;
+            min-width: 120px;
+            height: auto;
+            min-height: 30px;
+            font-size: 14px;
+          }
+        }
+      }
+    }
+  }
+}

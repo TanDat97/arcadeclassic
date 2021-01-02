@@ -1,0 +1,194 @@
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: ${SERVICE_NAME}
+  namespace: application
+spec:
+  replicas: 1
+  revisionHistoryLimit: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
+  template:
+    metadata:
+      name: ${SERVICE_NAME}
+      labels:
+        service: ${SERVICE_NAME}
+    spec:
+      containers:
+        - name: ${SERVICE_NAME}
+          image: $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$SERVICE_NAME:$ENVIRONMENT-$CIRCLE_SHA1
+          imagePullPolicy: Always
+          env:
+            - name: NODE_ENV
+              value: ${NODE_ENV}
+            - name: DD_TRACE_ANALYTICS_ENABLED
+              value: 'true'
+            - name: DD_TAGS
+              value: 'env:${ENVIRONMENT}'
+            - name: DD_AGENT_HOST
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: status.hostIP
+            - name: MQTT_IDENTIFYPOOLID
+              valueFrom:
+                secretKeyRef:
+                  name: iot-secret
+                  key: IDENTIFY_POOL_ID
+            - name: MQTT_ENDPOINT
+              valueFrom:
+                secretKeyRef:
+                  name: iot-secret
+                  key: ENDPOINT
+            - name: MQTT_REGION
+              valueFrom:
+                secretKeyRef:
+                  name: iot-secret
+                  key: REGION
+            - name: AUTH_API
+              value: 'http://cpos-microservice-management-auth'
+            - name: SYSTEM_API
+              value: 'http://cpos-microservice-management-system'
+            - name: STORE_API
+              value: 'http://cpos-microservice-management-store'
+            - name: PROMOTION_API
+              value: 'http://cpos-microservice-management-promotion'
+            - name: INVENTORY_API
+              value: 'http://cpos-microservice-inventory'
+            - name: DB_URI
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb
+                  key: URI
+            - name: RABBITMQ_URI
+              valueFrom:
+                secretKeyRef:
+                  name: rabbitmq-secret
+                  key: URI
+            - name: ACTIVEMQ_URI
+              valueFrom:
+                secretKeyRef:
+                  name: activemq-aws
+                  key: URI
+            - name: ACTIVEMQ_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: activemq-aws
+                  key: HOST
+            - name: ACTIVEMQ_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: activemq-aws
+                  key: PORT
+            - name: ACTIVEMQ_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: activemq-aws
+                  key: USERNAME
+            - name: ACTIVEMQ_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: activemq-aws
+                  key: PASSWORD
+            - name: S3_BUCKET
+              valueFrom:
+                secretKeyRef:
+                  name: s3-aws
+                  key: S3_BUCKET
+            - name: S3_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: s3-aws
+                  key: S3_KEY
+            - name: S3_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: s3-aws
+                  key: S3_SECRETKEY
+            - name: S3_FOLDER
+              valueFrom:
+                secretKeyRef:
+                  name: s3-aws
+                  key: S3_FOLDER
+            - name: S3_URL
+              valueFrom:
+                secretKeyRef:
+                  name: s3-aws
+                  key: S3_URL
+            - name: CLOUDFRONT_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: cloudfront-aws
+                  key: ACCESS_KEY
+            - name: CLOUDFRONT_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: cloudfront-aws
+                  key: SECRET_KEY
+            - name: CLOUDFRONT_AWS_REGION
+              valueFrom:
+                configMapKeyRef:
+                  name: cloudfront-aws
+                  key: REGION
+            - name: CLOUDFRONT_DISTRIBUTION_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: cloudfront-aws
+                  key: API_DISTRIBUTION_ID
+            - name: ELASTICSEARCH_URI
+              valueFrom:
+                secretKeyRef:
+                  name: elasticsearch-secret
+                  key: URI
+            - name: ELASTICSEARCH_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: elasticsearch-secret
+                  key: USERNAME
+            - name: ELASTICSEARCH_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: elasticsearch-secret
+                  key: PASSWORD
+          resources:
+            requests:
+              memory: '100Mi'
+              cpu: '50m'
+            limits:
+              memory: '200Mi'
+              cpu: '100m'
+          ports:
+            - name: http
+              containerPort: 9015
+          livenessProbe:
+            exec:
+              command:
+                - cat
+                - /usr/src/app/healthcheck.html
+            initialDelaySeconds: 100
+            periodSeconds: 10
+          readinessProbe:
+            exec:
+              command:
+                - cat
+                - /usr/src/app/healthcheck.html
+            initialDelaySeconds: 60
+            periodSeconds: 5
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ${SERVICE_NAME}
+  namespace: application
+  labels:
+    service: ${SERVICE_NAME}
+spec:
+  ports:
+    - name: http
+      targetPort: 9015
+      port: 80
+  selector:
+    service: ${SERVICE_NAME}

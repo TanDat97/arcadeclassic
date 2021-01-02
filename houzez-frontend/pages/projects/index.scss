@@ -1,0 +1,49 @@
+@import "@styles/theme/_theme.scss";
+
+.page-apartment {
+  .apartment-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    @media (max-width: 576px) {
+      flex-wrap: wrap;
+    }
+
+    .head-left {
+      .title {
+        color: $black-title;
+        font-size: 22px;
+        font-weight: 700;
+      }
+      .apartment-number p {
+        color: $blue;
+        font-size: 14px;
+        font-weight: 500;
+      }
+    }
+    .head-right {
+      display: flex;
+
+      @media (max-width: 576px) {
+        margin-top: 10px;
+      }
+    }
+  }
+  .apartment-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+  }
+}
+
+.MuiPagination-root {
+  .MuiPaginationItem-root {
+    color: $light-black;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}

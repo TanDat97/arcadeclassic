@@ -1,0 +1,95 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: ${SERVICE_NAME}
+  namespace: ${NAME_SPACE}
+spec:
+  replicas: 1
+  revisionHistoryLimit: 5
+  selector:
+    matchLabels:
+      service: ${SERVICE_NAME}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
+  template:
+    metadata:
+      name: ${SERVICE_NAME}
+      labels:
+        service: ${SERVICE_NAME}
+    spec:
+      containers:
+      - name: ${SERVICE_NAME}
+        image: gcr.io/airasia-bee-stg/bee-airasia-medical-tourism:stag-$CI_COMMIT_SHA
+        imagePullPolicy: Always
+        env:
+        - name: NODE_ENV
+          value: "staging"
+        - name: DD_ENV
+          value: staging
+        - name: DD_TRACE_ANALYTICS_ENABLED
+          value: "true"
+        - name: DD_TAGS
+          value: "env:staging"
+        - name: DD_AGENT_HOST
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP
+        resources:
+          requests:
+            memory: 100Mi
+            cpu: 100m
+          limits:
+            memory: 500Mi
+            cpu: 200m
+        ports:
+        - name: http
+          containerPort: ${CONTAINER_PORT}
+        livenessProbe:
+          httpGet:
+            path: /health/healthz
+            port: ${CONTAINER_PORT}
+          initialDelaySeconds: 60
+          periodSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /health/healthz
+            port: ${CONTAINER_PORT}
+          initialDelaySeconds: 60
+          periodSeconds: 5
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ${SERVICE_NAME}
+  namespace: ${NAME_SPACE}
+  labels:
+    service: ${SERVICE_NAME}
+spec:
+  ports:
+    - name: http
+      targetPort: ${CONTAINER_PORT}
+      port: 80
+  type: NodePort
+  selector:
+    service: ${SERVICE_NAME}
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress 
+metadata:
+  name: ${SERVICE_NAME}-ingress
+  namespace: ${NAME_SPACE}
+  annotations:
+    kubernetes.io/ingress.allow-http: "false"
+    kubernetes.io/ingress.global-static-ip-name: ingress-health-tfstg-a5xw
+    networking.gke.io/managed-certificates: health-stg
+spec:
+  rules:
+  - host: health.stgairasia.com
+    http:
+      paths:
+      - backend:
+          serviceName: ${SERVICE_NAME}
+          servicePort: http
