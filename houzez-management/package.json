@@ -58,7 +58,7 @@
     "mongoose-aggregate-paginate": "^2.0.1",
     "mongoose-paginate": "^5.0.3",
     "morgan": "^1.10.0",
-    "nanoid": "^3.1.16",
+    "nanoid": "^3.1.31",
     "node-geometry-library": "^1.2.3",
     "node-input-validator": "^4.2.1",
     "uuid": "^8.3.1"
